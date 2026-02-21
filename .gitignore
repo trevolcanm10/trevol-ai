@@ -1,0 +1,33 @@
+# ======================
+# Python
+# ======================
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Base de datos
+*.db
+
+# Variables de entorno
+.env
+
+# ======================
+# Frontend (React)
+# ======================
+node_modules/
+dist/
+build/
+
+# ======================
+# OS
+# ======================
+.DS_Store
+Thumbs.db
+# Entorno virtual
+env/
+venv/
+__pycache__/
+*.pyc
+
