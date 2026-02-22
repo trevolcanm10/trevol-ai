@@ -1,0 +1,55 @@
+from fastapi import APIRouter, Depends, HTTPException, status #Dependencias de FastAPI
+from sqlalchemy.orm import Session #Para trabajar con sesiones de la base de datos
+from app.db.database import get_db #Importamos la sesión de la base de datos
+from app.schemas.reserva import BookingCreate, BookingResponse #Importamos el schema de la reserva
+from app.crud import reserva as crud_reserva #Importamos el crud de la reserva
+
+router = APIRouter() #Creamos el router
+
+# =========================
+# Crear reserva
+# POST /api/bookings
+# =========================
+@router.post("/", response_model=BookingResponse, status_code=status.HTTP_201_CREATED)
+def create_booking(booking: BookingCreate, db: Session = Depends(get_db)):
+    """
+    Función para crear una nueva reserva
+    - booking: Datos de la reserva
+    - db: Sesión de la base de datos
+    - return: La reserva creada
+    """
+    db_booking = crud_reserva.create_booking(db, booking)#Creamos la reserva
+    return db_booking
+
+# =========================
+# Obtener todas las reservas
+# GET /api/bookings
+# =========================
+@router.get("/", response_model=list[BookingResponse])
+def read_bookings(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    """
+    Función para obtener todas las reservas
+    - skip: Número de reservas a saltar
+    - limit: Número de reservas a obtener
+    - db: Sesión de la base de datos
+    - return: Todas las reservas
+    """
+    bookings = crud_reserva.get_bookings(db, skip=skip, limit=limit)
+    return bookings
+
+# =========================
+# Obtener reserva por ID
+# GET /api/bookings/{booking_id}
+# =========================
+@router.get("/{booking_id}", response_model=BookingResponse)
+def read_booking(booking_id: int, db: Session = Depends(get_db)):
+    """
+    Función para obtener una reserva por ID
+    - booking_id: ID de la reserva
+    - db: Sesión de la base de datos
+    - return: La reserva obtenida
+    """
+    booking = crud_reserva.get_booking(db, booking_id=booking_id)
+    if booking is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Booking not found")
+    return booking
