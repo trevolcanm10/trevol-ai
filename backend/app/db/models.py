@@ -2,7 +2,8 @@ from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey #Tip
 from sqlalchemy.orm import relationship #Para definir relaciones entre tablas
 from datetime import datetime #Para trabajar con fechas
 from .database import Base #Importamos la base de datos
-
+from sqlalchemy import Enum #Para trabajar con estados
+import enum #Sirve para crear enumeraciones
 # =========================
 # Tabla: Users
 # Relación: 1 User -> N Bookings
@@ -78,6 +79,17 @@ class Tour(Base):
     bookings = relationship("Booking", back_populates="tour")#Relación con la tabla Bookings
     # Relación 0:N → Un tour puede tener muchas reservas
 
+# =========================================
+# Enumeración para los estados de las reservas
+# =========================================
+class BookingStatus(str, Enum):
+    """
+    Enumeración para los estados de las reservas
+    """
+    PENDING = "pending"
+    CONFIRMED = "confirmed"
+    CANCELLED = "cancelled"
+
 
 # =========================
 # Tabla: Bookings
@@ -103,8 +115,7 @@ class Booking(Base):
     tour_id = Column(
         Integer, ForeignKey("tours.id")
     )  # FK opcional → Puede incluir tour o no
-    
-    booking_date = Column(DateTime, default=datetime.now()) #Fecha de reserva
+    booking_date = Column(DateTime, default=datetime.now())
     # Fecha automática cuando se crea la reserva
     
     total_price = Column(Float, nullable=False) #Precio total de la reserva
@@ -113,3 +124,4 @@ class Booking(Base):
     flight = relationship("Flight", back_populates="bookings")#Relación con la tabla Flights
     hotel = relationship("Hotel", back_populates="bookings")#Relación con la tabla Hotels
     tour = relationship("Tour", back_populates="bookings")#Relación con la tabla Tours
+    status = Column(Enum(BookingStatus), default=BookingStatus.PENDING, nullable=False)#Estado de la reserva
