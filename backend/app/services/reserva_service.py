@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session  # Para trabajar con sesiones de la base de d
 from fastapi import HTTPException, status  # Dependencias de FastAPI
 from app.db import models  # Importamos los modelos
 from app.schemas.reserva import BookingCreate  # Importamos el schema de la reserva
-
+from app.services import recommendation_service #Importamos el servicio de las recomendaciones
 
 def create_booking_service(db: Session, booking_data: BookingCreate):
     """
@@ -70,7 +70,16 @@ def create_booking_service(db: Session, booking_data: BookingCreate):
     )
     db.add(new_booking)  # Agregamos la reserva
     db.commit()  # Guardamos los cambios
-    db.refresh(new_booking)  # Actualizamos la reserva
+    db.refresh(new_booking)  # Actualizamos la reserva}
+
+    # ------------------------------------------------
+    # ACTIVAR APRENDIZAJE AUTOMÁTICO
+    # ------------------------------------------------
+    recommendation_service.update_user_preferences(
+        user_id=new_booking.user_id,
+        destination=flight.destination,
+        db=db,
+    )
     return new_booking
 
 def cancel_booking_service(db: Session, booking_id: int):

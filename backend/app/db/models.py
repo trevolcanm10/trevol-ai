@@ -3,7 +3,8 @@ from sqlalchemy.orm import relationship #Para definir relaciones entre tablas
 from datetime import datetime #Para trabajar con fechas
 from .database import Base #Importamos la base de datos
 from sqlalchemy import Enum #Para trabajar con estados
-import enum #Sirve para crear enumeraciones
+from enum import Enum as PyEnum  
+
 # =========================
 # Tabla: Users
 # Relación: 1 User -> N Bookings
@@ -87,7 +88,7 @@ class Tour(Base):
 # =========================================
 # Enumeración para los estados de las reservas
 # =========================================
-class BookingStatus(str, Enum):
+class BookingStatus(str, PyEnum):
     """
     Enumeración para los estados de las reservas
     """
