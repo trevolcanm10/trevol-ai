@@ -9,6 +9,9 @@ import enum #Sirve para crear enumeraciones
 # Relación: 1 User -> N Bookings
 # =========================
 class User(Base):
+    """
+    Clase que representa la tabla Users en la base de datos
+    """
     __tablename__ = "users" # Nombre de la tabla en la BD
 
     id = Column(Integer, primary_key=True, index=True) #Primary key
@@ -19,6 +22,8 @@ class User(Base):
 
     bookings = relationship("Booking", back_populates="user")#Relación con la tabla Bookings
     # Relación 1:N → Un usuario puede tener muchas reservas
+    preferences = relationship("UserPreference", backref="user", uselist=False)
+    # Relación 1:1 → Un usuario tiene una preferencia
 
 # =========================
 # Tabla: Flights
@@ -89,6 +94,21 @@ class BookingStatus(str, Enum):
     PENDING = "pending"
     CONFIRMED = "confirmed"
     CANCELLED = "cancelled"
+# =====================================================
+# Tabla de preferencias del usuario (Aprendizaje)
+# =====================================================
+class UserPreference(Base):
+    """
+    Clase que representa la tabla UserPreferences en la base de datos
+    """
+    __tablename__ = "user_preferences" # Nombre de la tabla en la BD
+
+    id = Column(Integer, primary_key=True, index=True) #Primary key
+    user_id = Column(Integer, ForeignKey("users.id"), unique=True)#FK obligatoria → Toda preferencia pertenece a un usuario
+    history_weight = Column(Float, default=0.5)  # Peso del historial
+    popularity_weight = Column(Float, default=0.3)  # Peso de la popularidad
+    price_weight = Column(Float, default=0.2)  # Peso del precio
+    learning_rate = Column(Float, default=0.05)#Tasa de aprendizaje
 
 
 # =========================

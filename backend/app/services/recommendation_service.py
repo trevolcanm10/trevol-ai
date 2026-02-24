@@ -88,8 +88,26 @@ def get_user_recommendations(user_id: int, db: Session):
             1 / avg_price if avg_price else 0
         )  # Destinos más baratos mejoran score
 
-        score = (user_score * 0.5) + (global_score * 0.3) + (price_factor * 0.2)
+        preference = (
+            db.query(models.UserPreference)
+            .filter(models.UserPreference.user_id == user_id)
+            .first()
+        )
 
+        if not preference:
+            history_w = 0.5
+            popularity_w = 0.3
+            price_w = 0.2
+        else:
+            history_w = preference.history_weight
+            popularity_w = preference.popularity_weight
+            price_w = preference.price_weight
+
+        score = (
+            (user_score * history_w)
+            + (global_score * popularity_w)
+            + (price_factor * price_w)
+        )        
         scores.append((destination, score))
 
     # ---------------------------------------------
@@ -131,3 +149,39 @@ def get_user_recommendations(user_id: int, db: Session):
         "hotels": recommended_hotels,
         "tours": recommended_tours,
     }  # Retornamos la recomendación
+# =====================================
+# Actualizar preferencias del usuario
+# =====================================
+def update_user_preferences(user_id: int, destination: str, db: Session):
+    """
+    Función para actualizar preferencias del usuario
+    """
+    preference = (
+        db.query(models.UserPreference)
+        .filter(models.UserPreference.user_id == user_id)
+        .first()
+    )
+
+    if not preference:
+        preference = models.UserPreference(user_id=user_id)
+        db.add(preference)# Agregamos la preferencia a la base de datos
+        db.commit()# Guardamos los cambios
+        db.refresh(preference)# Actualizamos la preferencia
+
+    # Si el usuario vuelve a reservar mismo destino → reforzar historial
+    preference.history_weight += preference.learning_rate
+    preference.popularity_weight -= preference.learning_rate / 2
+    preference.price_weight -= preference.learning_rate / 2
+
+    # Normalizar para que sumen 1
+    total = (
+        preference.history_weight
+        + preference.popularity_weight
+        + preference.price_weight
+    )
+
+    preference.history_weight /= total
+    preference.popularity_weight /= total
+    preference.price_weight /= total
+
+    db.commit()# Guardamos los cambios
