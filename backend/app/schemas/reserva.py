@@ -23,7 +23,6 @@ class BookingCreate(BookingBase):
     Schema para crear reservas
     """
     user_id: int #Usuario obligatorio
-    total_price: float #Precio obligatorio
 
 #===============================
 # Schema para ACTUALIZAR reserva

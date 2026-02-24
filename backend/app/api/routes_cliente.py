@@ -1,0 +1,45 @@
+"""
+Rutas para el cliente
+"""
+from fastapi import APIRouter, Depends, HTTPException#Dependencias de FastAPI
+from sqlalchemy.orm import Session#Para trabajar con sesiones de la base de datos
+from app.db.database import get_db#Importamos la sesión de la base de datos
+from app.db.models import User #Importamos el modelo de usuario
+from app.schemas.cliente import ClienteRegistro, ClienteLogin, Token#Importamos el schema de usuario
+from app.core.security import get_password_hash, verify_password,create_access_token#Importamos las funciones de seguridad
+router = APIRouter(prefix="/auth", tags=["Auth"]) #Creamos el router
+
+@router.post("/register")#Ruta para registrar un usuario
+def register_cliente(cliente: ClienteRegistro, db: Session = Depends(get_db)):
+    """
+    Función para registrar un usuario}
+    - cliente: Datos del usuario
+    - db: Sesión de la base de datos
+    """
+    existing_cliente = db.query(User).filter(User.email == cliente.email).first()
+    if existing_cliente:
+        raise HTTPException(status_code=400, detail="El correo electrónico ya esta registrado")
+    nuevo_cliente = User(
+        email = cliente.email,
+        password = hash_password(cliente.password),#Hasheamos el passwords
+    )
+
+    db.add(nuevo_cliente)
+    db.commit()
+    db.refresh(nuevo_cliente)
+    return {"message": "Usuario registrado exitosamente"}
+
+@router.post("/login", response_model=Token)#Ruta para loguear un usuario
+def login_cliente(cliente: ClienteLogin, db: Session = Depends(get_db)):
+    """
+    Función para loguear un usuario
+    - cliente: Datos del usuario
+    - db: Sesión de la base de datos
+    """
+    db_user = db.query(User).filter(User.email == cliente.email).first()
+
+    if not db_user or not verify_password(cliente.password, db_user.password):
+        raise HTTPException(status_code=401, detail="Credenciales incorrectas")
+    
+    token = create_access_token({"sub": db_user.email, "role": db_user.role})
+    return {"access_token": token, "token_type": "bearer"}

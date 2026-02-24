@@ -51,7 +51,10 @@ def get_top_destinations(db: Session):
         .order_by(func.count(models.Booking.id).desc())
         .all()
     )
-    return results
+    return [
+        {"destination": destination, "total_sales": total}
+        for destination, total in results
+    ]
 
 # ===================
 # Ingresos por mes
@@ -63,11 +66,11 @@ def get_monthly_revenue(db: Session):
     """
     results = (
         db.query(
-            func.strftime("%Y-%m", models.Booking.created_at).label("month"),
+            func.strftime("%Y-%m", models.Booking.booking_date).label("month"),
             func.sum(models.Booking.total_price).label("revenue"),
         )
         .filter(models.Booking.status == models.BookingStatus.CONFIRMED)
-        .group_by(func.strftime("%Y-%m", models.Booking.created_at))
+        .group_by(func.strftime("%Y-%m", models.Booking.booking_date))
         .all()
     )
-    return results
+    return [{"month": month, "revenue": revenue} for month, revenue in results]
