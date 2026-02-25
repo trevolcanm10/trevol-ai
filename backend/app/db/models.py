@@ -19,7 +19,7 @@ class User(Base):
     name = Column(String, nullable=False) #No puede ser nulo
     email = Column(String, nullable=False) #No puede ser nulo
     phone = Column(String, nullable=False) #No puede ser nulo
-    created_at = Column(DateTime, default=datetime.now()) #Fecha de creación
+    created_at = Column(DateTime, default=datetime.now) #Fecha de creación
     password = Column(String, nullable=True) #No puede ser nulo
     role = Column(String, default="user")#Rol del usuario
     bookings = relationship("Booking", back_populates="user")#Relación con la tabla Bookings
@@ -137,7 +137,7 @@ class Booking(Base):
     tour_id = Column(
         Integer, ForeignKey("tours.id")
     )  # FK opcional → Puede incluir tour o no
-    booking_date = Column(DateTime, default=datetime.now())
+    booking_date = Column(DateTime, default=datetime.now)
     # Fecha automática cuando se crea la reserva
     
     total_price = Column(Float, nullable=False) #Precio total de la reserva
