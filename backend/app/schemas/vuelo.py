@@ -1,8 +1,8 @@
 """
     Schemas para vuelos
 """
+from datetime import datetime  # Para trabajar con fechas
 from pydantic import BaseModel #Para crear schemas
-from datetime import datetime #Para trabajar con fechas
 
 
 class FlightCreate(BaseModel):
@@ -14,7 +14,7 @@ class FlightCreate(BaseModel):
     departure_date: datetime
     price: float
     available_seats: int
-    
+
 class FlightResponse(FlightCreate):
     """
     Schema para responder vuelos
