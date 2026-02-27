@@ -20,7 +20,7 @@ class User(Base):
     email = Column(String, nullable=False) #No puede ser nulo
     phone = Column(String, nullable=False) #No puede ser nulo
     created_at = Column(DateTime, default=datetime.now) #Fecha de creación
-    password = Column(String, nullable=True) #No puede ser nulo
+    password = Column(String, nullable=False) #No puede ser nulo
     role = Column(String, default="user")#Rol del usuario
     bookings = relationship("Booking", back_populates="user")#Relación con la tabla Bookings
     # Relación 1:N → Un usuario puede tener muchas reservas

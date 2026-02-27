@@ -1,22 +1,26 @@
 """
 Schemas para clientes
 """
-from pydantic import BaseModel
+from typing import Annotated
+from pydantic import BaseModel, EmailStr,constr
+
 
 class ClienteRegistro(BaseModel):
     """
     Schema para el registro de clientes
     """
     username: str
-    password: str
+    email: EmailStr
+    phone: str
+    password: Annotated[str, constr(min_length=6, max_length=72)]
 
 class ClienteLogin(BaseModel):
     """
     Schema para el login de clientes
     """
-    username: str
-    password: str
-    
+    email: EmailStr
+    password: Annotated[str, constr(min_length=6, max_length=72)]
+
 class Token(BaseModel):
     """
     Schema para el token

@@ -22,8 +22,11 @@ def register_cliente(cliente: ClienteRegistro, db: Session = Depends(get_db)):
     if existing_cliente:
         raise HTTPException(status_code=400, detail="El correo electrónico ya esta registrado")
     nuevo_cliente = User(
+        name=cliente.username,
         email = cliente.email,
+        phone = cliente.phone,
         password = get_password_hash(cliente.password),#Hasheamos el passwords
+        role = "user"
     )
 
     db.add(nuevo_cliente)

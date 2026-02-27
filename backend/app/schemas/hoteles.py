@@ -35,8 +35,6 @@ class HotelResponse(HotelBase):
     """
     id: int
 
-    class Config:
-        """
-        Configuración del schema
-        """
-        orm_mode = True
+    model_config = {
+        "from_attributes": True
+    }
