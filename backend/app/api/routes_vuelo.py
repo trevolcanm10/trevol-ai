@@ -9,7 +9,7 @@ from app.db.models import Flight #Importamos el modelo de vuelo
 from app.schemas.vuelo import FlightCreate, FlightResponse#Importamos el schema de vuelo
 from app.dependencies import require_role#Importamos la dependencia
 
-router = APIRouter(prefix="/flights", tags=["Flights"])#Creamos el router
+router = APIRouter(tags=["Flights"])#Creamos el router
 @router.post("/", response_model=FlightResponse)#Ruta para crear un vuelo
 def create_flight(
     flight: FlightCreate,
