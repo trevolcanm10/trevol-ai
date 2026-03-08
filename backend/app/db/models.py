@@ -1,9 +1,16 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey #Tipos de columnas
-from sqlalchemy.orm import relationship #Para definir relaciones entre tablas
-from datetime import datetime #Para trabajar con fechas
-from .database import Base #Importamos la base de datos
-from sqlalchemy import Enum #Para trabajar con estados
-from enum import Enum as PyEnum  
+"""
+Clases que representan las tablas de la base de datos
+    
+"""
+# Standard library
+from datetime import datetime
+from enum import Enum as PyEnum
+
+# Third-party libraries
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Enum
+from sqlalchemy.orm import relationship
+
+from app.db.database import Base
 
 # =========================
 # Tabla: Users
@@ -106,7 +113,8 @@ class UserPreference(Base):
     __tablename__ = "user_preferences" # Nombre de la tabla en la BD
 
     id = Column(Integer, primary_key=True, index=True) #Primary key
-    user_id = Column(Integer, ForeignKey("users.id"), unique=True)#FK obligatoria → Toda preferencia pertenece a un usuario
+    user_id = Column(Integer, ForeignKey("users.id"), unique=True)
+    #FK obligatoria → Toda preferencia pertenece a un usuario
     history_weight = Column(Float, default=0.5)  # Peso del historial
     popularity_weight = Column(Float, default=0.3)  # Peso de la popularidad
     price_weight = Column(Float, default=0.2)  # Peso del precio
@@ -139,11 +147,11 @@ class Booking(Base):
     )  # FK opcional → Puede incluir tour o no
     booking_date = Column(DateTime, default=datetime.now)
     # Fecha automática cuando se crea la reserva
-    
     total_price = Column(Float, nullable=False) #Precio total de la reserva
 
     user = relationship("User", back_populates="bookings")#Relación con la tabla Users
     flight = relationship("Flight", back_populates="bookings")#Relación con la tabla Flights
     hotel = relationship("Hotel", back_populates="bookings")#Relación con la tabla Hotels
     tour = relationship("Tour", back_populates="bookings")#Relación con la tabla Tours
-    status = Column(Enum(BookingStatus), default=BookingStatus.PENDING, nullable=False)#Estado de la reserva
+    status = Column(Enum(BookingStatus), default=BookingStatus.PENDING, nullable=False)
+    #Estado de la reserva

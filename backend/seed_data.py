@@ -1,149 +1,57 @@
-from sqlalchemy.orm import Session#Para trabajar con sesiones de la base de datos
-from app.db import models#Importamos los modelos
-from app.db.database import SessionLocal,engine#Importamos la base de datos
-from datetime import datetime,timedelta #Para trabajar con fechas
-import random #Para generar datos aleatorios
+"""
+Función para poblar la base de datos
+"""
+import random#Para trabajar con numeros aleatorios
+import pandas as pd  # Para trabajar con dataframes
+from sqlalchemy import create_engine #Para crear la base de datos
+from sqlalchemy.orm import sessionmaker #Para trabajar con sesiones
+from app.db.models import Base, Flight, Hotel, Tour #Importamos los modelos
 
-# Crear todas las tablas en la base de datos
-models.Base.metadata.create_all(bind=engine)
+# Conexion a la base de datos
+engine = create_engine("sqlite:///travel_ai.db")
+Session = sessionmaker(bind=engine)
+session = Session()
+# Crear tablas si no existen
+Base.metadata.create_all(engine)
 
-# Crear una sesión de la base de datos
-db = SessionLocal()
-
-# ------------------------
-# 1️⃣ Crear usuarios
-# ------------------------
-users_data = [
-    {
-        "name": "Admin User",
-        "email": "admin@travel.com",
-        "phone": "999999999",
-        "password": "admin123",
-        "role": "admin",
-    }
-]
-
-# 2 usuarios normales + 12 más ficticios
-for i in range(1, 15):
-    users_data.append(
-        {
-            "name": f"User{i}",
-            "email": f"user{i}@mail.com",
-            "phone": f"9000000{i:03}",
-            "password": "user123",
-            "role": "user",
-        }
+# Poblar Flights
+df_flights = pd.read_csv('data/flights.csv')
+for _, row in df_flights.iterrows():
+    flight = Flight(
+        origin=row["origin"],  # Agregamos el origen
+        destination=row["destination"],  # Agregamos el destino
+        departure_date=pd.to_datetime(row["departure_date"]),  # Convertimos a datetime
+        price=float(row.get("price", random.randint(50, 500))),  # Agregamos el precio
+        available_seats=int(row.get("available_seats", random.randint(20, 200))),
+        # Agregamos el asiento
     )
+    session.add(flight)
 
-users = []
-for u in users_data:
-    user = models.User(**u)
-    db.add(user)
-    db.commit()
-    db.refresh(user)
-    users.append(user)
+# Poblar Hotels
+df_hotels = pd.read_csv('data/hotels.csv')
 
-print("✅ Usuarios creados")
-# ------------------------
-# 2️⃣ Crear vuelos
-# ------------------------
-cities = [
-    "Madrid",
-    "Paris",
-    "London",
-    "New York",
-    "Tokyo",
-    "Sydney",
-    "Berlin",
-    "Dubai",
-    "Rome",
-    "Toronto",
-    "Beijing",
-    "Moscow",
-    "Istanbul",
-    "Bangkok",
-    "Seoul",
-]
-
-flights = []
-for i in range(15):
-    flight = models.Flight(
-        origin=random.choice(cities),
-        destination=random.choice(cities),
-        departure_date=datetime.now() + timedelta(days=random.randint(1, 60)),
-        price=random.randint(100, 1000),
-        available_seats=random.randint(10, 200),
+for _, row in df_hotels.iterrows():
+    hotel = Hotel(
+        name = row["name"],# Agregamos el nombre
+        location = row["location"],# Agregamos la ubicacion
+        price_per_night = float(row.get("price_per_night", random.randint(50, 300))),
+        # Agregamos el precio
+        available_rooms = int(row.get("available_rooms", random.randint(5, 50))),
+        # Agregamos el asiento
     )
-    db.add(flight)
-    db.commit()
-    db.refresh(flight)
-    flights.append(flight)
+    session.add(hotel)
 
-print("✅ Vuelos creados")
+# Poblar Tours
+df_tours = pd.read_csv('data/tours.csv')
 
-# ------------------------
-# 3️⃣ Crear hoteles
-# ------------------------
-hotels = []
-for i in range(15):
-    hotel = models.Hotel(
-        name=f"Hotel{i+1}",
-        location=random.choice(cities),
-        price_per_night=random.randint(50, 500),
-        available_rooms=random.randint(5, 100),
+for _, row in df_tours.iterrows():
+    tour = Tour(
+        name = row["name"],# Agregamos el nombre
+        location = row["location"],# Agregamos la ubicacion
+        price = float(row.get("price", random.randint(50, 300))),# Agregamos el precio
+        available_slots = int(row.get("available_slots", random.randint(5, 50))),
+        # Agregamos el asiento
     )
-    db.add(hotel)
-    db.commit()
-    db.refresh(hotel)
-    hotels.append(hotel)
-
-print("✅ Hoteles creados")
-
-# ------------------------
-# 4️⃣ Crear tours
-# ------------------------
-tours = []
-for i in range(15):
-    tour = models.Tour(
-        name=f"Tour{i+1}",
-        location=random.choice(cities),
-        price=random.randint(30, 300),
-        available_slots=random.randint(5, 50),
-    )
-    db.add(tour)
-    db.commit()
-    db.refresh(tour)
-    tours.append(tour)
-
-print("✅ Tours creados")
-
-# ------------------------
-# 5️⃣ Crear reservas de prueba
-# ------------------------
-for _ in range(15):
-    user = random.choice(users[1:])  # No usar admin
-    flight = random.choice(flights)
-    hotel = random.choice(hotels)
-    tour = random.choice(tours)
-
-    booking = models.Booking(
-        user_id=user.id,
-        flight_id=flight.id,
-        hotel_id=hotel.id,
-        tour_id=tour.id,
-        total_price=flight.price + hotel.price_per_night + tour.price,
-        status=models.BookingStatus.CONFIRMED,
-    )
-
-    flight.available_seats -= 1
-    hotel.available_rooms -= 1
-    tour.available_slots -= 1
-
-    db.add(booking)
-    db.commit()
-    db.refresh(booking)
-
-print("✅ Reservas de prueba creadas")
-
-db.close()
-print("🎉 Seed completo listo!")
+    session.add(tour)
+session.commit()# Guardamos los cambios
+print("Flights, Hotels y Tours insertados correctamente.")

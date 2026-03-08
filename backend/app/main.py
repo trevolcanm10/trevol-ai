@@ -11,6 +11,7 @@ from app.api import routes_vuelo # Importamos las rutas del vuelo
 from app.api import routes_hotel # Importamos las rutas del hotel
 from app.api import router_tour # Importamos las rutas del tour
 from app.api import routes_cliente # Importamos las rutas del cliente
+from app.api import routes_search # Importamos las rutas de la busqueda
 Base.metadata.create_all(bind=engine)  # Creamos las tablas en la base de datos
 app = FastAPI()  # Creamos la app
 app.include_router(routes_reserva.router, prefix="/api/bookings", tags=["Bookings"])
@@ -24,3 +25,4 @@ app.include_router(routes_cliente.router, prefix="/api/auth", tags=["Auth"])
 app.include_router(routes_vuelo.router, prefix="/api/flights", tags=["Flights"])
 app.include_router(routes_hotel.router, prefix="/api/hotels", tags=["Hotels"])
 app.include_router(router_tour.router, prefix="/api/tours", tags=["Tours"])
+app.include_router(routes_search.router, prefix="/api/search", tags=["Search"])

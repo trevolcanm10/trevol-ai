@@ -1,0 +1,96 @@
+origin,destination,departure_date,price,available_seats
+M. R. Štefánika,Seeb,2026-03-08T04:00:00+00:00,231,86
+Phuket International,Pyrzowice,2026-03-08T11:25:00+00:00,325,97
+Singapore Changi,Hong Kong International,2026-03-08T08:25:00+00:00,271,20
+Hangzhou,Chengdu Tianfu International Airport,2026-03-08T07:55:00+00:00,424,64
+Hangzhou,Chengdu Tianfu International Airport,2026-03-08T07:55:00+00:00,420,115
+Hangzhou,Chengdu Tianfu International Airport,2026-03-08T07:55:00+00:00,228,137
+Hangzhou,Chengdu Tianfu International Airport,2026-03-08T07:55:00+00:00,317,159
+Hangzhou,Chengdu Tianfu International Airport,2026-03-08T07:55:00+00:00,414,177
+Hangzhou,Chengdu Tianfu International Airport,2026-03-08T07:55:00+00:00,367,49
+Hangzhou,Chengdu Tianfu International Airport,2026-03-08T07:55:00+00:00,437,157
+Hangzhou,Chengdu Tianfu International Airport,2026-03-08T07:40:00+00:00,341,102
+Hangzhou,Chengdu Tianfu International Airport,2026-03-08T07:40:00+00:00,392,178
+Hangzhou,Chengdu Tianfu International Airport,2026-03-08T07:40:00+00:00,310,150
+Hangzhou,Chengdu Tianfu International Airport,2026-03-08T07:40:00+00:00,284,133
+Hangzhou,Chengdu Tianfu International Airport,2026-03-08T07:40:00+00:00,352,172
+Doha International,Beijing Daxing International Airport,2026-03-08T01:55:00+00:00,118,109
+Doha International,Beijing Daxing International Airport,2026-03-08T01:55:00+00:00,384,58
+Doha International,Beijing Daxing International Airport,2026-03-08T01:55:00+00:00,401,64
+Doha International,Beijing Daxing International Airport,2026-03-08T01:55:00+00:00,149,66
+Doha International,Beijing Daxing International Airport,2026-03-08T01:55:00+00:00,111,82
+Doha International,Guangzhou Baiyun International,2026-03-08T01:55:00+00:00,188,177
+Doha International,Guangzhou Baiyun International,2026-03-08T01:55:00+00:00,169,81
+Doha International,Guangzhou Baiyun International,2026-03-08T01:55:00+00:00,360,65
+Doha International,Guangzhou Baiyun International,2026-03-08T01:55:00+00:00,389,134
+Doha International,Guangzhou Baiyun International,2026-03-08T01:55:00+00:00,171,89
+Doha International,Melbourne - Tullamarine Airport,2026-03-08T01:50:00+00:00,107,24
+Doha International,Tan Son Nhat International,2026-03-08T01:50:00+00:00,420,127
+Doha International,Tan Son Nhat International,2026-03-08T01:50:00+00:00,446,148
+Doha International,Tan Son Nhat International,2026-03-08T01:50:00+00:00,227,172
+Doha International,Tan Son Nhat International,2026-03-08T01:50:00+00:00,261,73
+Doha International,Tan Son Nhat International,2026-03-08T01:50:00+00:00,345,46
+Doha International,Tan Son Nhat International,2026-03-08T01:50:00+00:00,358,64
+Doha International,Tan Son Nhat International,2026-03-08T01:50:00+00:00,238,163
+Doha International,Tan Son Nhat International,2026-03-08T01:50:00+00:00,385,70
+Hohhot,Jinan,2026-03-08T13:50:00+00:00,157,134
+Hohhot,Chifeng,2026-03-08T13:35:00+00:00,193,72
+Hohhot,Daguocun,2026-03-08T13:25:00+00:00,116,30
+Hohhot,Guangzhou Baiyun International,2026-03-08T13:20:00+00:00,267,69
+Hohhot,Hailar,2026-03-08T13:15:00+00:00,371,168
+Hohhot,Xiamen,2026-03-08T13:10:00+00:00,222,48
+Hohhot,Xiamen,2026-03-08T13:10:00+00:00,87,24
+Mount Isa,Brisbane International,2026-03-08T11:05:00+00:00,180,25
+Emerald,Brisbane International,2026-03-08T12:05:00+00:00,338,73
+Gladstone,Brisbane International,2026-03-08T11:40:00+00:00,208,80
+Sydney Kingsford Smith Airport,Brisbane International,2026-03-08T11:40:00+00:00,330,119
+Shanghai Pudong International,Taiwan Taoyuan International (Chiang Kai Shek International),2026-03-08T12:05:00+00:00,335,41
+Shanghai Pudong International,Taiwan Taoyuan International (Chiang Kai Shek International),2026-03-08T12:05:00+00:00,414,151
+Brisbane International,San Francisco International,2026-03-08T10:40:00+00:00,395,81
+Brisbane International,San Francisco International,2026-03-08T10:40:00+00:00,431,125
+Brisbane International,San Francisco International,2026-03-08T10:40:00+00:00,414,174
+Brisbane International,San Francisco International,2026-03-08T10:40:00+00:00,333,157
+Brisbane International,Los Angeles International,2026-03-08T10:40:00+00:00,189,65
+Brisbane International,Los Angeles International,2026-03-08T10:40:00+00:00,382,55
+Brisbane International,Los Angeles International,2026-03-08T10:40:00+00:00,402,34
+Brisbane International,Singapore Changi,2026-03-08T10:35:00+00:00,395,28
+Brisbane International,Singapore Changi,2026-03-08T10:35:00+00:00,98,78
+Brisbane International,Singapore Changi,2026-03-08T10:35:00+00:00,198,52
+Brisbane International,Singapore Changi,2026-03-08T10:35:00+00:00,432,115
+Brisbane International,Singapore Changi,2026-03-08T10:35:00+00:00,417,29
+Brisbane International,Singapore Changi,2026-03-08T10:35:00+00:00,218,179
+Brisbane International,Singapore Changi,2026-03-08T10:35:00+00:00,181,155
+Brisbane International,Singapore Changi,2026-03-08T10:35:00+00:00,220,89
+Brisbane International,Singapore Changi,2026-03-08T10:35:00+00:00,155,30
+Brisbane International,Singapore Changi,2026-03-08T10:35:00+00:00,242,103
+Brisbane International,Sydney Kingsford Smith Airport,2026-03-08T10:25:00+00:00,396,136
+Brisbane International,Sydney Kingsford Smith Airport,2026-03-08T10:25:00+00:00,294,60
+Brisbane International,Sydney Kingsford Smith Airport,2026-03-08T10:25:00+00:00,286,38
+Brisbane International,Sydney Kingsford Smith Airport,2026-03-08T10:25:00+00:00,166,56
+Brisbane International,Sydney Kingsford Smith Airport,2026-03-08T10:25:00+00:00,286,167
+Brisbane International,Narita International Airport,2026-03-08T10:20:00+00:00,180,167
+Brisbane International,Townsville International,2026-03-08T09:00:00+00:00,247,27
+Don Muang,Techo International Airport,2026-03-08T07:10:00+00:00,183,132
+Don Muang,Phitsanulok,2026-03-08T07:00:00+00:00,137,126
+Don Muang,Krabi,2026-03-08T07:00:00+00:00,417,113
+Don Muang,Chiang Rai,2026-03-08T06:55:00+00:00,408,169
+Don Muang,Sakon Nakhon,2026-03-08T06:50:00+00:00,210,79
+Don Muang,Surat Thani,2026-03-08T06:50:00+00:00,91,122
+Don Muang,Phuket International,2026-03-08T06:45:00+00:00,168,178
+Don Muang,Kuala Lumpur International Airport (klia),2026-03-08T06:40:00+00:00,146,162
+Don Muang,Hat Yai,2026-03-08T06:35:00+00:00,237,50
+Hobart,Sydney Kingsford Smith Airport,2026-03-08T11:25:00+00:00,84,116
+Singapore Changi,Noibai International,2026-03-08T09:05:00+00:00,445,121
+Don Muang,Noibai International,2026-03-08T06:55:00+00:00,137,58
+Noibai International,Singapore Changi,2026-03-08T09:40:00+00:00,212,23
+Noibai International,Singapore Changi,2026-03-08T09:40:00+00:00,213,126
+Noibai International,Singapore Changi,2026-03-08T09:35:00+00:00,252,163
+Jinan,Shuangliu,2026-03-08T10:35:00+00:00,86,53
+Burnie Wynyard,King Island,2026-03-08T12:15:00+00:00,88,180
+Suvarnabhumi International,Krabi,2026-03-08T07:05:00+00:00,294,88
+Suvarnabhumi International,Noibai International,2026-03-08T06:55:00+00:00,312,158
+Suvarnabhumi International,Chiang Rai,2026-03-08T06:50:00+00:00,174,115
+Suvarnabhumi International,Phuket International,2026-03-08T06:50:00+00:00,130,51
+Suvarnabhumi International,Nakhon Si Thammarat,2026-03-08T06:05:00+00:00,285,164
+Heydar Aliyev International (Bina International),Zaragoza,2026-03-08T08:20:00+00:00,366,29
+Don Muang,Roi Et Airport,2026-03-08T06:45:00+00:00,156,50
