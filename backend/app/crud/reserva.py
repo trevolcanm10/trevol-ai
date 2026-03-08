@@ -1,6 +1,9 @@
+"""
+CRUD para la reserva
+"""
 from sqlalchemy.orm import Session  # Para trabajar con sesiones de la base de datos
-from app.db import models  # Importamos los modelos
-from app.schemas.reserva import BookingCreate  # Importamos el schema de la reserva
+from backend.app.db import models  # Importamos los modelos
+from backend.app.schemas.reserva import BookingCreate  # Importamos el schema de la reserva
 
 
 # =========================
