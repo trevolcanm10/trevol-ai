@@ -2,6 +2,7 @@
 Rutas
 """
 from fastapi import FastAPI  # Importamos FastAPI
+from fastapi.middleware.cors import CORSMiddleware#Importamos CORS
 from app.db.database import engine  # Importamos la base de datos
 from app.db.models import Base  # Importamos los modelos
 from app.api import routes_reserva  # Importamos las rutas de la reserva
@@ -13,8 +14,17 @@ from app.api import router_tour # Importamos las rutas del tour
 from app.api import routes_cliente # Importamos las rutas del cliente
 from app.api import routes_search # Importamos las rutas de la busqueda
 from app.api import routes_package # Importamos las rutas del paquete
+
+
 Base.metadata.create_all(bind=engine)  # Creamos las tablas en la base de datos
 app = FastAPI()  # Creamos la app
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)#Configuramos CORS
 app.include_router(routes_reserva.router, prefix="/api/bookings", tags=["Bookings"])
 app.include_router(routes_dashboard.router, prefix="/api/dashboard", tags=["Dashboard"])
 app.include_router(
