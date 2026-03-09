@@ -2,24 +2,28 @@ import axios from 'axios'; // importando a biblioteca axios
 
 const API_BASE = "http://127.0.0.1:8000/api";// Definimos la url de la api
 
+const api = axios.create({ baseURL: API_BASE });// Creamos la instancia de la api
+
+// funciones de tu API
 export const getFlights = (params) =>
-  axios.get(`${API_BASE}/search`, { params });// Traemos los vuelos
+  api.get("/search", { params });
 
 export const getHotels = (params) =>
-  axios.get(`${API_BASE}/search`, { params });// Traemos los hoteles
+  api.get("/search", { params });
 
 export const getTours = (params) =>
-  axios.get(`${API_BASE}/search`, { params });// Traemos los tours
+  api.get("/search", { params });
 
 export const searchTravel = (params) =>
-  axios.get(`${API_BASE}/search`, { params });// Traemos los viajes
-
+  api.get("/search", { params });
 
 export const getPackage = (origin, destination) =>
-  axios.get(`${API_BASE}/packages`, { params: { origin, destination } });// Traemos el paquete
+  api.get("/packages", { params: { origin, destination } });
 
 export const getRecommendations = (userId) =>
-  axios.get(`${API_BASE}/recommendations`, { params: { user_id: userId } });// Traemos las recomendaciones
+  api.get("/recommendations", { params: { user_id: userId } });
 
 export const createBooking = (data) =>
-  axios.post(`${API_BASE}/bookings`, data);// Creamos la reserva
+  api.post("/bookings", data);
+
+export default api;

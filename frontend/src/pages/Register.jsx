@@ -4,12 +4,13 @@ import { register } from "../services/authService";
 export default function Register() {
   const [name, setName] = useState("");// importando el hook useState para el name
   const [email, setEmail] = useState("");// importando el hook useState para el email
+  const [phone, setPhone] = useState("");// importando el hook useState para el phone
   const [password, setPassword] = useState("");// importando el hook useState para el password
 
   const handleSubmit = async (e) => {//Función para enviar el formulario
     e.preventDefault();//Evitamos el comportamiento por defecto del navegador
     try {
-      await register(name, email, password);//Hacemos la petición a la api
+      await register(name, email,phone, password);//Hacemos la petición a la api
       window.location.href = "/login";//Redirigimos al login
     } catch (error) {
       alert("Error al registrar");//Mostramos el error
@@ -24,20 +25,26 @@ export default function Register() {
         <input
           className="border p-2 w-full mb-3"
           placeholder="Name"
-          onChange={(e) => setName(e.target.value)}// importando el hook useState para el name
+          onChange={(e) => setName(e.target.value)} // importando el hook useState para el name
         />
 
         <input
           className="border p-2 w-full mb-3"
           placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}// importando el hook useState para el email
+          onChange={(e) => setEmail(e.target.value)} // importando el hook useState para el email
+        />
+
+        <input
+          className="border p-2 w-full mb-3"
+          placeholder="Phone"
+          onChange={(e) => setPhone(e.target.value)}
         />
 
         <input
           type="password"
           className="border p-2 w-full mb-3"
           placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}// importando el hook useState para el password
+          onChange={(e) => setPassword(e.target.value)} // importando el hook useState para el password
         />
 
         <button className="bg-green-500 text-white px-4 py-2 w-full">

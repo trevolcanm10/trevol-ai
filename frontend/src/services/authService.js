@@ -7,8 +7,8 @@ export const login = async (email, password) => {//Función para loguear
     return response.data;//Retornamos la respuesta
 };
 
-export const register = async (name, email, password) => {//Función para registrar
-    const response = await api.post("/register", { name, email, password });//Hacemos la petición a la api
+export const register = async (name, email,phone, password) => {//Función para registrar
+    const response = await api.post("/register", { name, email,phone, password });//Hacemos la petición a la api
     return response.data;//Retornamos la respuesta
 };
 
