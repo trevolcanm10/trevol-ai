@@ -1,6 +1,9 @@
 import { useState } from "react"; // importando el hook useState
 import { searchTravel, getPackage } from "../services/api"; // importando las funciones de la api
-
+import FlightCard from "../components/FlightCard"; // importando el componente FlightCard
+import HotelCard from "../components/HotelCard"; // importando el componente HotelCard
+import TourCard from "../components/TourCard"; // importando el componente TourCard
+import PackageCard from "../components/PackageCard"; // importando el componente PackageCard
 // Definimos el componente Home
 export default function Home(){
     const [origin, setOrigin] = useState(""); // Definimos el estado origin
@@ -54,17 +57,25 @@ export default function Home(){
         {results && (
           <div>
             <h2 className="text-xl font-bold mb-2">Resultados</h2>
-            <pre>{JSON.stringify(results, null, 2)}</pre>
+
+            <h3 className="font-bold mt-2">Vuelos</h3>
+            {results.flights.map((f) => (
+              <FlightCard key={f.id} flight={f} />
+            ))}
+
+            <h3 className="font-bold mt-2">Hoteles</h3>
+            {results.hotels.map((h) => (
+              <HotelCard key={h.id} hotel={h} />
+            ))}
+
+            <h3 className="font-bold mt-2">Tours</h3>
+            {results.tours.map((t) => (
+              <TourCard key={t.id} tour={t} />
+            ))}
           </div>
         )}
 
-        {packageResult && (
-          <div className="mt-4">
-            <h2 className="text-xl font-bold mb-2">Paquete recomendado</h2>
-            <pre>{JSON.stringify(packageResult, null, 2)}</pre>
-          </div>
-        )}
+        {packageResult && <PackageCard packageData={packageResult} />}
       </div>
     );
-
 }
