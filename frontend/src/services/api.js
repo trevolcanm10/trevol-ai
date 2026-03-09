@@ -16,7 +16,10 @@ export const searchTravel = (params) =>
 
 
 export const getPackage = (origin, destination) =>
-  axios.get(`${API_BASE}/package`, { params: { origin, destination } });// Traemos el paquete
+  axios.get(`${API_BASE}/packages`, { params: { origin, destination } });// Traemos el paquete
 
 export const getRecommendations = (userId) =>
   axios.get(`${API_BASE}/recommendations`, { params: { user_id: userId } });// Traemos las recomendaciones
+
+export const createBooking = (data) =>
+  axios.post(`${API_BASE}/bookings`, data);// Creamos la reserva
