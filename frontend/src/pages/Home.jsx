@@ -23,7 +23,10 @@ export default function Home(){
         origin: origin.trim(),
         destination: destination.trim(),
       });
-      setPackageResult(null); // llamamos a la función searchTravel
+      setSelectedFlight(null);
+      setSelectedHotel(null);
+      setSelectedTour(null);
+      setPackageResult(null); // limpiamos el estado packageResult
       setResults(response.data); // seteamos el estado results con la respuesta de la api
     };
 
@@ -53,10 +56,43 @@ export default function Home(){
         alert("Error al crear la reserva");
       }
     };
+
+    const handleCancelSelection = () => {
+      setSelectedFlight(null);
+      setSelectedHotel(null);
+      setSelectedTour(null);
+    };
+
+    const handleSelectFlight = (flight) => {
+      setSelectedFlight(flight);
+      setSelectedHotel(null);
+      setSelectedTour(null);
+    };
     return (
       <div className="p-6">
         <h1 className="text-2xl font-bold mb-4">Travel-AI</h1>
+        {(selectedFlight || selectedHotel || selectedTour) && (
+          <div className="bg-gray-100 p-4 rounded mb-4">
+            <h2 className="font-bold mb-2">Tu viaje seleccionado</h2>
 
+            {selectedFlight && (
+              <p>
+                ✈ Vuelo: {selectedFlight.origin} → {selectedFlight.destination}
+              </p>
+            )}
+
+            {selectedHotel && <p>🏨 Hotel: {selectedHotel.name}</p>}
+
+            {selectedTour && <p>🗺 Tour: {selectedTour.name}</p>}
+
+            <button
+              onClick={handleCancelSelection}
+              className="mt-3 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+            >
+              Cancelar selección
+            </button>
+          </div>
+        )}
         <div className="flex gap-4 mb-4">
           <input
             type="text"
@@ -103,7 +139,7 @@ export default function Home(){
                 <FlightCard
                   key={f.id}
                   flight={f}
-                  onSelect={setSelectedFlight}
+                  onSelect={handleSelectFlight}
                 />
               ))}
 
