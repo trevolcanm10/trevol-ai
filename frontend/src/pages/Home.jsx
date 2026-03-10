@@ -152,9 +152,15 @@ export default function Home(){
             </button>
 
             {showHotels &&
-              results.hotels.map((h) => (
-                <HotelCard key={h.id} hotel={h} onSelect={setSelectedHotel} />
-              ))}
+              results.hotels
+                .filter((h) =>
+                  selectedFlight
+                    ? h.location === selectedFlight.destination
+                    : true,
+                )
+                .map((h) => (
+                  <HotelCard key={h.id} hotel={h} onSelect={setSelectedHotel} />
+                ))}
 
             {/* Tours */}
             <button
@@ -165,9 +171,15 @@ export default function Home(){
             </button>
 
             {showTours &&
-              results.tours.map((t) => (
-                <TourCard key={t.id} tour={t} onSelect={setSelectedTour} />
-              ))}
+              results.tours
+                .filter((t) =>
+                  selectedFlight
+                    ? t.location === selectedFlight.destination
+                    : true,
+                )
+                .map((t) => (
+                  <TourCard key={t.id} tour={t} onSelect={setSelectedTour} />
+                ))}
 
             <button
               onClick={handleBooking}
