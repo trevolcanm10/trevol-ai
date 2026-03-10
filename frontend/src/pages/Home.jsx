@@ -14,14 +14,23 @@ export default function Home(){
     const [selectedFlight, setSelectedFlight] = useState(null); // Definimos el estado selectedFlight
     const [selectedHotel, setSelectedHotel] = useState(null); // Definimos el estado selectedHotel
     const [selectedTour, setSelectedTour] = useState(null); // Definimos el estado selectedTour
-    const handleSearch = async () => { // Definimos la función handleSearch
-        const response = await searchTravel({ origin:origin.trim(), destination:destination.trim() }); // llamamos a la función searchTravel
-        setResults(response.data); // seteamos el estado results con la respuesta de la api
+    const [showFlights, setShowFlights] = useState(false); // Definimos el estado showFlights
+    const [showHotels, setShowHotels] = useState(false); // Definimos el estado showHotels
+    const [showTours, setShowTours] = useState(false); // Definimos el estado showTours
+    const handleSearch = async () => {
+      // Definimos la función handleSearch
+      const response = await searchTravel({
+        origin: origin.trim(),
+        destination: destination.trim(),
+      });
+      setPackageResult(null); // llamamos a la función searchTravel
+      setResults(response.data); // seteamos el estado results con la respuesta de la api
     };
 
     const handlePackage = async () => { // Definimos la función handlePackage
       try{
-        const response = await getPackage(origin.trim(), destination.trim()); // llamamos a la función getPackage
+        const response = await getPackage(origin.trim(), destination.trim());
+        setResults(null); // limpiamos el estado results
         setPackageResult(response.data); // seteamos el estado packageResult con la respuesta de la api
       }catch(error){
         console.error("Error al obtener paquete:", error);
@@ -80,20 +89,56 @@ export default function Home(){
         {results && (
           <div>
             <h2 className="text-xl font-bold mb-2">Resultados</h2>
-            <h3 className="font-bold mt-2">Vuelos</h3>
-            {results.flights.map((f) => (
-              <FlightCard key={f.id} flight={f} onSelect={setSelectedFlight} />
-            ))}
 
-            <h3 className="font-bold mt-2">Hoteles</h3>
-            {results.hotels.map((h) => (
-              <HotelCard key={h.id} hotel={h} onSelect={setSelectedHotel} />
-            ))}
+            {/* Vuelos */}
+            <button
+              onClick={() => setShowFlights(!showFlights)}
+              className="font-bold mt-2 bg-gray-200 p-2 rounded w-full text-left"
+            >
+              {showFlights ? "▼ Vuelos" : "▶ Vuelos"}
+            </button>
 
-            <h3 className="font-bold mt-2">Tours</h3>
-            {results.tours.map((t) => (
-              <TourCard key={t.id} tour={t} onSelect={setSelectedTour} />
-            ))}
+            {showFlights &&
+              results.flights.map((f) => (
+                <FlightCard
+                  key={f.id}
+                  flight={f}
+                  onSelect={setSelectedFlight}
+                />
+              ))}
+
+            {/* Hoteles */}
+            <button
+              onClick={() => setShowHotels(!showHotels)}
+              className="font-bold mt-2 bg-gray-200 p-2 rounded w-full text-left"
+            >
+              {showHotels ? "▼ Hoteles" : "▶ Hoteles"}
+            </button>
+
+            {showHotels &&
+              results.hotels.map((h) => (
+                <HotelCard key={h.id} hotel={h} onSelect={setSelectedHotel} />
+              ))}
+
+            {/* Tours */}
+            <button
+              onClick={() => setShowTours(!showTours)}
+              className="font-bold mt-2 bg-gray-200 p-2 rounded w-full text-left"
+            >
+              {showTours ? "▼ Tours" : "▶ Tours"}
+            </button>
+
+            {showTours &&
+              results.tours.map((t) => (
+                <TourCard key={t.id} tour={t} onSelect={setSelectedTour} />
+              ))}
+
+            <button
+              onClick={handleBooking}
+              className="bg-purple-600 text-white p-3 rounded mt-4 hover:bg-purple-700"
+            >
+              Confirmar reserva
+            </button>
           </div>
         )}
 
@@ -105,13 +150,6 @@ export default function Home(){
             onSelectTour={setSelectedTour}
           />
         )}
-
-        <button
-          onClick={handleBooking}
-          className="bg-purple-600 text-white p-3 rounded mt-4 hover:bg-purple-700"
-        >
-          Confirmar reserva
-        </button>
       </div>
     );
 }
