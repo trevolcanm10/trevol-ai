@@ -1,18 +1,6 @@
 import React from "react"; // importando el hook useState
-import { createBooking } from "../services/api"; // importando la función createBooking
-export default function HotelCard({ hotel }) {
-  const handleBook = async () => {
-    try {
-      await createBooking({
-        user_id: 1,
-        hotel_id: hotel.id,
-      });
-      alert("Hotel reservado correctamente");
-    } catch (error) {
-      console.error(error);
-      alert("Error al reservar el hotel");
-    }
-  };
+
+export default function HotelCard({ hotel, onSelect }) {
   if (!hotel) return null;
   return (
     <div className="border rounded p-4 shadow hover:shadow-lg transition mb-2">
@@ -23,9 +11,9 @@ export default function HotelCard({ hotel }) {
 
       <button
         className="mt-2 bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-        onClick={handleBook}
+        onClick={() => onSelect(hotel)}
       >
-        Reservar hotel
+        Seleccionar hotel
       </button>
     </div>
   );

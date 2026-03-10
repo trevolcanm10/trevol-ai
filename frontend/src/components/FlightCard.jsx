@@ -1,18 +1,5 @@
 import React from "react";// importando el hook useState
-import { createBooking } from "../services/api"; // importando las funciones de la api
-export default function FlightCard({ flight }) {
-  const handleBook = async () => {
-    try{
-      await createBooking({
-        user_id: 1,
-        flight_id: flight.id,
-      });
-      alert("Vuelo reservado correctamente");
-    }catch(error){
-      console.error(error);
-      alert("Error al reservar el vuelo");
-    }
-  };
+export default function FlightCard({ flight ,onSelect}) {// Definimos el componente FlightCard
   if (!flight) return null;
   return (
     <div className="border rounded p-4 shadow hover:shadow-lg transition mb-2">
@@ -24,9 +11,9 @@ export default function FlightCard({ flight }) {
 
       <button
         className="mt-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-        onClick={handleBook}
+        onClick={() => onSelect(flight)}
       >
-        Reservar vuelo
+        Seleccionar vuelo
       </button>
     </div>
   );
