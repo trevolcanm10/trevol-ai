@@ -47,6 +47,7 @@ class Flight(Base):
     id = Column(Integer, primary_key=True, index=True) #Primary key
     origin = Column(String, nullable=False) #Ciudad de origen
     destination = Column(String, nullable=False) #Ciudad de destino
+    destination_city = Column(String, nullable=True)#Ciudad de destino
     departure_date = Column(DateTime, nullable=False) #Fecha de salida
     price = Column(Float, nullable=False) #Precio del vuelo
     available_seats = Column(Integer, nullable=False) #Cantidad de asientos disponibles

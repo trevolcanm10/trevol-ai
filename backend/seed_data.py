@@ -1,19 +1,42 @@
 """
 Función para poblar la base de datos
 """
+
 import random#Para trabajar con numeros aleatorios
 import pandas as pd  # Para trabajar con dataframes
-from sqlalchemy import create_engine #Para crear la base de datos
-from sqlalchemy.orm import sessionmaker #Para trabajar con sesiones
-from app.db.models import Base, Flight, Hotel, Tour #Importamos los modelos
+from sqlalchemy import create_engine  # Para crear la base de datos
+from sqlalchemy.orm import sessionmaker  # Para trabajar con sesiones
+from app.db.models import Base, Flight, Hotel, Tour  # Importamos los modelos
 
 # Conexion a la base de datos
 engine = create_engine("sqlite:///travel_ai.db")
 Session = sessionmaker(bind=engine)
 session = Session()
-# Crear tablas si no existen
-Base.metadata.create_all(engine)
+Base.metadata.create_all(engine)  # Creamos las tablas en la base de datos
 
+# Borrar los vuelos
+session.query(Flight).delete()  # Borramos los vuelos
+session.commit()  # Guardamos los cambios
+# leer csv
+df_flights = pd.read_csv("data/flights.csv")
+for _, row in df_flights.iterrows():
+    flight = Flight(
+        origin=row["origin"],
+        destination=row["destination"],
+        destination_city=row["destination_city"],  # NUEVA COLUMNA
+        departure_date=pd.to_datetime(row["departure_date"]),
+        price=float(row.get("price", random.randint(50, 500))),
+        available_seats=int(row.get("available_seats", random.randint(20, 200))),
+    )
+
+    session.add(flight)
+
+session.commit()
+print("Flights insertados correctamente")
+# print("Flights, Hotels y Tours insertados correctamente.")
+# Crear tablas si no existen
+# Base.metadata.create_all(engine)
+"""
 # Poblar Flights
 df_flights = pd.read_csv('data/flights.csv')
 for _, row in df_flights.iterrows():
@@ -53,5 +76,4 @@ for _, row in df_tours.iterrows():
         # Agregamos el asiento
     )
     session.add(tour)
-session.commit()# Guardamos los cambios
-print("Flights, Hotels y Tours insertados correctamente.")
+"""
