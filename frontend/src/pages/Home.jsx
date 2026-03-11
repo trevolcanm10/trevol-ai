@@ -42,6 +42,10 @@ export default function Home(){
     };
     
     const handleBooking = async () => {
+      if (!selectedFlight) {
+        alert("Debes seleccionar un vuelo primero");
+        return;
+      }
       try {
         await createBooking({
           user_id: 1,
@@ -67,6 +71,8 @@ export default function Home(){
       setSelectedFlight(flight);
       setSelectedHotel(null);
       setSelectedTour(null);
+      setShowHotels(true);
+      setShowTours(true);
     };
     return (
       <div className="p-6">
@@ -155,7 +161,7 @@ export default function Home(){
               results.hotels
                 .filter((h) =>
                   selectedFlight
-                    ? h.location === selectedFlight.destination
+                    ? h.location.toLowerCase() === selectedFlight.destination_city?.toLowerCase()
                     : true,
                 )
                 .map((h) => (
@@ -174,7 +180,7 @@ export default function Home(){
               results.tours
                 .filter((t) =>
                   selectedFlight
-                    ? t.location === selectedFlight.destination
+                    ? t.location.toLowerCase() === selectedFlight.destination_city?.toLowerCase()
                     : true,
                 )
                 .map((t) => (
