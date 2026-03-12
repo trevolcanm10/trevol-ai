@@ -3,6 +3,7 @@ Rutas para la busqueda
 """
 from fastapi import APIRouter, Depends, Query#Dependencias de FastAPI
 from sqlalchemy.orm import Session#Para trabajar con sesiones de la base de datos
+from sqlalchemy import or_#Para realizar búsquedas en múltiples campos simultáneamente
 from app.db.database import get_db#Importamos la sesión de la base de datos
 from app.db.models import Flight, Hotel, Tour#Importamos los modelos
 
@@ -24,10 +25,21 @@ def search_travel(
 
     # Filtros para vuelos
     if origin:
-        flights_query = flights_query.filter(Flight.origin.ilike(f"%{origin}%"))
+        flights_query = flights_query.filter(
+            or_(
+                Flight.origin.ilike(f"%{origin}%"),
+                Flight.origin_country.ilike(f"%{origin}%")
+            )
+        )
         #Filtro para la ciudad de origen
     if destination:
-        flights_query = flights_query.filter(Flight.destination.ilike(f"%{destination}%"))
+        flights_query = flights_query.filter(
+            or_(
+                Flight.destination.ilike(f"%{destination}%"),
+                Flight.destination_city.ilike(f"%{destination}%"),
+                Flight.destination_country.ilike(f"%{destination}%")
+            )
+        )
         #Filtro para la ciudad de destino
     #Filtros para hoteles y tours
     if location:
