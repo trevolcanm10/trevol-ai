@@ -1,97 +1,101 @@
-origin,destination,departure_date,destination_city,price,available_seats
-Istanbul Airport,Vnukovo,2026-03-11T02:30:00+00:00,Moscow,239,117
-Beijing Capital International,Chongqing Jiangbei International,2026-03-11T08:01:00+00:00,Shanghai,233,82
-Beijing Capital International,Chongqing Jiangbei International,2026-03-11T08:01:00+00:00,Shanghai,228,130
-Haneda Airport,Beijing Capital International,2026-03-11T08:50:00+00:00,Shanghai,158,65
-Haneda Airport,Beijing Capital International,2026-03-11T08:50:00+00:00,Shanghai,256,44
-Haneda Airport,Shanghai Pudong International,2026-03-11T08:40:00+00:00,Shanghai,235,76
-Haneda Airport,Shanghai Pudong International,2026-03-11T08:40:00+00:00,Shanghai,368,98
-Haneda Airport,Guangzhou Baiyun International,2026-03-11T08:40:00+00:00,Shanghai,340,45
-Haneda Airport,Sydney Kingsford Smith Airport,2026-03-11T08:35:00+00:00,Sydney,197,176
-Haneda Airport,Sydney Kingsford Smith Airport,2026-03-11T08:35:00+00:00,Sydney,327,62
-Leigh Creek,Moomba,2026-03-11T09:30:00+00:00,Adelaide,300,115
-"Toowoomba Wellcamp Airport
-",Bundaberg,2026-03-11T09:30:00+00:00,Brisbane,124,65
-Entebbe,Juba,2026-03-11T09:00:00+00:00,Juba,427,91
-Entebbe,Oliver Reginald Tambo International (Jan Smuts International),2026-03-11T08:30:00+00:00,Johannesburg,442,92
-Linfen Qiaoli Airport,Changchun,2026-03-11T13:20:00+00:00,Shanghai,322,43
-Linfen Qiaoli Airport,Changchun,2026-03-11T13:20:00+00:00,Shanghai,159,56
-Linfen Qiaoli Airport,Changchun,2026-03-11T13:20:00+00:00,Shanghai,89,172
-Dushanbe,Almaty,2026-03-11T11:00:00+00:00,Almaty,424,71
-Dushanbe,Tashkent International,2026-03-11T10:30:00+00:00,Tashkent,381,139
-Ninoy Aquino International,Jinjiang,2026-03-11T11:55:00+00:00,Shanghai,93,68
-New London Railway,Daegu,2026-03-11T13:55:00+00:00,Seoul,177,39
-New London Railway,Daegu,2026-03-11T13:55:00+00:00,Seoul,82,47
-Dubai,Barajas,2026-03-11T07:25:00+00:00,Madrid,410,167
-Dubai,Barajas,2026-03-11T07:25:00+00:00,Madrid,343,120
-Dubai,Mohamed V,2026-03-11T07:25:00+00:00,Casablanca,323,76
-Dubai,Mohamed V,2026-03-11T07:25:00+00:00,Casablanca,170,54
-Dubai,King Abdulaziz International,2026-03-11T07:05:00+00:00,Riyadh,227,126
-Dubai,Domodedovo,2026-03-11T06:55:00+00:00,Moscow,338,99
-Dubai,Zvartnots International,2026-03-11T06:55:00+00:00,Yerevan,169,24
-Dubai,Charles De Gaulle,2026-03-11T06:45:00+00:00,Paris,90,89
-Dubai,Charles De Gaulle,2026-03-11T06:45:00+00:00,Paris,117,22
-Dubai,Glasgow International,2026-03-11T06:40:00+00:00,London,306,107
-Dubai,Glasgow International,2026-03-11T06:40:00+00:00,London,262,124
-Kagoshima,Tanegashima,2026-03-11T08:10:00+00:00,Tokyo,154,55
-Shanghai Pudong International,Beijing Daxing International Airport,2026-03-11T09:05:00+00:00,,190,116
-Mackay,Townsville International,2026-03-11T11:35:00+00:00,Brisbane,206,173
-Mungalalu Truscott Airbase,Darwin,2026-03-11T11:05:00+00:00,Darwin,294,75
-Oenpelli,Darwin,2026-03-11T09:40:00+00:00,Darwin,346,154
-Darwin,Honolulu International,2026-03-11T13:00:00+00:00,Honolulu,416,102
-Darwin,Oenpelli,2026-03-11T09:05:00+00:00,Darwin,169,21
-Paro,Indira Gandhi International,2026-03-11T11:55:00+00:00,Kolkata,162,25
-Paro,Indira Gandhi International,2026-03-11T11:55:00+00:00,Kolkata,401,97
-Paro,Indira Gandhi International,2026-03-11T11:55:00+00:00,Kolkata,353,141
-Paro,Borjhar,2026-03-11T11:50:00+00:00,Kolkata,196,24
-Paro,Borjhar,2026-03-11T11:50:00+00:00,Kolkata,403,173
-Paro,Borjhar,2026-03-11T11:50:00+00:00,Kolkata,248,35
-Paro,Suvarnabhumi International,2026-03-11T11:50:00+00:00,Bangkok,101,125
-Paro,Suvarnabhumi International,2026-03-11T11:50:00+00:00,Bangkok,316,40
-Paro,Suvarnabhumi International,2026-03-11T11:50:00+00:00,Bangkok,386,88
-Qingdao,Sartu,2026-03-11T11:45:00+00:00,Shanghai,442,152
-Qingdao,Sartu,2026-03-11T11:45:00+00:00,Shanghai,83,124
-Warraber Island,Horn Island,2026-03-11T13:10:00+00:00,Brisbane,181,67
-Sartu,Qingdao,2026-03-11T13:45:00+00:00,Shanghai,373,49
-Kuala Lumpur International Airport (klia),Ngurah Rai International,2026-03-11T10:40:00+00:00,Makassar,252,144
-Singapore Changi,Ngurah Rai International,2026-03-11T10:40:00+00:00,Makassar,142,65
-Ngurah Rai International,Tan Son Nhat International,2026-03-11T14:05:00+00:00,Ho_Chi_Minh,201,102
-Ngurah Rai International,Tan Son Nhat International,2026-03-11T14:05:00+00:00,Ho_Chi_Minh,286,77
-Ngurah Rai International,Tan Son Nhat International,2026-03-11T14:05:00+00:00,Ho_Chi_Minh,106,163
-Ngurah Rai International,Tan Son Nhat International,2026-03-11T14:05:00+00:00,Ho_Chi_Minh,366,45
-Ngurah Rai International,Perth International,2026-03-11T14:00:00+00:00,Perth,219,166
-Ngurah Rai International,Bhubaneswar,2026-03-11T14:00:00+00:00,Kolkata,395,103
-Ngurah Rai International,Perth International,2026-03-11T14:00:00+00:00,Perth,398,52
-Ngurah Rai International,Soekarno-Hatta International,2026-03-11T14:00:00+00:00,Jakarta,356,134
-Ngurah Rai International,Hasanudin,2026-03-11T14:00:00+00:00,Makassar,351,88
-Ngurah Rai International,Hasanudin,2026-03-11T14:00:00+00:00,Makassar,209,45
-Ngurah Rai International,Juanda,2026-03-11T13:55:00+00:00,Jakarta,401,122
-Ngurah Rai International,Soekarno-Hatta International,2026-03-11T13:50:00+00:00,Jakarta,168,155
-Ngurah Rai International,Mutiara,2026-03-11T07:40:00+00:00,Makassar,334,54
-Bronnoy,Bodo,2026-03-11T02:40:00+00:00,Oslo,191,157
-Indira Gandhi International,Chhatrapati Shivaji International (Sahar International),2026-03-11T09:00:00+00:00,Kolkata,411,139
-Indira Gandhi International,Chhatrapati Shivaji International (Sahar International),2026-03-11T09:00:00+00:00,Kolkata,344,157
-Indira Gandhi International,Chhatrapati Shivaji International (Sahar International),2026-03-11T09:00:00+00:00,Kolkata,274,174
-Indira Gandhi International,Chhatrapati Shivaji International (Sahar International),2026-03-11T08:35:00+00:00,Kolkata,323,66
-Bangalore International Airport,Chhatrapati Shivaji International (Sahar International),2026-03-11T08:30:00+00:00,Kolkata,154,167
-Bangalore International Airport,Chhatrapati Shivaji International (Sahar International),2026-03-11T08:30:00+00:00,Kolkata,105,83
-Bangalore International Airport,Chhatrapati Shivaji International (Sahar International),2026-03-11T08:30:00+00:00,Kolkata,257,170
-Bangalore International Airport,Chhatrapati Shivaji International (Sahar International),2026-03-11T08:30:00+00:00,Kolkata,119,23
-Bangalore International Airport,Chhatrapati Shivaji International (Sahar International),2026-03-11T08:30:00+00:00,Kolkata,310,179
-Indira Gandhi International,Chhatrapati Shivaji International (Sahar International),2026-03-11T08:05:00+00:00,Kolkata,299,101
-Indira Gandhi International,Chhatrapati Shivaji International (Sahar International),2026-03-11T08:00:00+00:00,Kolkata,365,60
-Indira Gandhi International,Chhatrapati Shivaji International (Sahar International),2026-03-11T08:00:00+00:00,Kolkata,243,120
-Indira Gandhi International,Chhatrapati Shivaji International (Sahar International),2026-03-11T08:00:00+00:00,Kolkata,166,104
-Indira Gandhi International,Chhatrapati Shivaji International (Sahar International),2026-03-11T08:00:00+00:00,Kolkata,82,101
-Indira Gandhi International,Chhatrapati Shivaji International (Sahar International),2026-03-11T08:00:00+00:00,Kolkata,413,97
-Chhatrapati Shivaji International (Sahar International),King Abdulaziz International,2026-03-11T11:00:00+00:00,Riyadh,439,110
-Chhatrapati Shivaji International (Sahar International),Bamrauli,2026-03-11T10:55:00+00:00,Kolkata,156,101
-Chhatrapati Shivaji International (Sahar International),Bole International,2026-03-11T10:50:00+00:00,Addis_Ababa,264,124
-Chhatrapati Shivaji International (Sahar International),Dr. Babasaheb Ambedkar International,2026-03-11T10:45:00+00:00,Kolkata,139,164
-Chhatrapati Shivaji International (Sahar International),Heathrow,2026-03-11T10:40:00+00:00,London,203,113
-Chhatrapati Shivaji International (Sahar International),Heathrow,2026-03-11T10:40:00+00:00,London,342,171
-Chhatrapati Shivaji International (Sahar International),Hyderabad Airport,2026-03-11T10:35:00+00:00,Kolkata,113,84
-Chhatrapati Shivaji International (Sahar International),Hyderabad Airport,2026-03-11T10:35:00+00:00,Kolkata,294,78
-Chhatrapati Shivaji International (Sahar International),Tribhuvan International,2026-03-11T10:25:00+00:00,Kathmandu,181,140
-Chhatrapati Shivaji International (Sahar International),Madras International (Meenambakkam),2026-03-11T10:05:00+00:00,Kolkata,140,172
-Chhatrapati Shivaji International (Sahar International),Madras International (Meenambakkam),2026-03-11T10:05:00+00:00,Kolkata,233,59
+origin,origin_country,destination,destination_city,destination_country,departure_date,price,available_seats
+King Abdulaziz International,Riyadh,John F Kennedy International,New York,EEUU,2026-03-13T03:30:00+00:00,177,116
+Haneda Airport,Japon,John F Kennedy International,New York,EEUU,2026-03-13T11:05:00+00:00,314,158
+Hong Kong International,China,John F Kennedy International,New York,EEUU,2026-03-13T09:30:00+00:00,128,141
+Hong Kong International,China,John F Kennedy International,New York,EEUU,2026-03-13T09:30:00+00:00,179,55
+Hong Kong International,China,John F Kennedy International,New York,EEUU,2026-03-13T09:30:00+00:00,118,71
+Fuzhou,Shanghai,John F Kennedy International,New York,EEUU,2026-03-13T09:20:00+00:00,312,87
+Seoul (Incheon),Corea del Sur,John F Kennedy International,New York,EEUU,2026-03-13T10:00:00+00:00,89,133
+Seoul (Incheon),Corea del Sur,John F Kennedy International,New York,EEUU,2026-03-13T10:00:00+00:00,140,133
+Liege Airport,Brussels,John F Kennedy International,New York,EEUU,2026-03-13T02:00:00+00:00,92,95
+Liege Airport,Brussels,John F Kennedy International,New York,EEUU,2026-03-13T02:00:00+00:00,149,54
+King Abdulaziz International,Riyadh,John F Kennedy International,New York,EEUU,2026-03-13T03:30:00+00:00,310,67
+Bahrain International,Bahrain,John F Kennedy International,New York,EEUU,2026-03-13T02:30:00+00:00,425,154
+Seoul (Incheon),Corea del Sur,John F Kennedy International,New York,EEUU,2026-03-13T09:01:00+00:00,250,94
+Seoul (Incheon),Corea del Sur,John F Kennedy International,New York,EEUU,2026-03-13T09:01:00+00:00,390,79
+Seoul (Incheon),Corea del Sur,John F Kennedy International,New York,EEUU,2026-03-13T09:01:00+00:00,224,178
+Seoul (Incheon),Corea del Sur,John F Kennedy International,New York,EEUU,2026-03-13T09:01:00+00:00,178,143
+Seoul (Incheon),Corea del Sur,John F Kennedy International,New York,EEUU,2026-03-13T09:01:00+00:00,303,63
+Doha International,Qatar,John F Kennedy International,New York,EEUU,2026-03-13T01:45:00+00:00,342,56
+Ben Gurion International,Israel,John F Kennedy International,New York,EEUU,2026-03-13T00:25:00+00:00,215,40
+Abu Dhabi International,Emiratos Arabes,John F Kennedy International,New York,EEUU,2026-03-13T02:55:00+00:00,110,76
+Dubai,Emiratos Arabes,John F Kennedy International,New York,EEUU,2026-03-13T01:10:00+00:00,300,67
+Hong Kong International,China,John F Kennedy International,New York,EEUU,2026-03-13T02:25:00+00:00,176,168
+Hong Kong International,China,John F Kennedy International,New York,EEUU,2026-03-13T02:25:00+00:00,274,20
+Hong Kong International,China,John F Kennedy International,New York,EEUU,2026-03-13T02:25:00+00:00,322,42
+Hong Kong International,China,John F Kennedy International,New York,EEUU,2026-03-13T02:25:00+00:00,396,51
+Heathrow,Reino Unido,John F Kennedy International,New York,EEUU,2026-03-12T19:05:00+00:00,337,42
+Heathrow,Reino Unido,John F Kennedy International,New York,EEUU,2026-03-12T19:05:00+00:00,399,176
+Heathrow,Reino Unido,John F Kennedy International,New York,EEUU,2026-03-12T19:05:00+00:00,369,75
+Heathrow,Reino Unido,John F Kennedy International,New York,EEUU,2026-03-12T19:05:00+00:00,356,117
+Heathrow,Reino Unido,John F Kennedy International,New York,EEUU,2026-03-12T19:05:00+00:00,280,120
+Los Angeles International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T12:10:00+00:00,250,173
+Los Angeles International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T12:10:00+00:00,235,163
+Los Angeles International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T12:10:00+00:00,387,41
+Los Angeles International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T12:10:00+00:00,430,29
+Los Angeles International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T12:10:00+00:00,196,51
+Los Angeles International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T12:10:00+00:00,150,150
+Los Angeles International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T12:10:00+00:00,376,29
+El Nuevo Dorado International,Colombia,John F Kennedy International,New York,EEUU,2026-03-12T17:00:00+00:00,219,40
+El Nuevo Dorado International,Colombia,John F Kennedy International,New York,EEUU,2026-03-12T17:00:00+00:00,419,136
+Ronald Reagan Washington National Airport,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T17:09:00+00:00,213,21
+Ronald Reagan Washington National Airport,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T17:09:00+00:00,374,179
+Ronald Reagan Washington National Airport,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T17:09:00+00:00,191,85
+Ronald Reagan Washington National Airport,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T17:09:00+00:00,96,129
+Ronald Reagan Washington National Airport,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T17:09:00+00:00,166,127
+Ronald Reagan Washington National Airport,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T17:09:00+00:00,97,155
+Ronald Reagan Washington National Airport,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T17:09:00+00:00,200,35
+Ezeiza Ministro Pistarini,Argentina,John F Kennedy International,New York,EEUU,2026-03-12T22:25:00+00:00,304,50
+Ezeiza Ministro Pistarini,Argentina,John F Kennedy International,New York,EEUU,2026-03-12T22:25:00+00:00,264,159
+Ezeiza Ministro Pistarini,Argentina,John F Kennedy International,New York,EEUU,2026-03-12T22:25:00+00:00,437,88
+El Salvador International,El Salvador,John F Kennedy International,New York,EEUU,2026-03-12T19:30:00+00:00,204,26
+El Salvador International,El Salvador,John F Kennedy International,New York,EEUU,2026-03-12T19:30:00+00:00,309,39
+El Salvador International,El Salvador,John F Kennedy International,New York,EEUU,2026-03-12T19:30:00+00:00,114,135
+El Salvador International,El Salvador,John F Kennedy International,New York,EEUU,2026-03-12T19:30:00+00:00,393,112
+Galeao Antonio Carlos Jobim,Brasil,John F Kennedy International,New York,EEUU,2026-03-12T23:00:00+00:00,158,34
+Galeao Antonio Carlos Jobim,Brasil,John F Kennedy International,New York,EEUU,2026-03-12T22:55:00+00:00,419,41
+Logan International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T21:33:00+00:00,131,26
+Logan International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T15:49:00+00:00,186,116
+Logan International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T15:49:00+00:00,386,98
+Arturo Merino Benitez,Chile,John F Kennedy International,New York,EEUU,2026-03-12T22:30:00+00:00,415,87
+Arturo Merino Benitez,Chile,John F Kennedy International,New York,EEUU,2026-03-12T22:30:00+00:00,114,176
+Arturo Merino Benitez,Chile,John F Kennedy International,New York,EEUU,2026-03-12T22:30:00+00:00,384,89
+Arturo Merino Benitez,Chile,John F Kennedy International,New York,EEUU,2026-03-12T22:30:00+00:00,96,131
+Miami International Airport,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T21:53:00+00:00,320,45
+Aeroporto Internacional Guarulhos,Brasil,John F Kennedy International,New York,EEUU,2026-03-12T22:50:00+00:00,340,105
+Aeroporto Internacional Guarulhos,Brasil,John F Kennedy International,New York,EEUU,2026-03-12T22:35:00+00:00,116,31
+Cancún International,Mexico,John F Kennedy International,New York,EEUU,2026-03-12T16:27:00+00:00,427,25
+Cancún International,Mexico,John F Kennedy International,New York,EEUU,2026-03-12T16:27:00+00:00,87,101
+Cancún International,Mexico,John F Kennedy International,New York,EEUU,2026-03-12T16:27:00+00:00,314,77
+Fort Lauderdale–Hollywood International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T21:35:00+00:00,299,42
+Fort Lauderdale–Hollywood International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T17:34:00+00:00,302,34
+Fort Lauderdale–Hollywood International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T17:34:00+00:00,436,123
+Fort Lauderdale–Hollywood International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T17:34:00+00:00,401,144
+Fort Lauderdale–Hollywood International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T17:34:00+00:00,199,59
+Los Angeles International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T11:40:00+00:00,266,172
+Los Angeles International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T11:40:00+00:00,437,82
+Los Angeles International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T11:40:00+00:00,183,148
+San Francisco International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T12:03:00+00:00,444,158
+San Francisco International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T12:03:00+00:00,167,149
+San Francisco International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T12:03:00+00:00,351,170
+San Francisco International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T12:03:00+00:00,340,172
+San Francisco International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T12:03:00+00:00,138,100
+Louis Armstrong New Orléans International Airport,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T19:57:00+00:00,216,148
+Louis Armstrong New Orléans International Airport,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T19:57:00+00:00,286,56
+Louis Armstrong New Orléans International Airport,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T19:57:00+00:00,153,51
+Louis Armstrong New Orléans International Airport,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T19:57:00+00:00,236,20
+Sky Harbor International,Phoenix,John F Kennedy International,New York,EEUU,2026-03-12T12:52:00+00:00,218,63
+Sky Harbor International,Phoenix,John F Kennedy International,New York,EEUU,2026-03-12T12:52:00+00:00,271,71
+Sky Harbor International,Phoenix,John F Kennedy International,New York,EEUU,2026-03-12T12:52:00+00:00,403,152
+Sky Harbor International,Phoenix,John F Kennedy International,New York,EEUU,2026-03-12T12:52:00+00:00,101,97
+Logan International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T15:49:00+00:00,194,179
+Logan International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T15:49:00+00:00,365,145
+Logan International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T15:49:00+00:00,321,67
+Logan International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T15:49:00+00:00,146,89
+Logan International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T15:49:00+00:00,230,112
+Logan International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T15:49:00+00:00,442,180
+Nashville International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T17:00:00+00:00,219,178
+Nashville International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T17:00:00+00:00,173,161
+Nashville International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T17:00:00+00:00,147,119
+Nashville International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T17:00:00+00:00,337,172
+Nashville International,EEUU,John F Kennedy International,New York,EEUU,2026-03-12T17:00:00+00:00,432,40

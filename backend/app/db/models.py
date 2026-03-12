@@ -45,13 +45,18 @@ class Flight(Base):
     __tablename__ = "flights" # Nombre de la tabla en la BD
 
     id = Column(Integer, primary_key=True, index=True) #Primary key
+    #Origen
     origin = Column(String, nullable=False) #Ciudad de origen
+    origin_country = Column(String, nullable=True) #País de origen
+    #Destino
     destination = Column(String, nullable=False) #Ciudad de destino
     destination_city = Column(String, nullable=True)#Ciudad de destino
+    destination_country = Column(String, nullable=True) #País de destino
+    #Datos de vuelo
     departure_date = Column(DateTime, nullable=False) #Fecha de salida
     price = Column(Float, nullable=False) #Precio del vuelo
     available_seats = Column(Integer, nullable=False) #Cantidad de asientos disponibles
-
+    #Relaciones
     bookings = relationship("Booking", back_populates="flight")#Relación con la tabla Bookings
     # Relación 1:N → Un vuelo puede tener muchas reservas
 
