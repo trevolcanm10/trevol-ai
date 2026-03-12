@@ -1,4 +1,4 @@
-import { useState } from "react"; // importando el hook useState
+import { useState, useEffect } from "react"; // importando el hook useState y useEffect
 import { searchTravel, getPackage } from "../services/api"; // importando las funciones de la api
 import FlightCard from "../components/FlightCard"; // importando el componente FlightCard
 import HotelCard from "../components/HotelCard"; // importando el componente HotelCard
@@ -17,6 +17,25 @@ export default function Home(){
     const [showFlights, setShowFlights] = useState(false); // Definimos el estado showFlights
     const [showHotels, setShowHotels] = useState(false); // Definimos el estado showHotels
     const [showTours, setShowTours] = useState(false); // Definimos el estado showTours
+    const [debounceTimer, setDebounceTimer] = useState(null); // Para el debounce del paquete recomendado
+
+    // Efecto para activación automática del paquete recomendado
+    useEffect(() => {
+      if (origin.length >= 3 && destination.length >= 3) {
+        // Limpiar timer anterior
+        if (debounceTimer) {
+          clearTimeout(debounceTimer);
+        }
+        
+        // Establecer nuevo timer con debounce de 500ms
+        const timer = setTimeout(() => {
+          handlePackage();
+        }, 500);
+        
+        setDebounceTimer(timer);
+      }
+    }, [origin, destination]);
+
     const handleSearch = async () => {
       // Definimos la función handleSearch
       const response = await searchTravel({
@@ -83,7 +102,7 @@ export default function Home(){
 
             {selectedFlight && (
               <p>
-                ✈ Vuelo: {selectedFlight.origin} → {selectedFlight.destination}
+                ✈️ Vuelo: {selectedFlight.origin} ({selectedFlight.origin_country}) → {selectedFlight.destination_city}, {selectedFlight.destination_country}
               </p>
             )}
 
@@ -137,33 +156,45 @@ export default function Home(){
               onClick={() => setShowFlights(!showFlights)}
               className="font-bold mt-2 bg-gray-200 p-2 rounded w-full text-left"
             >
-              {showFlights ? "▼ Vuelos" : "▶ Vuelos"}
+              {showFlights ? "▼ Vuelos" : "▶ Vuelos"} ({results.flights.length} encontrados)
             </button>
 
             {showFlights &&
-              results.flights.map((f) => (
-                <FlightCard
-                  key={f.id}
-                  flight={f}
-                  onSelect={handleSelectFlight}
-                />
-              ))}
+              results.flights
+                .filter((f) => {
+                  const originMatch = f.origin.toLowerCase().includes(origin.toLowerCase()) ||
+                                    f.origin_country.toLowerCase().includes(origin.toLowerCase());
+                  const destinationMatch = f.destination_city.toLowerCase().includes(destination.toLowerCase()) ||
+                                         f.destination_country.toLowerCase().includes(destination.toLowerCase());
+                  return originMatch && destinationMatch;
+                })
+                .map((f) => (
+                  <FlightCard
+                    key={f.id}
+                    flight={f}
+                    onSelect={handleSelectFlight}
+                  />
+                ))}
 
             {/* Hoteles */}
             <button
               onClick={() => setShowHotels(!showHotels)}
               className="font-bold mt-2 bg-gray-200 p-2 rounded w-full text-left"
             >
-              {showHotels ? "▼ Hoteles" : "▶ Hoteles"}
+              {showHotels ? "▼ Hoteles" : "▶ Hoteles"} ({results.hotels.length} encontrados)
             </button>
 
             {showHotels &&
               results.hotels
-                .filter((h) =>
-                  selectedFlight
-                    ? h.location.toLowerCase() === selectedFlight.destination_city?.toLowerCase()
-                    : true,
-                )
+                .filter((h) => {
+                  if (selectedFlight) {
+                    // Escenario B: Con vuelo seleccionado, comparar con destination_city
+                    return h.location.toLowerCase() === selectedFlight.destination_city?.toLowerCase();
+                  } else {
+                    // Escenario A: Sin vuelo seleccionado, filtrar por input de destino
+                    return h.location.toLowerCase().includes(destination.toLowerCase());
+                  }
+                })
                 .map((h) => (
                   <HotelCard key={h.id} hotel={h} onSelect={setSelectedHotel} />
                 ))}
@@ -173,23 +204,32 @@ export default function Home(){
               onClick={() => setShowTours(!showTours)}
               className="font-bold mt-2 bg-gray-200 p-2 rounded w-full text-left"
             >
-              {showTours ? "▼ Tours" : "▶ Tours"}
+              {showTours ? "▼ Tours" : "▶ Tours"} ({results.tours.length} encontrados)
             </button>
 
             {showTours &&
               results.tours
-                .filter((t) =>
-                  selectedFlight
-                    ? t.location.toLowerCase() === selectedFlight.destination_city?.toLowerCase()
-                    : true,
-                )
+                .filter((t) => {
+                  if (selectedFlight) {
+                    // Escenario B: Con vuelo seleccionado, comparar con destination_city
+                    return t.location.toLowerCase() === selectedFlight.destination_city?.toLowerCase();
+                  } else {
+                    // Escenario A: Sin vuelo seleccionado, filtrar por input de destino
+                    return t.location.toLowerCase().includes(destination.toLowerCase());
+                  }
+                })
                 .map((t) => (
                   <TourCard key={t.id} tour={t} onSelect={setSelectedTour} />
                 ))}
 
             <button
               onClick={handleBooking}
-              className="bg-purple-600 text-white p-3 rounded mt-4 hover:bg-purple-700"
+              disabled={!selectedFlight}
+              className={`p-3 rounded mt-4 ${
+                !selectedFlight 
+                  ? 'bg-gray-400 cursor-not-allowed' 
+                  : 'bg-purple-600 hover:bg-purple-700 text-white'
+              }`}
             >
               Confirmar reserva
             </button>
