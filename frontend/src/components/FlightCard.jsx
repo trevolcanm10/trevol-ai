@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function FlightCard({ flight, onBook, user }) {
+export default function FlightCard({ flight, onSelect, isSelected }) {
   if (!flight) return null;
 
   return (
@@ -15,15 +15,15 @@ export default function FlightCard({ flight, onBook, user }) {
           <p className="text-sm text-gray-500">Asientos: {flight.available_seats}</p>
         </div>
         <button
-          onClick={onBook}
-          disabled={!user}
+          onClick={() => onSelect(flight)}
+          disabled={isSelected}
           className={`px-4 py-2 rounded-md font-medium transition-colors ${
-            user 
-              ? 'bg-green-600 hover:bg-green-700 text-white' 
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            isSelected 
+              ? 'bg-blue-200 text-blue-800 cursor-not-allowed' 
+              : 'bg-blue-600 hover:bg-blue-700 text-white'
           }`}
         >
-          {user ? 'Reservar Vuelo' : 'Iniciar Sesión para Reservar'}
+          {isSelected ? 'Seleccionado' : 'Seleccionar Vuelo'}
         </button>
       </div>
     </div>

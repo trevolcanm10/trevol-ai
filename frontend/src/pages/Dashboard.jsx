@@ -20,7 +20,8 @@ const Dashboard = () => {
     totalRevenue: 0,
     totalBookings: 0,
     topDestinations: [],
-    monthlyRevenue: []
+    monthlyRevenue: [],
+    recentBookings: []
   });
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -39,23 +40,26 @@ const Dashboard = () => {
       setLoading(true);
       
       // Fetch all dashboard data in parallel
-      const [revenueRes, bookingsRes, destinationsRes, monthlyRes] = await Promise.all([
+      const [revenueRes, bookingsRes, destinationsRes, monthlyRes, recentRes] = await Promise.all([
         fetch('/api/dashboard/revenue'),
         fetch('/api/dashboard/bookings'),
         fetch('/api/dashboard/top-destinations'),
-        fetch('/api/dashboard/monthly-revenue')
+        fetch('/api/dashboard/monthly-revenue'),
+        fetch('/api/dashboard/recent-bookings')
       ]);
 
       const revenueData = await revenueRes.json();
       const bookingsData = await bookingsRes.json();
       const destinationsData = await destinationsRes.json();
       const monthlyData = await monthlyRes.json();
+      const recentData = await recentRes.json();
 
       setStats({
         totalRevenue: revenueData.total_revenue || 0,
         totalBookings: bookingsData.total_bookings || 0,
         topDestinations: destinationsData || [],
-        monthlyRevenue: monthlyData || []
+        monthlyRevenue: monthlyData || [],
+        recentBookings: recentData || []
       });
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
@@ -209,21 +213,28 @@ const Dashboard = () => {
             <h3 className="text-lg font-semibold text-gray-900">Reservas Recientes</h3>
           </div>
           <div className="p-6">
-            <div className="space-y-4">
-              {stats.topDestinations.slice(0, 5).map((destination, index) => (
-                <div key={index} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
-                  <div>
-                    <h4 className="font-medium text-gray-900">{destination.destination}</h4>
-                    <p className="text-sm text-gray-600">Reservas: {destination.total_sales}</p>
+            {stats.recentBookings.length > 0 ? (
+              <div className="space-y-4">
+                {stats.recentBookings.map((booking, index) => (
+                  <div key={booking.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                    <div>
+                      <h4 className="font-medium text-gray-900">{booking.destination}</h4>
+                      <p className="text-sm text-gray-600">Reserva #{booking.id} - {new Date(booking.booking_date).toLocaleDateString()}</p>
+                      <p className="text-sm text-gray-600">Cliente: {booking.user_name}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-lg font-semibold text-green-600">
+                        S/. {booking.total_price}
+                      </p>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-lg font-semibold text-green-600">
-                      +{destination.total_sales} ventas
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                No hay reservas recientes
+              </div>
+            )}
           </div>
         </div>
       </main>

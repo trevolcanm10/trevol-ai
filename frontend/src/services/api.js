@@ -24,6 +24,6 @@ export const getRecommendations = (userId) =>
   api.get("/recommendations", { params: { user_id: userId } });
 
 export const createBooking = (data) =>
-  api.post("/bookings", data);
+  api.post("/bookings/", data);
 
 export default api;

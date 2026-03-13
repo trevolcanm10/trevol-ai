@@ -78,12 +78,16 @@ export default function Home(){
       }
 
       try {
-        await createBooking({
+        // Construir el objeto de reserva según el esquema de Pydantic
+        const bookingData = {
           user_id: user.id,
-          flight_id: selectedFlight?.id,
-          hotel_id: selectedHotel?.id,
-          tour_id: selectedTour?.id,
-        });
+          flight_id: selectedFlight.id,
+          // Solo incluir campos opcionales si están seleccionados
+          ...(selectedHotel && { hotel_id: selectedHotel.id }),
+          ...(selectedTour && { tour_id: selectedTour.id })
+        };
+
+        await createBooking(bookingData);
 
         alert("Reserva creada correctamente");
       } catch (error) {
@@ -95,6 +99,20 @@ export default function Home(){
     const handleCancelSelection = () => {
       setSelectedFlight(null);
       setSelectedHotel(null);
+      setSelectedTour(null);
+    };
+
+    const handleCancelFlight = () => {
+      setSelectedFlight(null);
+      setSelectedHotel(null);
+      setSelectedTour(null);
+    };
+
+    const handleCancelHotel = () => {
+      setSelectedHotel(null);
+    };
+
+    const handleCancelTour = () => {
       setSelectedTour(null);
     };
 
@@ -114,10 +132,12 @@ export default function Home(){
       }
 
       try {
-        await createBooking({
+        const bookingData = {
           user_id: user.id,
-          flight_id: flight.id,
-        });
+          flight_id: flight.id
+        };
+
+        await createBooking(bookingData);
         alert("Vuelo reservado correctamente");
       } catch (error) {
         console.error(error);
@@ -133,11 +153,13 @@ export default function Home(){
       }
 
       try {
-        await createBooking({
+        const bookingData = {
           user_id: user.id,
           flight_id: selectedFlight?.id,
-          hotel_id: hotel.id,
-        });
+          hotel_id: hotel.id
+        };
+
+        await createBooking(bookingData);
         alert("Hotel reservado correctamente");
       } catch (error) {
         console.error(error);
@@ -153,12 +175,14 @@ export default function Home(){
       }
 
       try {
-        await createBooking({
+        const bookingData = {
           user_id: user.id,
           flight_id: selectedFlight?.id,
           hotel_id: selectedHotel?.id,
-          tour_id: tour.id,
-        });
+          tour_id: tour.id
+        };
+
+        await createBooking(bookingData);
         alert("Tour reservado correctamente");
       } catch (error) {
         console.error(error);
@@ -201,25 +225,97 @@ export default function Home(){
         </div>
 
         {(selectedFlight || selectedHotel || selectedTour) && (
-          <div className="bg-gray-100 p-4 rounded mb-4">
-            <h2 className="font-bold mb-2">Tu viaje seleccionado</h2>
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg mb-6 shadow-lg border border-gray-200">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold text-gray-800">Resumen de mi viaje</h2>
+              <button
+                onClick={handleCancelSelection}
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md"
+              >
+                Cancelar todo
+              </button>
+            </div>
 
-            {selectedFlight && (
-              <p>
-                ✈️ Vuelo: {selectedFlight.origin} ({selectedFlight.origin_country}) → {selectedFlight.destination_city}, {selectedFlight.destination_country}
-              </p>
-            )}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+              <div className="bg-white p-4 rounded-lg border border-gray-200">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-semibold text-gray-700">Vuelo</p>
+                    {selectedFlight ? (
+                      <p className="text-sm text-gray-600">
+                        {selectedFlight.origin} ({selectedFlight.origin_country}) → {selectedFlight.destination_city}, {selectedFlight.destination_country}
+                      </p>
+                    ) : (
+                      <p className="text-sm text-gray-400">No seleccionado</p>
+                    )}
+                  </div>
+                  {selectedFlight && (
+                    <button
+                      onClick={handleCancelFlight}
+                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm font-medium transition-colors"
+                    >
+                      Cancelar
+                    </button>
+                  )}
+                </div>
+              </div>
 
-            {selectedHotel && <p>🏨 Hotel: {selectedHotel.name}</p>}
+              <div className="bg-white p-4 rounded-lg border border-gray-200">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-semibold text-gray-700">Hotel</p>
+                    {selectedHotel ? (
+                      <p className="text-sm text-gray-600">{selectedHotel.name}</p>
+                    ) : (
+                      <p className="text-sm text-gray-400">No seleccionado</p>
+                    )}
+                  </div>
+                  {selectedHotel && (
+                    <button
+                      onClick={handleCancelHotel}
+                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm font-medium transition-colors"
+                    >
+                      Cancelar
+                    </button>
+                  )}
+                </div>
+              </div>
 
-            {selectedTour && <p>🗺 Tour: {selectedTour.name}</p>}
+              <div className="bg-white p-4 rounded-lg border border-gray-200">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-semibold text-gray-700">Tour</p>
+                    {selectedTour ? (
+                      <p className="text-sm text-gray-600">{selectedTour.name}</p>
+                    ) : (
+                      <p className="text-sm text-gray-400">No seleccionado</p>
+                    )}
+                  </div>
+                  {selectedTour && (
+                    <button
+                      onClick={handleCancelTour}
+                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm font-medium transition-colors"
+                    >
+                      Cancelar
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
 
-            <button
-              onClick={handleCancelSelection}
-              className="mt-3 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-            >
-              Cancelar selección
-            </button>
+            <div className="flex justify-end">
+              <button
+                onClick={handleBooking}
+                disabled={!selectedFlight}
+                className={`px-6 py-3 rounded-lg font-bold text-white transition-all transform hover:scale-105 shadow-lg ${
+                  !selectedFlight 
+                    ? 'bg-gray-400 cursor-not-allowed' 
+                    : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700'
+                }`}
+              >
+                Confirmar Reserva
+              </button>
+            </div>
           </div>
         )}
         <div className="flex gap-4 mb-4">
@@ -285,7 +381,12 @@ export default function Home(){
             {/* Hoteles */}
             <button
               onClick={() => setShowHotels(!showHotels)}
-              className="font-bold mt-2 bg-gray-200 p-2 rounded w-full text-left"
+              className={`font-bold mt-2 p-2 rounded w-full text-left transition-colors ${
+                selectedFlight 
+                  ? 'bg-blue-100 text-blue-800 hover:bg-blue-200' 
+                  : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+              }`}
+              disabled={!selectedFlight}
             >
               {showHotels ? "▼ Hoteles" : "▶ Hoteles"} ({results.hotels.length} encontrados)
             </button>
@@ -308,7 +409,12 @@ export default function Home(){
             {/* Tours */}
             <button
               onClick={() => setShowTours(!showTours)}
-              className="font-bold mt-2 bg-gray-200 p-2 rounded w-full text-left"
+              className={`font-bold mt-2 p-2 rounded w-full text-left transition-colors ${
+                selectedFlight 
+                  ? 'bg-purple-100 text-purple-800 hover:bg-purple-200' 
+                  : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+              }`}
+              disabled={!selectedFlight}
             >
               {showTours ? "▼ Tours" : "▶ Tours"} ({results.tours.length} encontrados)
             </button>
@@ -328,17 +434,19 @@ export default function Home(){
                   <TourCard key={t.id} tour={t} onSelect={setSelectedTour} onBook={() => handleBookTour(t)} user={user} />
                 ))}
 
-            <button
-              onClick={handleBooking}
-              disabled={!selectedFlight}
-              className={`p-3 rounded mt-4 ${
-                !selectedFlight 
-                  ? 'bg-gray-400 cursor-not-allowed' 
-                  : 'bg-purple-600 hover:bg-purple-700 text-white'
-              }`}
-            >
-              Confirmar reserva
-            </button>
+            <div className="mt-6 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg">
+              <button
+                onClick={handleBooking}
+                disabled={!selectedFlight}
+                className={`w-full py-4 rounded-lg font-bold text-white transition-all transform hover:scale-105 shadow-lg ${
+                  !selectedFlight 
+                    ? 'bg-gray-400 cursor-not-allowed' 
+                    : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700'
+                }`}
+              >
+                Confirmar Reserva
+              </button>
+            </div>
           </div>
         )}
 

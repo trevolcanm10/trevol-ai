@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function TourCard({ tour, onBook, user }) {
+export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
   if (!tour) return null;
 
   return (
@@ -13,17 +13,21 @@ export default function TourCard({ tour, onBook, user }) {
           <p className="font-semibold text-purple-600">S/. {tour.price}</p>
           <p className="text-sm text-gray-500">Slots disponibles: {tour.available_slots}</p>
         </div>
-        <button
-          onClick={onBook}
-          disabled={!user}
-          className={`px-4 py-2 rounded-md font-medium transition-colors ${
-            user 
-              ? 'bg-purple-600 hover:bg-purple-700 text-white' 
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-          }`}
-        >
-          {user ? 'Reservar Tour' : 'Iniciar Sesión para Reservar'}
-        </button>
+        {isSelected ? (
+          <button
+            onClick={onCancel}
+            className="px-4 py-2 rounded-md font-medium border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-colors"
+          >
+            Quitar Tour
+          </button>
+        ) : (
+          <button
+            onClick={onSelect}
+            className="px-4 py-2 rounded-md font-medium bg-purple-600 hover:bg-purple-700 text-white transition-colors"
+          >
+            Añadir al viaje
+          </button>
+        )}
       </div>
     </div>
   );

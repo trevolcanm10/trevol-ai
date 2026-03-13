@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function HotelCard({ hotel, onBook, user }) {
+export default function HotelCard({ hotel, onSelect, onCancel, isSelected }) {
   if (!hotel) return null;
 
   return (
@@ -13,17 +13,21 @@ export default function HotelCard({ hotel, onBook, user }) {
           <p className="text-sm text-gray-500">Habitaciones: {hotel.available_rooms}</p>
           <p className="text-sm text-gray-500">Estrellas: {hotel.stars} ⭐</p>
         </div>
-        <button
-          onClick={onBook}
-          disabled={!user}
-          className={`px-4 py-2 rounded-md font-medium transition-colors ${
-            user 
-              ? 'bg-green-600 hover:bg-green-700 text-white' 
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-          }`}
-        >
-          {user ? 'Reservar Hotel' : 'Iniciar Sesión para Reservar'}
-        </button>
+        {isSelected ? (
+          <button
+            onClick={onCancel}
+            className="px-4 py-2 rounded-md font-medium border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-colors"
+          >
+            Quitar Hotel
+          </button>
+        ) : (
+          <button
+            onClick={onSelect}
+            className="px-4 py-2 rounded-md font-medium bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+          >
+            Añadir al viaje
+          </button>
+        )}
       </div>
     </div>
   );
