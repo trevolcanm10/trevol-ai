@@ -1,20 +1,30 @@
-import React from "react"; // importando el hook useState
+import React from "react";
 
-export default function HotelCard({ hotel, onSelect }) {
+export default function HotelCard({ hotel, onBook, user }) {
   if (!hotel) return null;
+
   return (
     <div className="border rounded p-4 shadow hover:shadow-lg transition mb-2">
-      <h3 className="font-bold">{hotel.name}</h3>
-      <p>Ubicación: {hotel.location}</p>
-      <p>Precio por noche: ${hotel.price_per_night}</p>
-      <p>Habitaciones disponibles: {hotel.available_rooms}</p>
-
-      <button
-        className="mt-2 bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-        onClick={() => onSelect(hotel)}
-      >
-        Seleccionar hotel
-      </button>
+      <h3 className="font-bold text-lg">{hotel.name}</h3>
+      <p className="text-gray-600 text-sm">Ubicación: {hotel.location}</p>
+      <div className="flex justify-between items-center mt-2">
+        <div>
+          <p className="font-semibold text-green-600">S/. {hotel.price_per_night}/noche</p>
+          <p className="text-sm text-gray-500">Habitaciones: {hotel.available_rooms}</p>
+          <p className="text-sm text-gray-500">Estrellas: {hotel.stars} ⭐</p>
+        </div>
+        <button
+          onClick={onBook}
+          disabled={!user}
+          className={`px-4 py-2 rounded-md font-medium transition-colors ${
+            user 
+              ? 'bg-green-600 hover:bg-green-700 text-white' 
+              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+          }`}
+        >
+          {user ? 'Reservar Hotel' : 'Iniciar Sesión para Reservar'}
+        </button>
+      </div>
     </div>
   );
 }

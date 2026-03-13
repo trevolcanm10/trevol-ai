@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { register } from "../services/authService";
+import { registerService } from "../services/authService";
 
 export default function Register() {
   const [name, setName] = useState("");// importando el hook useState para el name
@@ -10,7 +10,7 @@ export default function Register() {
   const handleSubmit = async (e) => {//Función para enviar el formulario
     e.preventDefault();//Evitamos el comportamiento por defecto del navegador
     try {
-      await register(name, email,phone, password);//Hacemos la petición a la api
+      await registerService(name, email,phone, password);//Hacemos la petición a la api
       window.location.href = "/login";//Redirigimos al login
     } catch (error) {
       alert("Error al registrar");//Mostramos el error

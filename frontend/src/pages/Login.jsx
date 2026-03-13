@@ -1,5 +1,6 @@
 import { useState } from "react"; // importando el hook useState
-import { login } from "../services/authService";
+
+import { loginService } from "../services/authService";
 
 export default function Login() {
   const [email, setEmail] = useState(""); // importando el hook useState para el email
@@ -9,7 +10,7 @@ export default function Login() {
     //Función para enviar el formulario
     e.preventDefault(); //Evitamos el comportamiento por defecto del navegador
     try {
-      await login(email, password); //Hacemos la petición a la api
+      await loginService(email, password); //Hacemos la petición a la api
       window.location.href = "/dashboard"; //Redirigimos al dashboard
     } catch (error) {
       alert("Error al loguear");

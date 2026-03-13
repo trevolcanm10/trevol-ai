@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react"; // importando el hook useState y useEffect
+import { useNavigate } from 'react-router-dom'; // importando useNavigate
+import { useAuth } from "../services/authService"; // importando el hook useAuth
 import { searchTravel, getPackage } from "../services/api"; // importando las funciones de la api
 import FlightCard from "../components/FlightCard"; // importando el componente FlightCard
 import HotelCard from "../components/HotelCard"; // importando el componente HotelCard
@@ -18,6 +20,9 @@ export default function Home(){
     const [showHotels, setShowHotels] = useState(false); // Definimos el estado showHotels
     const [showTours, setShowTours] = useState(false); // Definimos el estado showTours
     const [debounceTimer, setDebounceTimer] = useState(null); // Para el debounce del paquete recomendado
+    
+    const navigate = useNavigate();
+    const { user } = useAuth();
 
     // Efecto para activación automática del paquete recomendado
     useEffect(() => {
@@ -37,7 +42,7 @@ export default function Home(){
     }, [origin, destination]);
 
     const handleSearch = async () => {
-      // Definimos la función handleSearch
+      // Definimos la función handleSearch
       const response = await searchTravel({
         origin: origin.trim(),
         destination: destination.trim(),
@@ -49,7 +54,7 @@ export default function Home(){
       setResults(response.data); // seteamos el estado results con la respuesta de la api
     };
 
-    const handlePackage = async () => { // Definimos la función handlePackage
+    const handlePackage = async () => { // Definimos la función handlePackage
       try{
         const response = await getPackage(origin.trim(), destination.trim());
         setResults(null); // limpiamos el estado results
@@ -65,9 +70,16 @@ export default function Home(){
         alert("Debes seleccionar un vuelo primero");
         return;
       }
+      
+      if (!user) {
+        alert("Debes iniciar sesión para realizar una reserva");
+        navigate('/login');
+        return;
+      }
+
       try {
         await createBooking({
-          user_id: 1,
+          user_id: user.id,
           flight_id: selectedFlight?.id,
           hotel_id: selectedHotel?.id,
           tour_id: selectedTour?.id,
@@ -93,9 +105,101 @@ export default function Home(){
       setShowHotels(true);
       setShowTours(true);
     };
+
+    const handleBookFlight = async (flight) => {
+      if (!user) {
+        alert("Debes iniciar sesión para realizar una reserva");
+        navigate('/login');
+        return;
+      }
+
+      try {
+        await createBooking({
+          user_id: user.id,
+          flight_id: flight.id,
+        });
+        alert("Vuelo reservado correctamente");
+      } catch (error) {
+        console.error(error);
+        alert("Error al crear la reserva");
+      }
+    };
+
+    const handleBookHotel = async (hotel) => {
+      if (!user) {
+        alert("Debes iniciar sesión para realizar una reserva");
+        navigate('/login');
+        return;
+      }
+
+      try {
+        await createBooking({
+          user_id: user.id,
+          flight_id: selectedFlight?.id,
+          hotel_id: hotel.id,
+        });
+        alert("Hotel reservado correctamente");
+      } catch (error) {
+        console.error(error);
+        alert("Error al crear la reserva");
+      }
+    };
+
+    const handleBookTour = async (tour) => {
+      if (!user) {
+        alert("Debes iniciar sesión para realizar una reserva");
+        navigate('/login');
+        return;
+      }
+
+      try {
+        await createBooking({
+          user_id: user.id,
+          flight_id: selectedFlight?.id,
+          hotel_id: selectedHotel?.id,
+          tour_id: tour.id,
+        });
+        alert("Tour reservado correctamente");
+      } catch (error) {
+        console.error(error);
+        alert("Error al crear la reserva");
+      }
+    };
+
     return (
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-4">Travel-AI</h1>
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl font-bold">Travel-AI</h1>
+          <div className="flex space-x-4">
+            {user ? (
+              <>
+                <span className="text-sm text-gray-600">Bienvenido, {user.name}</span>
+                <button
+                  onClick={() => navigate('/dashboard')}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Dashboard
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => navigate('/login')}
+                  className="text-gray-600 hover:text-gray-900"
+                >
+                  Iniciar Sesión
+                </button>
+                <button
+                  onClick={() => navigate('/register')}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Registrarse
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+
         {(selectedFlight || selectedHotel || selectedTour) && (
           <div className="bg-gray-100 p-4 rounded mb-4">
             <h2 className="font-bold mb-2">Tu viaje seleccionado</h2>
@@ -173,6 +277,8 @@ export default function Home(){
                     key={f.id}
                     flight={f}
                     onSelect={handleSelectFlight}
+                    onBook={() => handleBookFlight(f)}
+                    user={user}
                   />
                 ))}
 
@@ -196,7 +302,7 @@ export default function Home(){
                   }
                 })
                 .map((h) => (
-                  <HotelCard key={h.id} hotel={h} onSelect={setSelectedHotel} />
+                  <HotelCard key={h.id} hotel={h} onSelect={setSelectedHotel} onBook={() => handleBookHotel(h)} user={user} />
                 ))}
 
             {/* Tours */}
@@ -219,7 +325,7 @@ export default function Home(){
                   }
                 })
                 .map((t) => (
-                  <TourCard key={t.id} tour={t} onSelect={setSelectedTour} />
+                  <TourCard key={t.id} tour={t} onSelect={setSelectedTour} onBook={() => handleBookTour(t)} user={user} />
                 ))}
 
             <button
