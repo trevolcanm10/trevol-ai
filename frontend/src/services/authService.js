@@ -1,5 +1,8 @@
+// Contexto de autenticación
+import React, { createContext, useContext, useState, useEffect } from 'react';
 // Servicios de autenticación
 import api from "./api";
+
 
 export const loginService = async (email, password) => {
     const formData = new URLSearchParams();
@@ -33,9 +36,6 @@ export const logoutService = () => {
 export const getCurrentUser = () => {
     return JSON.parse(localStorage.getItem("user"));
 };
-
-// Contexto de autenticación
-import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 

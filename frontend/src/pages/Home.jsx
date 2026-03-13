@@ -1,4 +1,3 @@
-import { jwtDecode } from "jwt-decode"; // importando jwtDecode
 import { useState, useEffect } from "react"; // importando el hook useState y useEffect
 import { useNavigate } from "react-router-dom"; // importando useNavigate
 import { useAuth } from "../services/authService"; // importando el hook useAuth
@@ -68,7 +67,7 @@ export default function Home() {
   };
 
   const handleBooking = async () => {
-    console.log("USER:", user);
+    
     if (!selectedFlight) {
       alert("Debes seleccionar un vuelo primero");
       return;
@@ -83,18 +82,17 @@ export default function Home() {
     try {
       // Construir el objeto de reserva según el esquema de Pydantic
       const bookingData = {
-        user_id: user.id,
         flight_id: selectedFlight.id,
         // Solo incluir campos opcionales si están seleccionados
-        ...(selectedHotel && { hotel_id: selectedHotel.id }),
-        ...(selectedTour && { tour_id: selectedTour.id }),
+        hotel_id: selectedHotel?.id ?? null,
+        tour_id: selectedTour?.id ?? null,
       };
-
+      console.log("BOOKING DATA:", bookingData);
       await createBooking(bookingData);
 
       alert("Reserva creada correctamente");
     } catch (error) {
-      console.error(error);
+      console.error("ERROR BACKEND:", error.response?.data);
       alert("Error al crear la reserva");
     }
   };
