@@ -473,20 +473,6 @@ export default function Home() {
                   user={user}
                 />
               ))}
-
-          <div className="mt-6 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg">
-            <button
-              onClick={handleBooking}
-              disabled={!selectedFlight}
-              className={`w-full py-4 rounded-lg font-bold text-white transition-all transform hover:scale-105 shadow-lg ${
-                !selectedFlight
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
-              }`}
-            >
-              Confirmar Reserva
-            </button>
-          </div>
         </div>
       )}
 

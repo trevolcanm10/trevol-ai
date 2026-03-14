@@ -11,7 +11,9 @@ export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
       <div className="flex justify-between items-center mt-2">
         <div>
           <p className="font-semibold text-purple-600">S/. {tour.price}</p>
-          <p className="text-sm text-gray-500">Slots disponibles: {tour.available_slots}</p>
+          <p className="text-sm text-gray-500">
+            Slots disponibles: {tour.available_slots}
+          </p>
         </div>
         {isSelected ? (
           <button
@@ -22,7 +24,7 @@ export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
           </button>
         ) : (
           <button
-            onClick={onSelect}
+            onClick={() => onSelect(tour)}
             className="px-4 py-2 rounded-md font-medium bg-purple-600 hover:bg-purple-700 text-white transition-colors"
           >
             Añadir al viaje
