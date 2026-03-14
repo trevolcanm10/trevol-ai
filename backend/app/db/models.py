@@ -11,6 +11,16 @@ from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Enu
 from sqlalchemy.orm import relationship
 
 from app.db.database import Base
+from enum import Enum as PyEnum
+
+# Enumeración para los estados de las reservas
+class BookingStatus(str, PyEnum):
+    """
+    Enumeración para los estados de las reservas
+    """
+    PENDING = "pending"
+    CONFIRMED = "confirmed"
+    CANCELLED = "cancelled"
 
 # =========================
 # Tabla: Users
@@ -99,16 +109,6 @@ class Tour(Base):
     bookings = relationship("Booking", back_populates="tour")#Relación con la tabla Bookings
     # Relación 0:N → Un tour puede tener muchas reservas
 
-# =========================================
-# Enumeración para los estados de las reservas
-# =========================================
-class BookingStatus(str, PyEnum):
-    """
-    Enumeración para los estados de las reservas
-    """
-    PENDING = "pending"
-    CONFIRMED = "confirmed"
-    CANCELLED = "cancelled"
 # =====================================================
 # Tabla de preferencias del usuario (Aprendizaje)
 # =====================================================

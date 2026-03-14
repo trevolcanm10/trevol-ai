@@ -39,3 +39,10 @@ def monthly_revenue(db: Session = Depends(get_db)):
     Función para obtener los ingresos por mes
     """
     return dashboard_service.get_monthly_revenue(db)
+
+@router.get("/recent-bookings")
+def recent_bookings(db: Session = Depends(get_db)):
+    """
+    Función para obtener las reservas recientes
+    """
+    return dashboard_service.get_recent_bookings(db)

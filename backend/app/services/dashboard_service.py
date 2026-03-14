@@ -74,3 +74,38 @@ def get_monthly_revenue(db: Session):
         .all()
     )
     return [{"month": month, "revenue": revenue} for month, revenue in results]
+
+# ===================
+# Reservas recientes
+# ===================
+def get_recent_bookings(db: Session, limit: int = 5):
+    """
+    Función para obtener las reservas recientes, los parámetros son:
+    - db: Sesión de la base de datos
+    - limit: Número de reservas a obtener
+    """
+    results = (
+        db.query(
+            models.Booking.id,
+            models.Booking.booking_date,
+            models.Booking.total_price,
+            models.Flight.destination,
+            models.User.name.label("user_name")
+        )
+        .join(models.Flight, models.Booking.flight_id == models.Flight.id)
+        .join(models.User, models.Booking.user_id == models.User.id)
+        .filter(models.Booking.status == models.BookingStatus.CONFIRMED)
+        .order_by(models.Booking.booking_date.desc())
+        .limit(limit)
+        .all()
+    )
+    return [
+        {
+            "id": booking_id,
+            "booking_date": booking_date,
+            "total_price": total_price,
+            "destination": destination,
+            "user_name": user_name
+        }
+        for booking_id, booking_date, total_price, destination, user_name in results
+    ]

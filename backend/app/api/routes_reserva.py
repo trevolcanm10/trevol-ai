@@ -1,3 +1,8 @@
+"""
+Rutas para la reserva
+"""
+from app.dependencies import get_current_user#Importamos la dependencia
+from app.db.models import User #Importamos el modelo de usuario
 from fastapi import APIRouter, Depends, HTTPException, status #Dependencias de FastAPI
 from sqlalchemy.orm import Session #Para trabajar con sesiones de la base de datos
 from app.db.database import get_db #Importamos la sesión de la base de datos
@@ -6,19 +11,25 @@ from app.crud import reserva as crud_reserva #Importamos el crud de la reserva
 from app.services import reserva_service  # Importamos el servicio de la reserva
 router = APIRouter() #Creamos el router
 
+
 # =========================
 # Crear reserva
 # POST /api/bookings
 # =========================
 @router.post("/", response_model=BookingResponse, status_code=status.HTTP_201_CREATED)
-def create_booking(booking: BookingCreate, db: Session = Depends(get_db)):
+def create_booking(
+    booking: BookingCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
     """
     Función para crear una nueva reserva
     - booking: Datos de la reserva
     - db: Sesión de la base de datos
     - return: La reserva creada
     """
-    return reserva_service.create_booking_service(db, booking) #Retornamos la reserva creada_
+    return reserva_service.create_booking_service(db, booking,current_user.id) #Retornamos la reserva creada_
+
 
 # =========================
 # Obtener todas las reservas

@@ -1,7 +1,22 @@
+"""
+Schemas para la reserva
+"""
 from pydantic import BaseModel#Para crear schemas
 from typing import Optional#Para campos opcionales
 from datetime import datetime#Para trabajar con fechas
 from enum import Enum #Para trabajar con estados
+
+# =========================
+# Enumeración para los estados de las reservas
+# =========================
+class BookingStatus(str, Enum):
+    """
+    Enumeración para los estados de las reservas
+    """
+    PENDING = "pending"
+    CONFIRMED = "confirmed"
+    CANCELLED = "cancelled"
+
 # =========================
 #  Schema Base
 # Contiene campos comunes
@@ -22,19 +37,7 @@ class BookingCreate(BookingBase):
     """
     Schema para crear reservas
     """
-    user_id: int #Usuario obligatorio
-
-#===============================
-# Schema para ACTUALIZAR reserva
-#===============================
-class BookingStatus(str, Enum):
-    """
-    Estados de la reserva
-    """
-    pending = "pending"
-    confirmed = "confirmed"
-    cancelled = "cancelled"
-
+    pass
 
 # =========================
 # Schema para RESPUESTA
@@ -52,6 +55,10 @@ class BookingResponse(BaseModel):
     booking_date: datetime#Fecha
     total_price: float#Precio
     status: BookingStatus#Estados
-    model_config = {
-        "from_attributes": True
-    }#Atributos
+    
+    class Config:
+        """
+        Configuración del schema
+        """
+        from_attributes = True
+        use_enum_values = True

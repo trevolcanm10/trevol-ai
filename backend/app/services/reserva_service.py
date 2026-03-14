@@ -4,7 +4,7 @@ from app.db import models  # Importamos los modelos
 from app.schemas.reserva import BookingCreate  # Importamos el schema de la reserva
 from app.services import recommendation_service #Importamos el servicio de las recomendaciones
 
-def create_booking_service(db: Session, booking_data: BookingCreate):
+def create_booking_service(db: Session, booking_data: BookingCreate, user_id: int):
     """
     Función para crear una nueva reserva
     - db: Sesión de la base de datos
@@ -12,11 +12,12 @@ def create_booking_service(db: Session, booking_data: BookingCreate):
     - return: La reserva creada
     """
     # Verificar usuario
-    user = db.query(models.User).filter(models.User.id == booking_data.user_id).first()
+    user = db.query(models.User).filter(models.User.id == user_id).first()
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
         )
+
     # Verificar vuelo
     flight = (
         db.query(models.Flight)
@@ -27,12 +28,15 @@ def create_booking_service(db: Session, booking_data: BookingCreate):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Flight not found"
         )
+
     # Verificar disponibilidad
     if flight.available_seats <= 0:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="No seats available"
         )
+
     total_price = flight.price  # Precio base obligatorio
+
     # Hotel opcional
     hotel = None
     if booking_data.hotel_id:
@@ -46,6 +50,7 @@ def create_booking_service(db: Session, booking_data: BookingCreate):
                 status_code=status.HTTP_404_NOT_FOUND, detail="Hotel not found"
             )
         total_price += hotel.price_per_night
+
     # Tour opcional
     tour = None
     if booking_data.tour_id:
@@ -57,11 +62,13 @@ def create_booking_service(db: Session, booking_data: BookingCreate):
                 status_code=status.HTTP_404_NOT_FOUND, detail="Tour not found"
             )
         total_price += tour.price
+
     # Descontar asiento del vuelo
     flight.available_seats -= 1
+
     # Crear reserva
     new_booking = models.Booking(
-        user_id=booking_data.user_id,
+        user_id=user_id,
         flight_id=booking_data.flight_id,
         hotel_id=booking_data.hotel_id,
         tour_id=booking_data.tour_id,
@@ -70,7 +77,7 @@ def create_booking_service(db: Session, booking_data: BookingCreate):
     )
     db.add(new_booking)  # Agregamos la reserva
     db.commit()  # Guardamos los cambios
-    db.refresh(new_booking)  # Actualizamos la reserva}
+    db.refresh(new_booking)  # Actualizamos la reserva
 
     # ------------------------------------------------
     # ACTIVAR APRENDIZAJE AUTOMÁTICO
@@ -97,10 +104,12 @@ def cancel_booking_service(db: Session, booking_id: int):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Booking already cancelled"
         )
-    #Devolver asiento del vuelo
-    flight = db.query(models.Flight).filter(models.Flight.id == booking.flight_id).first() #Obtenemos el vuelo
-    flight.available_seats += 1 #Aumentamos el asiento
-    #Cambiar estado
+    
+    # Devolver asiento del vuelo
+    flight = db.query(models.Flight).filter(models.Flight.id == booking.flight_id).first()
+    flight.available_seats += 1
+    
+    # Cambiar estado
     booking.status = models.BookingStatus.CANCELLED
     db.commit()
     db.refresh(booking)
