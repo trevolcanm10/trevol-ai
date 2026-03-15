@@ -16,6 +16,7 @@ const Search = () => {
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [searching, setSearching] = useState(false);
 
   // Estado para filtros
   const [filters, setFilters] = useState({
@@ -49,29 +50,24 @@ const Search = () => {
       return;
     }
 
+    setSearching(true);
     setLoading(true);
     setError('');
     
     try {
-      // Realizar búsqueda en paralelo
-      const [flightsRes, hotelsRes, toursRes] = await Promise.all([
-        fetch(`/api/search/flights?destination=${encodeURIComponent(destination)}&date=${date || ''}`),
-        fetch(`/api/search/hotels?destination=${encodeURIComponent(destination)}&date=${date || ''}`),
-        fetch(`/api/search/tours?destination=${encodeURIComponent(destination)}&date=${date || ''}`)
-      ]);
+      // Simular búsqueda real con la API existente
+      const response = await fetch(`/api/search?destination=${encodeURIComponent(destination)}&date=${date || ''}`);
+      const data = await response.json();
 
-      const flightsData = await flightsRes.json();
-      const hotelsData = await hotelsRes.json();
-      const toursData = await toursRes.json();
-
-      setFlights(flightsData);
-      setHotels(hotelsData);
-      setTours(toursData);
+      setFlights(data.flights || []);
+      setHotels(data.hotels || []);
+      setTours(data.tours || []);
     } catch (err) {
       console.error('Error en la búsqueda:', err);
       setError('Error al realizar la búsqueda. Por favor intente de nuevo.');
     } finally {
       setLoading(false);
+      setSearching(false);
     }
   };
 
@@ -85,31 +81,30 @@ const Search = () => {
 
   const handleBook = async (type, item) => {
     if (!user) {
+      alert("Debes iniciar sesión para realizar una reserva");
       navigate('/login');
       return;
     }
 
     try {
-      // Crear reserva
+      // Crear reserva usando la API existente
       const bookingData = {
-        user_id: user.id,
-        flight_id: item.flight_id || item.id, // Para vuelos, usar el ID directamente
+        flight_id: type === 'flight' ? item.id : null,
         hotel_id: type === 'hotel' ? item.id : null,
         tour_id: type === 'tour' ? item.id : null,
-        total_price: item.price || item.price_per_night
       };
 
-      const response = await fetch('/api/bookings', {
+      const response = await fetch('/api/bookings/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.access_token}`
         },
         body: JSON.stringify(bookingData)
       });
 
       if (response.ok) {
         alert('Reserva realizada exitosamente');
-        // Redirigir al dashboard o a una página de confirmación
         navigate('/dashboard');
       } else {
         const errorData = await response.json();
@@ -139,97 +134,126 @@ const Search = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Buscar Viajes</h1>
-              <p className="mt-1 text-sm text-gray-600">
-                Encuentra tu próximo destino perfecto
-              </p>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=1600')] bg-cover bg-center opacity-10"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center shadow-xl">
+              <span className="text-2xl font-bold text-white">🔍</span>
             </div>
-            <div className="flex items-center space-x-4">
-              {user ? (
-                <>
-                  <span className="text-sm text-gray-600">
-                    Bienvenido, {user.name}
-                  </span>
-                  <button
-                    onClick={() => navigate('/dashboard')}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-                  >
-                    Dashboard
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    onClick={() => navigate('/login')}
-                    className="text-gray-600 hover:text-gray-900"
-                  >
-                    Iniciar Sesión
-                  </button>
-                  <button
-                    onClick={() => navigate('/register')}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-                  >
-                    Registrarse
-                  </button>
-                </>
-              )}
-            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Buscar Viajes
+            </h1>
+            <p className="text-lg text-gray-600 mb-8">
+              Encuentra tu próximo destino perfecto con filtros avanzados
+            </p>
           </div>
         </div>
-      </header>
+      </div>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* User Status Bar */}
+        <div className="bg-white/80 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/20 mb-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            {user ? (
+              <div className="flex items-center space-x-6">
+                <span className="text-lg font-semibold text-gray-900">
+                  👋 Bienvenido, {user.name}
+                </span>
+                <button
+                  onClick={() => navigate("/dashboard")}
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                >
+                  📊 Ir al Dashboard
+                </button>
+              </div>
+            ) : (
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button
+                  onClick={() => navigate("/login")}
+                  className="bg-white text-gray-900 px-6 py-3 rounded-lg font-semibold border-2 border-gray-200 hover:border-gray-300 transition-all duration-200 transform hover:scale-105 shadow-lg"
+                >
+                  🔐 Iniciar Sesión
+                </button>
+                <button
+                  onClick={() => navigate("/register")}
+                  className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                >
+                  📝 Registrarse
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Filtros de Búsqueda */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div>
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200 mb-8">
+          <h3 className="text-2xl font-bold text-gray-900 mb-6">🎛️ Filtros de Búsqueda Avanzados</h3>
+          <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Destino
+                📍 Destino
               </label>
-              <input
-                type="text"
-                value={filters.destination}
-                onChange={(e) => setFilters({...filters, destination: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Ej: Cusco, Lima, Arequipa"
-              />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  value={filters.destination}
+                  onChange={(e) => setFilters({...filters, destination: e.target.value})}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  placeholder="Ej: Cusco, Lima, Arequipa"
+                />
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Fecha de Viaje
+                📅 Fecha de Viaje
               </label>
               <input
                 type="date"
                 value={filters.date}
                 onChange={(e) => setFilters({...filters, date: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Precio Máximo
+                💰 Precio Máximo
               </label>
-              <input
-                type="number"
-                value={filters.maxPrice}
-                onChange={(e) => setFilters({...filters, maxPrice: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Ej: 500"
-                min="0"
-              />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <span className="text-gray-400">S/.</span>
+                </div>
+                <input
+                  type="number"
+                  value={filters.maxPrice}
+                  onChange={(e) => setFilters({...filters, maxPrice: e.target.value})}
+                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  placeholder="500"
+                  min="0"
+                />
+              </div>
             </div>
             <div className="flex items-end">
               <button
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md font-medium transition-colors"
+                disabled={searching}
+                className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-200 ${
+                  searching
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+                }`}
               >
-                Buscar
+                {searching ? "🔍 Buscando..." : "🔍 Buscar Destinos"}
               </button>
             </div>
           </form>
@@ -237,24 +261,47 @@ const Search = () => {
 
         {/* Mensajes de Error */}
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-8">
-            {error}
+          <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-lg mb-8">
+            <span className="flex items-center space-x-2">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>{error}</span>
+            </span>
           </div>
         )}
 
         {/* Resultados de Búsqueda */}
-        {loading ? (
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Buscando destinos...</p>
+        {searching && (
+          <div className="bg-white rounded-2xl shadow-xl p-12 border border-gray-200 mb-8 text-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-6"></div>
+            <p className="text-gray-600 text-lg">Buscando destinos perfectos para ti...</p>
+            <p className="text-sm text-gray-500 mt-2">Estamos analizando las mejores opciones</p>
           </div>
-        ) : (
-          <div className="space-y-8">
+        )}
+
+        {!searching && (
+          <div className="space-y-12">
             {/* Vuelos */}
             <section>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Vuelos Disponibles</h2>
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                    <span className="text-2xl">✈️</span>
+                  </div>
+                  <div>
+                    <h2 className="text-3xl font-bold text-gray-900">Vuelos Disponibles</h2>
+                    <p className="text-gray-600">Encuentra el vuelo perfecto para tu destino</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="text-2xl font-bold text-blue-600">{filteredFlights.length}</span>
+                  <p className="text-sm text-gray-500">vuelos encontrados</p>
+                </div>
+              </div>
+              
               {filteredFlights.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
                   {filteredFlights.map((flight) => (
                     <FlightCard
                       key={flight.id}
@@ -265,17 +312,36 @@ const Search = () => {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-12 bg-white rounded-lg shadow">
-                  <p className="text-gray-500">No hay vuelos disponibles para estos criterios.</p>
+                <div className="bg-white rounded-2xl shadow-xl p-12 border border-gray-200 text-center">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <span className="text-2xl">✈️</span>
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">No hay vuelos disponibles</h3>
+                  <p className="text-gray-600">Intenta con otros criterios de búsqueda o destinos diferentes</p>
                 </div>
               )}
             </section>
 
             {/* Hoteles */}
             <section>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Hoteles Disponibles</h2>
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                    <span className="text-2xl">🏨</span>
+                  </div>
+                  <div>
+                    <h2 className="text-3xl font-bold text-gray-900">Hoteles Disponibles</h2>
+                    <p className="text-gray-600">Descubre los mejores lugares para hospedarte</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="text-2xl font-bold text-green-600">{filteredHotels.length}</span>
+                  <p className="text-sm text-gray-500">hoteles encontrados</p>
+                </div>
+              </div>
+              
               {filteredHotels.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
                   {filteredHotels.map((hotel) => (
                     <HotelCard
                       key={hotel.id}
@@ -286,17 +352,36 @@ const Search = () => {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-12 bg-white rounded-lg shadow">
-                  <p className="text-gray-500">No hay hoteles disponibles para estos criterios.</p>
+                <div className="bg-white rounded-2xl shadow-xl p-12 border border-gray-200 text-center">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <span className="text-2xl">🏨</span>
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">No hay hoteles disponibles</h3>
+                  <p className="text-gray-600">Intenta con otros criterios de búsqueda o destinos diferentes</p>
                 </div>
               )}
             </section>
 
             {/* Tours */}
             <section>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Tours Disponibles</h2>
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                    <span className="text-2xl">🗺️</span>
+                  </div>
+                  <div>
+                    <h2 className="text-3xl font-bold text-gray-900">Tours Disponibles</h2>
+                    <p className="text-gray-600">Explora experiencias inolvidables en tu destino</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="text-2xl font-bold text-purple-600">{filteredTours.length}</span>
+                  <p className="text-sm text-gray-500">tours encontrados</p>
+                </div>
+              </div>
+              
               {filteredTours.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
                   {filteredTours.map((tour) => (
                     <TourCard
                       key={tour.id}
@@ -307,8 +392,12 @@ const Search = () => {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-12 bg-white rounded-lg shadow">
-                  <p className="text-gray-500">No hay tours disponibles para estos criterios.</p>
+                <div className="bg-white rounded-2xl shadow-xl p-12 border border-gray-200 text-center">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <span className="text-2xl">🗺️</span>
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">No hay tours disponibles</h3>
+                  <p className="text-gray-600">Intenta con otros criterios de búsqueda o destinos diferentes</p>
                 </div>
               )}
             </section>

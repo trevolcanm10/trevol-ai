@@ -221,7 +221,7 @@ export default function Home() {
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=1600')] bg-cover bg-center opacity-10"></div>
-        
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
             <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto mb-6 flex items-center justify-center shadow-xl">
@@ -231,17 +231,17 @@ export default function Home() {
               Travel-AI
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Descubre tu próximo destino con inteligencia artificial. 
-              Encuentra vuelos, hoteles y tours perfectos para tu viaje ideal.
+              Descubre tu próximo destino con inteligencia artificial. Encuentra
+              vuelos, hoteles y tours perfectos para tu viaje ideal.
             </p>
-            
+
             {/* User Status Bar */}
             <div className="bg-white/80 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/20">
               <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                 {user ? (
                   <div className="flex items-center space-x-6">
                     <span className="text-lg font-semibold text-gray-900">
-                      👋 Bienvenido, {user.name}
+                      👋 Bienvenido, {user?.email}
                     </span>
                     <button
                       onClick={() => navigate("/dashboard")}
@@ -299,8 +299,8 @@ export default function Home() {
                     </div>
                     {selectedFlight ? (
                       <p className="text-sm text-gray-600">
-                        {selectedFlight.origin} ({selectedFlight.origin_country})
-                        → {selectedFlight.destination_city},{" "}
+                        {selectedFlight.origin} ({selectedFlight.origin_country}
+                        ) → {selectedFlight.destination_city},{" "}
                         {selectedFlight.destination_country}
                       </p>
                     ) : (
@@ -352,7 +352,9 @@ export default function Home() {
                       <p className="font-bold text-gray-900 text-lg">Tour</p>
                     </div>
                     {selectedTour ? (
-                      <p className="text-sm text-gray-600">{selectedTour.name}</p>
+                      <p className="text-sm text-gray-600">
+                        {selectedTour.name}
+                      </p>
                     ) : (
                       <p className="text-sm text-gray-400">No seleccionado</p>
                     )}
@@ -379,7 +381,9 @@ export default function Home() {
                     : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
                 }`}
               >
-                {selectedFlight ? "✅ Confirmar Reserva" : "⚠️ Selecciona un Vuelo"}
+                {selectedFlight
+                  ? "✅ Confirmar Reserva"
+                  : "⚠️ Selecciona un Vuelo"}
               </button>
             </div>
           </div>
@@ -387,11 +391,15 @@ export default function Home() {
 
         {/* Search Section */}
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200 mb-8">
-          <h3 className="text-2xl font-bold text-gray-900 mb-6">🔍 Encuentra tu Próximo Destino</h3>
-          
+          <h3 className="text-2xl font-bold text-gray-900 mb-6">
+            🔍 Encuentra tu Próximo Destino
+          </h3>
+
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Origen</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Origen
+              </label>
               <input
                 type="text"
                 placeholder="Ej: Lima, Arequipa, Cusco"
@@ -401,7 +409,9 @@ export default function Home() {
               />
             </div>
             <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Destino</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Destino
+              </label>
               <input
                 type="text"
                 placeholder="Ej: Cusco, Lima, Arequipa"
@@ -411,7 +421,9 @@ export default function Home() {
               />
             </div>
             <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Acciones</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Acciones
+              </label>
               <div className="flex gap-2">
                 <button
                   onClick={handleSearch}
@@ -427,10 +439,14 @@ export default function Home() {
               </div>
             </div>
             <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Paquete Inteligente</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Paquete Inteligente
+              </label>
               <button
                 onClick={handlePackage}
-                disabled={searching || origin.length < 3 || destination.length < 3}
+                disabled={
+                  searching || origin.length < 3 || destination.length < 3
+                }
                 className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-200 ${
                   searching || origin.length < 3 || destination.length < 3
                     ? "bg-gray-300 text-gray-500 cursor-not-allowed"
@@ -440,7 +456,9 @@ export default function Home() {
                 {searching ? "🤖 Analizando..." : "🤖 Paquete AI"}
               </button>
               {(origin.length < 3 || destination.length < 3) && (
-                <p className="text-xs text-gray-500 mt-1">Ingresa al menos 3 caracteres para activar el paquete</p>
+                <p className="text-xs text-gray-500 mt-1">
+                  Ingresa al menos 3 caracteres para activar el paquete
+                </p>
               )}
             </div>
           </div>
@@ -450,21 +468,25 @@ export default function Home() {
         {searching && (
           <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200 mb-8 text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600 text-lg">Buscando destinos perfectos para ti...</p>
+            <p className="text-gray-600 text-lg">
+              Buscando destinos perfectos para ti...
+            </p>
           </div>
         )}
 
         {results && (
           <div className="space-y-8">
-            <h3 className="text-3xl font-bold text-gray-900 mb-6">📋 Resultados de Búsqueda</h3>
+            <h3 className="text-3xl font-bold text-gray-900 mb-6">
+              📋 Resultados de Búsqueda
+            </h3>
 
             {/* Vuelos */}
             <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
               <button
                 onClick={() => setShowFlights(!showFlights)}
                 className={`w-full text-left font-bold text-lg p-4 rounded-lg transition-all duration-200 ${
-                  showFlights 
-                    ? "bg-blue-50 text-blue-800 border border-blue-200" 
+                  showFlights
+                    ? "bg-blue-50 text-blue-800 border border-blue-200"
                     : "bg-gray-50 text-gray-700 hover:bg-gray-100"
                 }`}
               >
@@ -485,7 +507,9 @@ export default function Home() {
                     .filter((f) => {
                       const originMatch =
                         f.origin.toLowerCase().includes(origin.toLowerCase()) ||
-                        f.origin_country.toLowerCase().includes(origin.toLowerCase());
+                        f.origin_country
+                          .toLowerCase()
+                          .includes(origin.toLowerCase());
                       const destinationMatch =
                         f.destination_city
                           .toLowerCase()
@@ -516,8 +540,8 @@ export default function Home() {
                 className={`w-full text-left font-bold text-lg p-4 rounded-lg transition-all duration-200 ${
                   !selectedFlight
                     ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                    : showHotels 
-                      ? "bg-green-50 text-green-800 border border-green-200" 
+                    : showHotels
+                      ? "bg-green-50 text-green-800 border border-green-200"
                       : "bg-gray-50 text-gray-700 hover:bg-gray-100"
                 }`}
               >
@@ -568,8 +592,8 @@ export default function Home() {
                 className={`w-full text-left font-bold text-lg p-4 rounded-lg transition-all duration-200 ${
                   !selectedFlight
                     ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                    : showTours 
-                      ? "bg-purple-50 text-purple-800 border border-purple-200" 
+                    : showTours
+                      ? "bg-purple-50 text-purple-800 border border-purple-200"
                       : "bg-gray-50 text-gray-700 hover:bg-gray-100"
                 }`}
               >
@@ -616,7 +640,9 @@ export default function Home() {
 
         {packageResult && (
           <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
-            <h3 className="text-3xl font-bold text-gray-900 mb-6">🤖 Paquete Recomendado por IA</h3>
+            <h3 className="text-3xl font-bold text-gray-900 mb-6">
+              🤖 Paquete Recomendado por IA
+            </h3>
             <PackageCard
               packageData={packageResult}
               onSelectFlight={setSelectedFlight}
