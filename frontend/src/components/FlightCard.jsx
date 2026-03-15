@@ -3,28 +3,115 @@ import React from "react";
 export default function FlightCard({ flight, onSelect, isSelected }) {
   if (!flight) return null;
 
+  // Generate travel destination image based on destination
+  const getDestinationImage = (destination) => {
+    const destinationImages = {
+      'Lima': 'https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?q=80&w=1000',
+      'Cusco': 'https://images.unsplash.com/photo-1526081301029-38041068b52f?q=80&w=1000',
+      'Arequipa': 'https://images.unsplash.com/photo-1587466376395-5e43dad360f8?q=80&w=1000',
+      'Trujillo': 'https://images.unsplash.com/photo-1600175691579-42a0f389a556?q=80&w=1000',
+      'Iquitos': 'https://images.unsplash.com/photo-1596079890744-c1a0462d0975?q=80&w=1000',
+      'Puno': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1000',
+      'Tacna': 'https://images.unsplash.com/photo-1635863133607-d05c74378d1d?q=80&w=1000',
+      'Piura': 'https://images.unsplash.com/photo-1601758174501-53c8550136f6?q=80&w=1000'
+    };
+    return destinationImages[destination] || `https://source.unsplash.com/featured/400x300/?airport,${destination.toLowerCase()}`;
+  };
+
+  const destinationImage = getDestinationImage(flight.destination);
+
   return (
-    <div className="border rounded p-4 shadow hover:shadow-lg transition mb-2">
-      <h3 className="font-bold text-lg">
-        {flight.origin} → {flight.destination}
-      </h3>
-      <p className="text-gray-600 text-sm">Fecha: {flight.date}</p>
-      <div className="flex justify-between items-center mt-2">
-        <div>
-          <p className="font-semibold text-blue-600">S/. {flight.price}</p>
-          <p className="text-sm text-gray-500">Asientos: {flight.available_seats}</p>
+    <div className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden ${isSelected ? 'ring-2 ring-blue-500' : ''}`}>
+      {/* Destination Image Header */}
+      <div className="relative h-48 overflow-hidden">
+        <img 
+          src={destinationImage} 
+          alt={`${flight.destination} vista aérea`}
+          className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+          onError={(e) => {
+            e.target.src = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1000';
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+        <div className="absolute bottom-4 left-4 text-white">
+          <h3 className="text-2xl font-bold">{flight.destination}</h3>
+          <p className="text-sm opacity-90">{flight.destination_country}</p>
         </div>
-        <button
-          onClick={() => onSelect(flight)}
-          disabled={isSelected}
-          className={`px-4 py-2 rounded-md font-medium transition-colors ${
-            isSelected 
-              ? 'bg-blue-200 text-blue-800 cursor-not-allowed' 
-              : 'bg-blue-600 hover:bg-blue-700 text-white'
-          }`}
-        >
-          {isSelected ? 'Seleccionado' : 'Seleccionar Vuelo'}
-        </button>
+      </div>
+
+      {/* Flight Details */}
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center space-x-3">
+            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+              <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Vuelo</p>
+              <p className="text-xs text-gray-400">Origen: {flight.origin}</p>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-sm text-gray-500">Fecha</p>
+            <p className="text-sm font-medium">{flight.date}</p>
+          </div>
+        </div>
+
+        {/* Route Information */}
+        <div className="flex items-center justify-between mb-4 bg-gray-50 rounded-lg p-3">
+          <div className="flex items-center space-x-4">
+            <div className="text-center">
+              <p className="text-xs text-gray-500">Salida</p>
+              <p className="font-semibold">{flight.origin}</p>
+              <p className="text-xs text-gray-500">{flight.origin_country}</p>
+            </div>
+            <div className="flex-1 flex items-center justify-center">
+              <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </div>
+            <div className="text-center">
+              <p className="text-xs text-gray-500">Destino</p>
+              <p className="font-semibold">{flight.destination}</p>
+              <p className="text-xs text-gray-500">{flight.destination_country}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Price and Action */}
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-2xl font-bold text-gray-900">S/. {flight.price}</p>
+            <p className="text-sm text-gray-600">Asientos disponibles: {flight.available_seats}</p>
+          </div>
+          <button
+            onClick={() => onSelect(flight)}
+            disabled={isSelected}
+            className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 ${
+              isSelected 
+                ? 'bg-blue-100 text-blue-800 cursor-not-allowed shadow-inner' 
+                : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl'
+            }`}
+          >
+            {isSelected ? (
+              <span className="flex items-center space-x-2">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Seleccionado</span>
+              </span>
+            ) : (
+              <span className="flex items-center space-x-2">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                <span>Seleccionar Vuelo</span>
+              </span>
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );
