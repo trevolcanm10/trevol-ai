@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../services/authService';
+import api from "../services/api";// importando las funciones de la api
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../services/authService";
 import {
   BarChart,
   Bar,
@@ -12,8 +13,8 @@ import {
   ResponsiveContainer,
   PieChart,
   Pie,
-  Cell
-} from 'recharts';
+  Cell,
+} from "recharts";
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -21,7 +22,7 @@ const Dashboard = () => {
     totalBookings: 0,
     topDestinations: [],
     monthlyRevenue: [],
-    recentBookings: []
+    recentBookings: [],
   });
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
     fetchDashboardData();
@@ -38,31 +39,32 @@ const Dashboard = () => {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      
-      // Fetch all dashboard data in parallel
-      const [revenueRes, bookingsRes, destinationsRes, monthlyRes, recentRes] = await Promise.all([
-        fetch('/api/dashboard/revenue'),
-        fetch('/api/dashboard/bookings'),
-        fetch('/api/dashboard/top-destinations'),
-        fetch('/api/dashboard/monthly-revenue'),
-        fetch('/api/dashboard/recent-bookings')
-      ]);
 
-      const revenueData = await revenueRes.json();
-      const bookingsData = await bookingsRes.json();
-      const destinationsData = await destinationsRes.json();
-      const monthlyData = await monthlyRes.json();
-      const recentData = await recentRes.json();
+      // Fetch all dashboard data in parallel
+      const [revenueRes, bookingsRes, destinationsRes, monthlyRes, recentRes] =
+        await Promise.all([
+          api.get("/dashboard/revenue"),
+          api.get("/dashboard/bookings"),
+          api.get("/dashboard/top-destinations"),
+          api.get("/dashboard/monthly-revenue"),
+          api.get("/dashboard/recent-bookings"),
+        ]);
+
+      const revenueData = revenueRes.data;
+      const bookingsData = bookingsRes.data;
+      const destinationsData = destinationsRes.data;
+      const monthlyData = monthlyRes.data;
+      const recentData = recentRes.data;
 
       setStats({
         totalRevenue: revenueData.total_revenue || 0,
         totalBookings: bookingsData.total_bookings || 0,
         topDestinations: destinationsData || [],
         monthlyRevenue: monthlyData || [],
-        recentBookings: recentData || []
+        recentBookings: recentData || [],
       });
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
+      console.error("Error fetching dashboard data:", error);
     } finally {
       setLoading(false);
     }
@@ -70,7 +72,7 @@ const Dashboard = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate("/login");
   };
 
   if (loading) {
@@ -90,12 +92,12 @@ const Dashboard = () => {
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
               <p className="mt-1 text-sm text-gray-600">
-                Bienvenido, {user?.name || 'Usuario'}
+                Bienvenido, {user?.name || "Usuario"}
               </p>
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-600">
-                Rol: {user?.role || 'Cliente'}
+                Rol: {user?.role || "Cliente"}
               </span>
               <button
                 onClick={handleLogout}
@@ -114,14 +116,26 @@ const Dashboard = () => {
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Ingresos Totales</p>
+                <p className="text-sm font-medium text-gray-600">
+                  Ingresos Totales
+                </p>
                 <p className="text-2xl font-bold text-gray-900">
                   S/. {stats.totalRevenue.toLocaleString()}
                 </p>
               </div>
               <div className="bg-green-100 p-3 rounded-full">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  className="w-6 h-6 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               </div>
             </div>
@@ -130,14 +144,26 @@ const Dashboard = () => {
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Reservas Totales</p>
+                <p className="text-sm font-medium text-gray-600">
+                  Reservas Totales
+                </p>
                 <p className="text-2xl font-bold text-gray-900">
                   {stats.totalBookings}
                 </p>
               </div>
               <div className="bg-blue-100 p-3 rounded-full">
-                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                <svg
+                  className="w-6 h-6 text-blue-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
                 </svg>
               </div>
             </div>
@@ -146,15 +172,32 @@ const Dashboard = () => {
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Destinos Populares</p>
+                <p className="text-sm font-medium text-gray-600">
+                  Destinos Populares
+                </p>
                 <p className="text-2xl font-bold text-gray-900">
                   {stats.topDestinations.length}
                 </p>
               </div>
               <div className="bg-purple-100 p-3 rounded-full">
-                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                <svg
+                  className="w-6 h-6 text-purple-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
                 </svg>
               </div>
             </div>
@@ -165,7 +208,9 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Top Destinations - Pie Chart */}
           <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Destinos Más Vendidos</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Destinos Más Vendidos
+            </h3>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -174,13 +219,18 @@ const Dashboard = () => {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    label={({ destination, percent }) => `${destination} ${(percent * 100).toFixed(0)}%`}
+                    label={({ destination, percent }) =>
+                      `${destination} ${(percent * 100).toFixed(0)}%`
+                    }
                     outerRadius={80}
                     fill="#8884d8"
                     dataKey="total_sales"
                   >
                     {stats.topDestinations.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
                     ))}
                   </Pie>
                   <Tooltip />
@@ -191,7 +241,9 @@ const Dashboard = () => {
 
           {/* Monthly Revenue - Bar Chart */}
           <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Ingresos Mensuales</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Ingresos Mensuales
+            </h3>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={stats.monthlyRevenue}>
@@ -210,17 +262,29 @@ const Dashboard = () => {
         {/* Recent Activity */}
         <div className="mt-8 bg-white rounded-lg shadow">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900">Reservas Recientes</h3>
+            <h3 className="text-lg font-semibold text-gray-900">
+              Reservas Recientes
+            </h3>
           </div>
           <div className="p-6">
             {stats.recentBookings.length > 0 ? (
               <div className="space-y-4">
                 {stats.recentBookings.map((booking, index) => (
-                  <div key={booking.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                  <div
+                    key={booking.id}
+                    className="flex items-center justify-between p-4 border border-gray-200 rounded-lg"
+                  >
                     <div>
-                      <h4 className="font-medium text-gray-900">{booking.destination}</h4>
-                      <p className="text-sm text-gray-600">Reserva #{booking.id} - {new Date(booking.booking_date).toLocaleDateString()}</p>
-                      <p className="text-sm text-gray-600">Cliente: {booking.user_name}</p>
+                      <h4 className="font-medium text-gray-900">
+                        {booking.destination}
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        Reserva #{booking.id} -{" "}
+                        {new Date(booking.booking_date).toLocaleDateString()}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Cliente: {booking.user_name}
+                      </p>
                     </div>
                     <div className="text-right">
                       <p className="text-lg font-semibold text-green-600">
@@ -243,6 +307,6 @@ const Dashboard = () => {
 };
 
 // Colors for the pie chart
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
 
 export default Dashboard;
