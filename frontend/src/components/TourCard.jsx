@@ -6,14 +6,7 @@ export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
   // Generate tour destination image based on location
   const getTourImage = (location) => {
     const locationImages = {
-      'Lima': 'https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?q=80&w=1000',
-      'Cusco': 'https://images.unsplash.com/photo-1526081301029-38041068b52f?q=80&w=1000',
-      'Arequipa': 'https://images.unsplash.com/photo-1587466376395-5e43dad360f8?q=80&w=1000',
-      'Trujillo': 'https://images.unsplash.com/photo-1600175691579-42a0f389a556?q=80&w=1000',
-      'Iquitos': 'https://images.unsplash.com/photo-1596079890744-c1a0462d0975?q=80&w=1000',
-      'Puno': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1000',
-      'Tacna': 'https://images.unsplash.com/photo-1635863133607-d05c74378d1d?q=80&w=1000',
-      'Piura': 'https://images.unsplash.com/photo-1601758174501-53c8550136f6?q=80&w=1000'
+      'New York': 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=1000'
     };
     return locationImages[location] || `https://source.unsplash.com/featured/400x300/?tour,${location.toLowerCase()}`;
   };
