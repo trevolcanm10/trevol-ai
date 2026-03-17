@@ -159,12 +159,14 @@ const Profile = () => {
               </p>
             </div>
             <div className="flex items-center space-x-4">
-              <button
-                onClick={() => navigate("/dashboard")}
-                className="bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
-              >
-                ← Dashboard
-              </button>
+              {(user?.role === 'vendedor' || user?.role === 'admin') && (
+                <button
+                  onClick={() => navigate("/dashboard")}
+                  className="bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                >
+                  ← Dashboard
+                </button>
+              )}
               <button
                 onClick={handleLogout}
                 className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
@@ -243,12 +245,14 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <button
-                    onClick={() => navigate("/dashboard")}
-                    className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
-                  >
-                    Ver Dashboard
-                  </button>
+                  {(user?.role === 'vendedor' || user?.role === 'admin') && (
+                    <button
+                      onClick={() => navigate("/dashboard")}
+                      className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                    >
+                      Ver Dashboard
+                    </button>
+                  )}
                   <button
                     onClick={() => navigate("/")}
                     className="w-full bg-gray-100 hover:bg-gray-200 text-gray-900 py-3 px-6 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"

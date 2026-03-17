@@ -13,6 +13,7 @@ class ClienteRegistro(BaseModel):
     email: EmailStr
     phone: str
     password: Annotated[str, constr(min_length=6, max_length=72)]
+    role: str = "user"
 
 class ClienteLogin(BaseModel):
     """
@@ -27,3 +28,5 @@ class Token(BaseModel):
     """
     access_token: str
     token_type: str
+    role: str
+    name: str

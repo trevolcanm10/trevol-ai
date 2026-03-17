@@ -52,7 +52,7 @@ def login_cliente(form_data: OAuth2PasswordRequestForm = Depends(), db: Session 
         raise HTTPException(status_code=401, detail="Credenciales incorrectas")
 
     token = create_access_token({"sub": db_user.email, "role": db_user.role})
-    return {"access_token": token, "token_type": "bearer"}
+    return {"access_token": token, "token_type": "bearer", "role": db_user.role, "name": db_user.name}
 
 
 @router.get("/secure-endpoint")

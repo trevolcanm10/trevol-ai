@@ -33,6 +33,10 @@ const Dashboard = () => {
       navigate("/login");
       return;
     }
+    if (user.role !== "vendedor" && user.role !== "admin") {
+      navigate("/");
+      return;
+    }
     fetchDashboardData();
   }, [user, navigate]);
 

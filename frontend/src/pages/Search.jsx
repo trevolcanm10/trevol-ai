@@ -164,12 +164,14 @@ const Search = () => {
                 <span className="text-lg font-semibold text-gray-900">
                   👋 Bienvenido, {user.name}
                 </span>
-                <button
-                  onClick={() => navigate("/dashboard")}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
-                >
-                  📊 Ir al Dashboard
-                </button>
+                {(user.role === 'vendedor' || user.role === 'admin') && (
+                  <button
+                    onClick={() => navigate("/dashboard")}
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                  >
+                    📊 Ir al Dashboard
+                  </button>
+                )}
               </div>
             ) : (
               <div className="flex flex-col sm:flex-row gap-4">

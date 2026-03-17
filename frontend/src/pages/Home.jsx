@@ -244,12 +244,14 @@ export default function Home() {
                       Bienvenido, {user?.email?.split('@')[0]}
                     </span>
                     <div className="flex space-x-4">
-                      <button
-                        onClick={() => navigate("/dashboard")}
-                        className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
-                      >
-                        Ir al Dashboard
-                      </button>
+                      {(user.role === 'vendedor' || user.role === 'admin') && (
+                        <button
+                          onClick={() => navigate("/dashboard")}
+                          className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                        >
+                          Ir al Dashboard
+                        </button>
+                      )}
                       <button
                         onClick={() => navigate("/profile")}
                         className="bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"

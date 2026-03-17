@@ -45,12 +45,14 @@ const NavigationBar = () => {
               </Link>
               {user && (
                 <>
-                  <Link 
-                    to="/dashboard" 
-                    className={`inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors ${isActive('/dashboard')}`}
-                  >
-                    Dashboard
-                  </Link>
+                  {(user.role === 'vendedor' || user.role === 'admin') && (
+                    <Link 
+                      to="/dashboard" 
+                      className={`inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors ${isActive('/dashboard')}`}
+                    >
+                      Dashboard
+                    </Link>
+                  )}
                   <Link 
                     to="/package" 
                     className={`inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors ${isActive('/package')}`}
@@ -115,13 +117,15 @@ const NavigationBar = () => {
           </Link>
           {user && (
             <>
-              <Link 
-                to="/dashboard" 
-                className={`flex flex-col items-center py-2 px-3 text-xs font-medium transition-colors ${isActive('/dashboard')}`}
-              >
-                <span className="text-lg">📊</span>
-                Dashboard
-              </Link>
+              {(user.role === 'vendedor' || user.role === 'admin') && (
+                <Link 
+                  to="/dashboard" 
+                  className={`flex flex-col items-center py-2 px-3 text-xs font-medium transition-colors ${isActive('/dashboard')}`}
+                >
+                  <span className="text-lg">📊</span>
+                  Dashboard
+                </Link>
+              )}
               <Link 
                 to="/package" 
                 className={`flex flex-col items-center py-2 px-3 text-xs font-medium transition-colors ${isActive('/package')}`}
