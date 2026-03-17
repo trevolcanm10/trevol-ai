@@ -220,49 +220,49 @@ export default function Home() {
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=1600')] bg-cover bg-center opacity-10"></div>
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1600')] bg-cover bg-center opacity-10"></div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center">
-            <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto mb-6 flex items-center justify-center shadow-xl">
+            <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto mb-8 flex items-center justify-center shadow-2xl">
               <span className="text-2xl font-bold text-white">✈️</span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
               Travel-AI
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-gray-600 mb-10 max-w-4xl mx-auto leading-relaxed">
               Descubre tu próximo destino con inteligencia artificial. Encuentra
               vuelos, hoteles y tours perfectos para tu viaje ideal.
             </p>
 
             {/* User Status Bar */}
-            <div className="bg-white/80 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/20">
-              <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="bg-white/90 backdrop-blur-lg rounded-3xl p-8 shadow-xl border border-white/30">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-6">
                 {user ? (
                   <div className="flex items-center space-x-6">
-                    <span className="text-lg font-semibold text-gray-900">
-                      👋 Bienvenido, {user?.email}
+                    <span className="text-lg md:text-xl font-semibold text-gray-900">
+                      Bienvenido, {user?.email?.split('@')[0]}
                     </span>
                     <button
                       onClick={() => navigate("/dashboard")}
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-xl"
                     >
-                      📊 Ir al Dashboard
+                      Ir al Dashboard
                     </button>
                   </div>
                 ) : (
                   <div className="flex flex-col sm:flex-row gap-4">
                     <button
                       onClick={() => navigate("/login")}
-                      className="bg-white text-gray-900 px-6 py-3 rounded-lg font-semibold border-2 border-gray-200 hover:border-gray-300 transition-all duration-200 transform hover:scale-105 shadow-lg"
+                      className="bg-white text-gray-900 px-8 py-4 rounded-xl font-semibold border-2 border-gray-200 hover:border-gray-300 transition-all duration-200 transform hover:scale-105 shadow-xl"
                     >
-                      🔐 Iniciar Sesión
+                      Iniciar Sesión
                     </button>
                     <button
                       onClick={() => navigate("/register")}
-                      className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                      className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-xl"
                     >
-                      📝 Registrarse
+                      Registrarse
                     </button>
                   </div>
                 )}
@@ -273,29 +273,28 @@ export default function Home() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Selection Summary Card */}
         {(selectedFlight || selectedHotel || selectedTour) && (
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-8 rounded-2xl mb-8 shadow-xl border border-gray-200">
-            <div className="flex flex-col md:flex-row justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">
-                🧳 Resumen de tu Viaje
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-10 rounded-3xl mb-10 shadow-xl border border-gray-200">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+              <h2 className="text-3xl font-bold text-gray-900">
+                Resumen de tu Viaje
               </h2>
               <button
                 onClick={handleCancelSelection}
-                className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-xl"
               >
-                🗑️ Cancelar Todo
+                Cancelar Todo
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-lg">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+              <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-xl">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="flex items-center space-x-3 mb-2">
-                      <span className="text-2xl">✈️</span>
-                      <p className="font-bold text-gray-900 text-lg">Vuelo</p>
+                    <div className="flex items-center space-x-4 mb-3">
+                      <p className="font-bold text-gray-900 text-xl">Vuelo</p>
                     </div>
                     {selectedFlight ? (
                       <p className="text-sm text-gray-600">
@@ -310,20 +309,19 @@ export default function Home() {
                   {selectedFlight && (
                     <button
                       onClick={handleCancelFlight}
-                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105"
+                      className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
                     >
-                      ❌
+                      Cancelar
                     </button>
                   )}
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-lg">
+              <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-xl">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="flex items-center space-x-3 mb-2">
-                      <span className="text-2xl">🏨</span>
-                      <p className="font-bold text-gray-900 text-lg">Hotel</p>
+                    <div className="flex items-center space-x-4 mb-3">
+                      <p className="font-bold text-gray-900 text-xl">Hotel</p>
                     </div>
                     {selectedHotel ? (
                       <p className="text-sm text-gray-600">
@@ -336,20 +334,19 @@ export default function Home() {
                   {selectedHotel && (
                     <button
                       onClick={handleCancelHotel}
-                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105"
+                      className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
                     >
-                      ❌
+                      Cancelar
                     </button>
                   )}
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-lg">
+              <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-xl">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="flex items-center space-x-3 mb-2">
-                      <span className="text-2xl">🗺️</span>
-                      <p className="font-bold text-gray-900 text-lg">Tour</p>
+                    <div className="flex items-center space-x-4 mb-3">
+                      <p className="font-bold text-gray-900 text-xl">Tour</p>
                     </div>
                     {selectedTour ? (
                       <p className="text-sm text-gray-600">
@@ -362,9 +359,9 @@ export default function Home() {
                   {selectedTour && (
                     <button
                       onClick={handleCancelTour}
-                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105"
+                      className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
                     >
-                      ❌
+                      Cancelar
                     </button>
                   )}
                 </div>
@@ -375,29 +372,29 @@ export default function Home() {
               <button
                 onClick={handleBooking}
                 disabled={!selectedFlight}
-                className={`px-8 py-4 rounded-xl font-bold text-white text-lg transition-all duration-300 transform hover:scale-105 shadow-xl ${
+                className={`px-10 py-5 rounded-xl font-bold text-white text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl ${
                   !selectedFlight
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
                 }`}
               >
                 {selectedFlight
-                  ? "✅ Confirmar Reserva"
-                  : "⚠️ Selecciona un Vuelo"}
+                  ? "Confirmar Reserva"
+                  : "Selecciona un Vuelo"}
               </button>
             </div>
           </div>
         )}
 
         {/* Search Section */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200 mb-8">
-          <h3 className="text-2xl font-bold text-gray-900 mb-6">
-            🔍 Encuentra tu Próximo Destino
+        <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-200 mb-10">
+          <h3 className="text-3xl font-bold text-gray-900 mb-8">
+            Encuentra tu Próximo Destino
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-3">
                 Origen
               </label>
               <input
@@ -405,11 +402,11 @@ export default function Home() {
                 placeholder="Ej: Lima, Arequipa, Cusco"
                 value={origin}
                 onChange={(e) => setOrigin(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                className="w-full px-4 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-lg"
               />
             </div>
             <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-3">
                 Destino
               </label>
               <input
@@ -417,46 +414,66 @@ export default function Home() {
                 placeholder="Ej: Cusco, Lima, Arequipa"
                 value={destination}
                 onChange={(e) => setDestination(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                className="w-full px-4 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-lg"
               />
             </div>
             <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Acciones
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                Búsqueda
               </label>
-              <div className="flex gap-2">
-                <button
-                  onClick={handleSearch}
-                  disabled={searching}
-                  className={`flex-1 py-3 px-4 rounded-lg font-semibold transition-all duration-200 ${
-                    searching
-                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                      : "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
-                  }`}
-                >
-                  {searching ? "🔍 Buscando..." : "🔍 Buscar Vuelos"}
-                </button>
+              <div className="flex gap-3">
+              <button
+                onClick={handleSearch}
+                disabled={searching}
+                className={`flex-1 py-4 px-6 rounded-lg font-semibold transition-all duration-200 ${
+                  searching
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+                }`}
+              >
+                {searching ? (
+                  <span className="flex items-center justify-center space-x-2">
+                    <i className="fa-solid fa-spinner fa-spin"></i>
+                    <span>Buscando...</span>
+                  </span>
+                ) : (
+                      <span className="flex items-center justify-center space-x-2">
+                    <i className="fa-solid fa-plane-departure"></i>
+                    <span>Buscar Vuelos</span>
+                  </span>
+                )}
+              </button>
               </div>
             </div>
             <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Paquete Inteligente
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                Inteligencia AI
               </label>
               <button
                 onClick={handlePackage}
                 disabled={
                   searching || origin.length < 3 || destination.length < 3
                 }
-                className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-200 ${
+                className={`w-full py-4 px-6 rounded-lg font-semibold transition-all duration-200 ${
                   searching || origin.length < 3 || destination.length < 3
                     ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                     : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
                 }`}
               >
-                {searching ? "🤖 Analizando..." : "🤖 Paquete AI"}
+                {searching ? (
+                  <span className="flex items-center justify-center space-x-2">
+                    <i className="fa-solid fa-spinner fa-spin"></i>
+                    <span>Analizando...</span>
+                  </span>
+                ) : (
+                      <span className="flex items-center justify-center space-x-2">
+                    <i className="fa-solid fa-brain"></i>
+                    <span>Paquete AI</span>
+                  </span>
+                )}
               </button>
               {(origin.length < 3 || destination.length < 3) && (
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gray-500 mt-2">
                   Ingresa al menos 3 caracteres para activar el paquete
                 </p>
               )}
@@ -466,9 +483,9 @@ export default function Home() {
 
         {/* Results Section */}
         {searching && (
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200 mb-8 text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600 text-lg">
+        <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-200 mb-10 text-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-6"></div>
+            <p className="text-gray-600 text-xl font-medium">
               Buscando destinos perfectos para ti...
             </p>
           </div>
@@ -476,33 +493,32 @@ export default function Home() {
 
         {results && (
           <div className="space-y-8">
-            <h3 className="text-3xl font-bold text-gray-900 mb-6">
-              📋 Resultados de Búsqueda
+            <h3 className="text-4xl font-bold text-gray-900 mb-8">
+              Resultados de Búsqueda
             </h3>
 
             {/* Vuelos */}
-            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
+            <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-200">
               <button
                 onClick={() => setShowFlights(!showFlights)}
-                className={`w-full text-left font-bold text-lg p-4 rounded-lg transition-all duration-200 ${
+                className={`w-full text-left font-bold text-xl p-6 rounded-xl transition-all duration-200 ${
                   showFlights
                     ? "bg-blue-50 text-blue-800 border border-blue-200"
                     : "bg-gray-50 text-gray-700 hover:bg-gray-100"
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="flex items-center space-x-3">
-                    <span className="text-2xl">✈️</span>
+                  <span className="flex items-center space-x-4">
                     <span>Vuelos Disponibles</span>
                   </span>
-                  <span className="text-sm font-medium text-gray-500">
+                  <span className="text-base font-medium text-gray-500">
                     {results.flights.length} encontrados
                   </span>
                 </div>
               </button>
 
               {showFlights && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mt-8">
                   {results.flights
                     .filter((f) => {
                       const originMatch =
@@ -533,11 +549,11 @@ export default function Home() {
             </div>
 
             {/* Hoteles */}
-            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
+            <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-200">
               <button
                 onClick={() => setShowHotels(!showHotels)}
                 disabled={!selectedFlight}
-                className={`w-full text-left font-bold text-lg p-4 rounded-lg transition-all duration-200 ${
+                className={`w-full text-left font-bold text-xl p-6 rounded-xl transition-all duration-200 ${
                   !selectedFlight
                     ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                     : showHotels
@@ -546,18 +562,17 @@ export default function Home() {
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="flex items-center space-x-3">
-                    <span className="text-2xl">🏨</span>
+                  <span className="flex items-center space-x-4">
                     <span>Hoteles Disponibles</span>
                   </span>
-                  <span className="text-sm font-medium text-gray-500">
+                  <span className="text-base font-medium text-gray-500">
                     {results.hotels.length} encontrados
                   </span>
                 </div>
               </button>
 
               {showHotels && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mt-8">
                   {results.hotels
                     .filter((h) => {
                       if (selectedFlight) {
@@ -585,11 +600,11 @@ export default function Home() {
             </div>
 
             {/* Tours */}
-            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
+            <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-200">
               <button
                 onClick={() => setShowTours(!showTours)}
                 disabled={!selectedFlight}
-                className={`w-full text-left font-bold text-lg p-4 rounded-lg transition-all duration-200 ${
+                className={`w-full text-left font-bold text-xl p-6 rounded-xl transition-all duration-200 ${
                   !selectedFlight
                     ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                     : showTours
@@ -598,18 +613,17 @@ export default function Home() {
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="flex items-center space-x-3">
-                    <span className="text-2xl">🗺️</span>
+                  <span className="flex items-center space-x-4">
                     <span>Tours Disponibles</span>
                   </span>
-                  <span className="text-sm font-medium text-gray-500">
+                  <span className="text-base font-medium text-gray-500">
                     {results.tours.length} encontrados
                   </span>
                 </div>
               </button>
 
               {showTours && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mt-8">
                   {results.tours
                     .filter((t) => {
                       if (selectedFlight) {
@@ -639,9 +653,9 @@ export default function Home() {
         )}
 
         {packageResult && (
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
-            <h3 className="text-3xl font-bold text-gray-900 mb-6">
-              🤖 Paquete Recomendado por IA
+        <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-200">
+            <h3 className="text-4xl font-bold text-gray-900 mb-8">
+              Paquete Recomendado por IA
             </h3>
             <PackageCard
               packageData={packageResult}

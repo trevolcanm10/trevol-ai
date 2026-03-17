@@ -49,9 +49,7 @@ export default function HotelCard({ hotel, onSelect, onCancel, isSelected }) {
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-              </svg>
+              <i className="fa-solid fa-hotel text-green-600 text-xl"></i>
             </div>
             <div>
               <p className="text-sm text-gray-500">Hotel</p>
@@ -93,9 +91,7 @@ export default function HotelCard({ hotel, onSelect, onCancel, isSelected }) {
               onClick={onCancel}
               className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <i className="fa-solid fa-times"></i>
               <span>Quitar Hotel</span>
             </button>
           ) : (
@@ -103,9 +99,7 @@ export default function HotelCard({ hotel, onSelect, onCancel, isSelected }) {
               onClick={() => onSelect(hotel)}
               className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
+              <i className="fa-solid fa-plus"></i>
               <span>Añadir al viaje</span>
             </button>
           )}
