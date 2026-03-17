@@ -6,6 +6,7 @@ import Package from "./pages/Package"; // importando el componente Package
 import Dashboard from "./pages/Dashboard"; // importando el componente Dashboard
 import Login from "./pages/Login"; // importando el componente Login
 import Register from "./pages/Register"; // importando el componente Register
+import Profile from "./pages/Profile"; // importando el componente Profile
 
 function App(){
   return(
@@ -18,6 +19,7 @@ function App(){
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

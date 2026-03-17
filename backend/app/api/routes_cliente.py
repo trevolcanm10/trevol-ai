@@ -61,3 +61,52 @@ def secure_data(current_user=Depends(get_current_user)):
     Función para obtener datos protegidos
     """
     return {"message": "Protected route", "user": current_user.email}
+
+@router.get("/profile")
+def get_profile(current_user=Depends(get_current_user)):
+    """
+    Función para obtener el perfil del usuario
+    """
+    return {
+        "id": current_user.id,
+        "name": current_user.name,
+        "email": current_user.email,
+        "phone": current_user.phone,
+        "role": current_user.role,
+        "created_at": current_user.created_at,
+        "updated_at": current_user.created_at  # No hay campo updated_at en el modelo
+    }
+
+@router.put("/profile")
+def update_profile(
+    name: str = None,
+    email: str = None,
+    phone: str = None,
+    password: str = None,
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Función para actualizar el perfil del usuario
+    """
+    if name:
+        current_user.name = name
+    if email:
+        current_user.email = email
+    if phone:
+        current_user.phone = phone
+    if password:
+        current_user.password = get_password_hash(password)
+    
+    db.commit()
+    db.refresh(current_user)
+    
+    return {
+        "id": current_user.id,
+        "name": current_user.name,
+        "email": current_user.email,
+        "phone": current_user.phone,
+        "role": current_user.role,
+        "created_at": current_user.created_at,
+        "updated_at": current_user.updated_at
+    }
