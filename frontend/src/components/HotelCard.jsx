@@ -6,7 +6,10 @@ export default function HotelCard({ hotel, onSelect, onCancel, isSelected }) {
   // Generate hotel destination image based on location
   const getHotelImage = (location) => {
     const locationImages = {
-      'New York': 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=1000'
+      'New York': 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=1000',
+      'Manhattan': 'https://images.unsplash.com/photo-1505765050503-5ef84c10c727?q=80&w=1000',
+      'Times Square': 'https://images.unsplash.com/photo-1538428494232-9c0d8a3ab?q=80&w=1000',
+      'Central Park': 'https://images.unsplash.com/photo-1564507592339-915014929332?q=80&w=1000'
     };
     return locationImages[location] || `https://source.unsplash.com/featured/400x300/?hotel,${location.toLowerCase()}`;
   };

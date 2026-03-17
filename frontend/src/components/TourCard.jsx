@@ -3,15 +3,28 @@ import React from "react";
 export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
   if (!tour) return null;
 
-  // Generate tour destination image based on location
-  const getTourImage = (location) => {
-    const locationImages = {
-      'New York': 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=1000'
+  // Generate tour destination image based on tour name
+  const getTourImage = (tourName) => {
+    const tourImages = {
+      "Rockefeller Center":
+        "https://images.ctfassets.net/1aemqu6a6t65/2CA16quTK3q6aLY5I2QNlz/191110b2aa108e5f83751e397da096fa/holiday_3000x2000",
+      "Saint Patrick’s Cathedral":
+        "https://travel.usnews.com/dims4/USNEWS/c8fa877/2147483647/resize/976x652%5E%3E/crop/976x652/quality/85/format/webp/?url=https%3A%2F%2Ftravel.usnews.com%2Fimages%2FSt_Patricks_Cathedral_Gabriel_Pevida_GEtty.jpg",
+      "Central Park Carousel":
+        "https://scontent.flim29-1.fna.fbcdn.net/v/t39.30808-6/245928753_140777234948531_2239864642245366036_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=2a1932&_nc_eui2=AeH3qaD64LMwToDI0ZqPXqnoGMtuI6et4FkYy24jp63gWZOW3iGMMyX4MArGIhZpln3aoirxcVAm4COrU0ZWedkW&_nc_ohc=vu-vsHG6rfAQ7kNvwHhSsiy&_nc_oc=Adk5Gb8U6gL8-nlLcKcRNqD5vZvqNOqviCi8pmFLobKRGGMAQBDPCqq4Gxb_Lumlcg7tQmtnG2P_kF-eLAlW5_5G&_nc_zt=23&_nc_ht=scontent.flim29-1.fna&_nc_gid=zccipeJi16Ac1RBAQ8Fi0Q&_nc_ss=8&oh=00_AfxlzBlwM5Q-Mm2qImfUm6cjXsTepkvbI95WiLIoQla0tA&oe=69BE81E1",
+      "Top of the Rock":
+        "https://images.unsplash.com/photo-1505765050503-5ef84c10c727?q=80&w=1000",
+      "Columbus Circle":
+        "https://images.unsplash.com/photo-1538428494232-9c0d8a3ab?q=80&w=1000",
+      "Times Square":
+        "https://images.unsplash.com/photo-1538428494232-9c0d8a3ab?q=80&w=1000",
+      "New York":
+        "https://media.istockphoto.com/id/1454217037/es/foto/estatua-de-la-libertad-y-horizonte-de-la-ciudad-de-nueva-york-con-el-distrito-financiero-de.jpg?s=612x612&w=0&k=20&c=1abPeg82iwNr0XbPc9eormGet3axsUdkaWgnXSM8e9g=",
     };
-    return locationImages[location] || `https://source.unsplash.com/featured/400x300/?tour,${location.toLowerCase()}`;
+    return tourImages[tourName] || `https://source.unsplash.com/featured/400x300/?tour,${tourName.toLowerCase()}`;
   };
 
-  const tourImage = getTourImage(tour.location);
+  const tourImage = getTourImage(tour.name);
 
   return (
     <div className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden ${isSelected ? 'ring-2 ring-purple-500' : ''}`}>

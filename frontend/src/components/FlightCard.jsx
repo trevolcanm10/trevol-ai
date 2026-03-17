@@ -6,7 +6,26 @@ export default function FlightCard({ flight, onSelect, isSelected }) {
   // Generate travel destination image based on destination
   const getDestinationImage = (destination) => {
     const destinationImages = {
-      'New York': 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=1000'
+      'New York': 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=1000',
+      'Riyadh': 'https://images.unsplash.com/photo-1596500355594-233f8fea62f3?q=80&w=1000',
+      'Japon': 'https://images.unsplash.com/photo-1540291882200-37bd04230bf1?q=80&w=1000',
+      'China': 'https://images.unsplash.com/photo-1520236060906-9c5ed525b025?q=80&w=1000',
+      'Shanghai': 'https://images.unsplash.com/photo-1538428494232-9c0d8a3ab?q=80&w=1000',
+      'Corea del Sur': 'https://images.unsplash.com/photo-1556911220-e37b1d95946f?q=80&w=1000',
+      'Brussels': 'https://images.unsplash.com/photo-1549421253-4f6606432f8b?q=80&w=1000',
+      'Bahrain': 'https://images.unsplash.com/photo-1551649255-5f885dc03979?q=80&w=1000',
+      'Qatar': 'https://images.unsplash.com/photo-1560857792-2ffed0d546d5?q=80&w=1000',
+      'Israel': 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=1000',
+      'Emiratos Arabes': 'https://images.unsplash.com/photo-1516570101029-46264d0750f5?q=80&w=1000',
+      'Reino Unido': 'https://images.unsplash.com/photo-1513635269975-5966b5b32372?q=80&w=1000',
+      'EEUU': 'https://images.unsplash.com/photo-1503265831953-9233c4375576?q=80&w=1000',
+      'Colombia': 'https://images.unsplash.com/photo-1556911220-e37b1d95946f?q=80&w=1000',
+      'Argentina': 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=1000',
+      'El Salvador': 'https://images.unsplash.com/photo-1556911220-e37b1d95946f?q=80&w=1000',
+      'Brasil': 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1000',
+      'Chile': 'https://images.unsplash.com/photo-1556911220-e37b1d95946f?q=80&w=1000',
+      'Mexico': 'https://images.unsplash.com/photo-1503265831953-9233c4375576?q=80&w=1000',
+      'Phoenix': 'https://images.unsplash.com/photo-1519750157634-0b1132355068?q=80&w=1000'
     };
     return destinationImages[destination] || `https://source.unsplash.com/featured/400x300/?airport,${destination.toLowerCase()}`;
   };
