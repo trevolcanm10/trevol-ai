@@ -77,8 +77,14 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-xl">Cargando dashboard...</div>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-white/20">
+          <div className="flex flex-col items-center space-y-4">
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full animate-spin border-4 border-white/20"></div>
+            <div className="text-lg font-semibold text-gray-900">Cargando dashboard...</div>
+            <div className="text-sm text-gray-600">Analizando datos de viajes</div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -86,22 +92,33 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
+          <div className="flex justify-between items-center py-8">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-              <p className="mt-1 text-sm text-gray-600">
+              <h1 className="text-4xl font-bold text-white mb-2">Panel de Control</h1>
+              <p className="text-blue-100 text-lg">
                 Bienvenido, {user?.name || "Usuario"}
               </p>
+              <div className="flex items-center space-x-4 mt-2">
+                <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm text-white">
+                  Rol: {user?.role || "Cliente"}
+                </span>
+                <span className="text-blue-200 text-sm">
+                  Última actualización: {new Date().toLocaleDateString()}
+                </span>
+              </div>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">
-                Rol: {user?.role || "Cliente"}
-              </span>
+              <button
+                onClick={() => navigate("/")}
+                className="bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+              >
+                ← Volver al Home
+              </button>
               <button
                 onClick={handleLogout}
-                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
               >
                 Cerrar Sesión
               </button>
@@ -112,92 +129,60 @@ const Dashboard = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+          <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl shadow-xl p-8 text-white transform hover:scale-105 transition-all duration-300">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">
+                <p className="text-green-100 text-sm font-medium uppercase tracking-wide">
                   Ingresos Totales
                 </p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-4xl font-bold mt-2">
                   S/. {stats.totalRevenue.toLocaleString()}
                 </p>
+                <p className="text-green-200 text-sm mt-1">Reservas exitosas</p>
               </div>
-              <div className="bg-green-100 p-3 rounded-full">
-                <svg
-                  className="w-6 h-6 text-green-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
+              <div className="bg-white/20 p-4 rounded-xl">
+                <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl shadow-xl p-8 text-white transform hover:scale-105 transition-all duration-300">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">
+                <p className="text-blue-100 text-sm font-medium uppercase tracking-wide">
                   Reservas Totales
                 </p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-4xl font-bold mt-2">
                   {stats.totalBookings}
                 </p>
+                <p className="text-blue-200 text-sm mt-1">Clientes satisfechos</p>
               </div>
-              <div className="bg-blue-100 p-3 rounded-full">
-                <svg
-                  className="w-6 h-6 text-blue-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
+              <div className="bg-white/20 p-4 rounded-xl">
+                <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl shadow-xl p-8 text-white transform hover:scale-105 transition-all duration-300">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">
+                <p className="text-purple-100 text-sm font-medium uppercase tracking-wide">
                   Destinos Populares
                 </p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-4xl font-bold mt-2">
                   {stats.topDestinations.length}
                 </p>
+                <p className="text-purple-200 text-sm mt-1">Destinos favoritos</p>
               </div>
-              <div className="bg-purple-100 p-3 rounded-full">
-                <svg
-                  className="w-6 h-6 text-purple-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
+              <div className="bg-white/20 p-4 rounded-xl">
+                <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
             </div>
@@ -205,13 +190,19 @@ const Dashboard = () => {
         </div>
 
         {/* Charts Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
           {/* Top Destinations - Pie Chart */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Destinos Más Vendidos
-            </h3>
-            <div className="h-80">
+          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold text-gray-900">
+                Destinos Más Vendidos
+              </h3>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"></div>
+                <span className="text-sm text-gray-600">Análisis de preferencias</span>
+              </div>
+            </div>
+            <div className="h-96">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -222,7 +213,7 @@ const Dashboard = () => {
                     label={({ destination, percent }) =>
                       `${destination} ${(percent * 100).toFixed(0)}%`
                     }
-                    outerRadius={80}
+                    outerRadius={100}
                     fill="#8884d8"
                     dataKey="total_sales"
                   >
@@ -240,11 +231,17 @@ const Dashboard = () => {
           </div>
 
           {/* Monthly Revenue - Bar Chart */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Ingresos Mensuales
-            </h3>
-            <div className="h-80">
+          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold text-gray-900">
+                Ingresos Mensuales
+              </h3>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full"></div>
+                <span className="text-sm text-gray-600">Tendencia de ingresos</span>
+              </div>
+            </div>
+            <div className="h-96">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={stats.monthlyRevenue}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -252,7 +249,7 @@ const Dashboard = () => {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="revenue" fill="#82ca9d" name="Ingresos" />
+                  <Bar dataKey="revenue" fill="#10b981" name="Ingresos" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -260,43 +257,68 @@ const Dashboard = () => {
         </div>
 
         {/* Recent Activity */}
-        <div className="mt-8 bg-white rounded-lg shadow">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900">
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+          <div className="px-8 py-6 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <h3 className="text-2xl font-bold text-gray-900">
               Reservas Recientes
             </h3>
+            <p className="text-gray-600 mt-1">Actividad de los últimos 30 días</p>
           </div>
-          <div className="p-6">
+          <div className="p-8">
             {stats.recentBookings.length > 0 ? (
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {stats.recentBookings.map((booking, index) => (
                   <div
                     key={booking.id}
-                    className="flex items-center justify-between p-4 border border-gray-200 rounded-lg"
+                    className="flex items-center justify-between p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-gray-200 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
                   >
-                    <div>
-                      <h4 className="font-medium text-gray-900">
-                        {booking.destination}
-                      </h4>
-                      <p className="text-sm text-gray-600">
-                        Reserva #{booking.id} -{" "}
-                        {new Date(booking.booking_date).toLocaleDateString()}
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        Cliente: {booking.user_name}
-                      </p>
+                    <div className="flex items-center space-x-6">
+                      <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                        {booking.destination.charAt(0)}
+                      </div>
+                      <div>
+                        <h4 className="text-xl font-bold text-gray-900 mb-2">
+                          {booking.destination}
+                        </h4>
+                        <div className="flex items-center space-x-4 text-gray-600">
+                          <span className="flex items-center space-x-2">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>Reserva #{booking.id}</span>
+                          </span>
+                          <span className="flex items-center space-x-2">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>{new Date(booking.booking_date).toLocaleDateString()}</span>
+                          </span>
+                        </div>
+                        <p className="text-gray-700 mt-2">
+                          Cliente: <span className="font-semibold">{booking.user_name}</span>
+                        </p>
+                      </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-lg font-semibold text-green-600">
+                      <div className="text-3xl font-bold text-green-600 mb-2">
                         S/. {booking.total_price}
-                      </p>
+                      </div>
+                      <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                        ✅ Confirmado
+                      </span>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8 text-gray-500">
-                No hay reservas recientes
+              <div className="text-center py-12">
+                <div className="w-24 h-24 bg-gradient-to-r from-gray-300 to-gray-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <svg className="w-12 h-12 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">No hay reservas recientes</h3>
+                <p className="text-gray-600">Las reservas aparecerán aquí cuando se realicen.</p>
               </div>
             )}
           </div>
@@ -307,6 +329,6 @@ const Dashboard = () => {
 };
 
 // Colors for the pie chart
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
+const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"];
 
 export default Dashboard;

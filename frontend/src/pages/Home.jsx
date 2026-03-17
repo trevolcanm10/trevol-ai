@@ -23,7 +23,7 @@ export default function Home() {
   const [searching, setSearching] = useState(false); // Estado para indicar búsqueda en progreso
 
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   // Efecto para activación automática del paquete recomendado
   useEffect(() => {
@@ -243,12 +243,26 @@ export default function Home() {
                     <span className="text-lg md:text-xl font-semibold text-gray-900">
                       Bienvenido, {user?.email?.split('@')[0]}
                     </span>
-                    <button
-                      onClick={() => navigate("/dashboard")}
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-xl"
-                    >
-                      Ir al Dashboard
-                    </button>
+                    <div className="flex space-x-4">
+                      <button
+                        onClick={() => navigate("/dashboard")}
+                        className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                      >
+                        Ir al Dashboard
+                      </button>
+                      <button
+                        onClick={() => navigate("/profile")}
+                        className="bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                      >
+                        Mi Perfil
+                      </button>
+                      <button
+                        onClick={logout}
+                        className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                      >
+                        Cerrar Sesión
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <div className="flex flex-col sm:flex-row gap-4">

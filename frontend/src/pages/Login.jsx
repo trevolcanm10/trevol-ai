@@ -1,6 +1,6 @@
 import { useState } from "react"; // importando el hook useState
 import { useNavigate } from "react-router-dom"; // importando useNavigate
-import { loginService } from "../services/authService"; // importando las funciones de la api
+import { useAuth } from "../services/authService"; // importando el hook useAuth
 
 export default function Login() {
   const [email, setEmail] = useState(""); // importando el hook useState para el email
@@ -8,6 +8,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false); // importando el hook useState para el loading
   const [error, setError] = useState(""); // importando el hook useState para el error
   const navigate = useNavigate(); // importando useNavigate
+  const { login } = useAuth(); // importando el hook useAuth
 
   const handleSubmit = async (e) => {
     //Función para enviar el formulario
@@ -16,8 +17,8 @@ export default function Login() {
     setError(""); // importando el hook useState para el error
 
     try {
-      await loginService(email, password); //Hacemos la petición a la api
-      navigate("/dashboard"); //Redirigimos al dashboard
+      await login(email, password); //Hacemos la petición a la api
+      navigate("/"); //Redirigimos al home
     } catch (error) {
       setError(error.response?.data?.detail || "Error al iniciar sesión"); // importando el hook useState para el error
     } finally {
