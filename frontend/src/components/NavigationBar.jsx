@@ -41,7 +41,7 @@ const NavigationBar = () => {
                 to="/search" 
                 className={`inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors ${isActive('/search')}`}
               >
-                Buscar
+                {user && (user.role === 'vendedor' || user.role === 'admin') ? 'Gestionar' : 'Buscar'}
               </Link>
               {user && (
                 <>
@@ -112,8 +112,10 @@ const NavigationBar = () => {
             to="/search" 
             className={`flex flex-col items-center py-2 px-3 text-xs font-medium transition-colors ${isActive('/search')}`}
           >
-            <span className="text-lg">🔍</span>
-            Buscar
+            <span className="text-lg">
+              {user && (user.role === 'vendedor' || user.role === 'admin') ? '⚙️' : '🔍'}
+            </span>
+            {user && (user.role === 'vendedor' || user.role === 'admin') ? 'Gestionar' : 'Buscar'}
           </Link>
           {user && (
             <>

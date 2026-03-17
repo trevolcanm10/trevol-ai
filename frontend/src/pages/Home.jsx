@@ -7,6 +7,9 @@ import HotelCard from "../components/HotelCard"; // importando el componente Hot
 import TourCard from "../components/TourCard"; // importando el componente TourCard
 import PackageCard from "../components/PackageCard"; // importando el componente PackageCard
 import { createBooking } from "../services/api";
+import FlightManager from "../components/admin/FlightManager";
+import HotelManager from "../components/admin/HotelManager";
+import TourManager from "../components/admin/TourManager";
 // Definimos el componente Home
 export default function Home() {
   const [origin, setOrigin] = useState(""); // Definimos el estado origin
@@ -21,6 +24,7 @@ export default function Home() {
   const [showTours, setShowTours] = useState(false); // Definimos el estado showTours
   const [debounceTimer, setDebounceTimer] = useState(null); // Para el debounce del paquete recomendado
   const [searching, setSearching] = useState(false); // Estado para indicar búsqueda en progreso
+  const [adminTab, setAdminTab] = useState("flights"); // "flights", "hotels", "tours"
 
   const navigate = useNavigate();
   const { user, logout } = useAuth();
@@ -402,11 +406,54 @@ export default function Home() {
           </div>
         )}
 
-        {/* Search Section */}
-        <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-200 mb-10">
-          <h3 className="text-3xl font-bold text-gray-900 mb-8">
-            Encuentra tu Próximo Destino
-          </h3>
+        {/* Search / Management Section */}
+        {user && (user.role === 'vendedor' || user.role === 'admin') ? (
+          <div className="space-y-8 mb-10">
+            <h3 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+              Panel de Administración
+            </h3>
+            <div className="flex justify-center space-x-4">
+              <button
+                onClick={() => setAdminTab('flights')}
+                className={`flex items-center justify-center space-x-3 px-6 py-4 rounded-xl transition-all duration-200 ${
+                  adminTab === 'flights' ? 'bg-blue-600 text-white shadow-lg' : 'bg-white hover:bg-gray-50 text-gray-700 shadow-sm border border-gray-200'
+                }`}
+              >
+                <i className="fa-solid fa-plane text-xl"></i>
+                <span className="font-semibold">Inventario de Vuelos</span>
+              </button>
+              <button
+                onClick={() => setAdminTab('hotels')}
+                className={`flex items-center justify-center space-x-3 px-6 py-4 rounded-xl transition-all duration-200 ${
+                  adminTab === 'hotels' ? 'bg-green-600 text-white shadow-lg' : 'bg-white hover:bg-gray-50 text-gray-700 shadow-sm border border-gray-200'
+                }`}
+              >
+                <i className="fa-solid fa-hotel text-xl"></i>
+                <span className="font-semibold">Inventario de Hoteles</span>
+              </button>
+              <button
+                onClick={() => setAdminTab('tours')}
+                className={`flex items-center justify-center space-x-3 px-6 py-4 rounded-xl transition-all duration-200 ${
+                  adminTab === 'tours' ? 'bg-purple-600 text-white shadow-lg' : 'bg-white hover:bg-gray-50 text-gray-700 shadow-sm border border-gray-200'
+                }`}
+              >
+                <i className="fa-solid fa-map-marked-alt text-xl"></i>
+                <span className="font-semibold">Inventario de Tours</span>
+              </button>
+            </div>
+
+            <div className="transition-all duration-300">
+              {adminTab === 'flights' && <FlightManager />}
+              {adminTab === 'hotels' && <HotelManager />}
+              {adminTab === 'tours' && <TourManager />}
+            </div>
+          </div>
+        ) : (
+          <>
+          <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-200 mb-10">
+            <h3 className="text-3xl font-bold text-gray-900 mb-8">
+              Encuentra tu Próximo Destino
+            </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div className="md:col-span-1">
@@ -680,6 +727,8 @@ export default function Home() {
               onSelectTour={setSelectedTour}
             />
           </div>
+        )}
+        </>
         )}
       </div>
     </div>

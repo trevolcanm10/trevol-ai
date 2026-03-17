@@ -4,6 +4,9 @@ import { useAuth } from '../services/authService';
 import FlightCard from '../components/FlightCard';
 import HotelCard from '../components/HotelCard';
 import TourCard from '../components/TourCard';
+import FlightManager from '../components/admin/FlightManager';
+import HotelManager from '../components/admin/HotelManager';
+import TourManager from '../components/admin/TourManager';
 
 const Search = () => {
   const navigate = useNavigate();
@@ -14,9 +17,9 @@ const Search = () => {
   const [flights, setFlights] = useState([]);
   const [hotels, setHotels] = useState([]);
   const [tours, setTours] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [searching, setSearching] = useState(false);
+  const [adminTab, setAdminTab] = useState('flights'); // "flights", "hotels", "tours"
 
   // Estado para filtros
   const [filters, setFilters] = useState({
@@ -51,7 +54,6 @@ const Search = () => {
     }
 
     setSearching(true);
-    setLoading(true);
     setError('');
     
     try {
@@ -66,7 +68,6 @@ const Search = () => {
       console.error('Error en la búsqueda:', err);
       setError('Error al realizar la búsqueda. Por favor intente de nuevo.');
     } finally {
-      setLoading(false);
       setSearching(false);
     }
   };
@@ -192,8 +193,49 @@ const Search = () => {
           </div>
         </div>
 
-        {/* Filtros de Búsqueda */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200 mb-8">
+        {/* Admin Management Interface */}
+        {(user && (user.role === 'vendedor' || user.role === 'admin')) ? (
+          <div className="space-y-8">
+            <div className="flex justify-center space-x-4">
+              <button
+                onClick={() => setAdminTab('flights')}
+                className={`flex items-center justify-center space-x-3 px-6 py-4 rounded-xl transition-all duration-200 ${
+                  adminTab === 'flights' ? 'bg-blue-600 text-white shadow-lg' : 'bg-white hover:bg-gray-50 text-gray-700 shadow-sm border border-gray-200'
+                }`}
+              >
+                <i className="fa-solid fa-plane text-xl"></i>
+                <span className="font-semibold">Inventario de Vuelos</span>
+              </button>
+              <button
+                onClick={() => setAdminTab('hotels')}
+                className={`flex items-center justify-center space-x-3 px-6 py-4 rounded-xl transition-all duration-200 ${
+                  adminTab === 'hotels' ? 'bg-green-600 text-white shadow-lg' : 'bg-white hover:bg-gray-50 text-gray-700 shadow-sm border border-gray-200'
+                }`}
+              >
+                <i className="fa-solid fa-hotel text-xl"></i>
+                <span className="font-semibold">Inventario de Hoteles</span>
+              </button>
+              <button
+                onClick={() => setAdminTab('tours')}
+                className={`flex items-center justify-center space-x-3 px-6 py-4 rounded-xl transition-all duration-200 ${
+                  adminTab === 'tours' ? 'bg-purple-600 text-white shadow-lg' : 'bg-white hover:bg-gray-50 text-gray-700 shadow-sm border border-gray-200'
+                }`}
+              >
+                <i className="fa-solid fa-map-marked-alt text-xl"></i>
+                <span className="font-semibold">Inventario de Tours</span>
+              </button>
+            </div>
+
+            <div className="transition-all duration-300">
+              {adminTab === 'flights' && <FlightManager />}
+              {adminTab === 'hotels' && <HotelManager />}
+              {adminTab === 'tours' && <TourManager />}
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Filtros de Búsqueda */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200 mb-8">
           <h3 className="text-2xl font-bold text-gray-900 mb-6">🎛️ Filtros de Búsqueda Avanzados</h3>
           <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div className="md:col-span-2">
@@ -404,6 +446,8 @@ const Search = () => {
               )}
             </section>
           </div>
+        )}
+        </>
         )}
       </main>
     </div>
