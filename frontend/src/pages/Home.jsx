@@ -221,68 +221,79 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1600')] bg-cover bg-center opacity-10"></div>
+      {/* Hero Section Immersivo */}
+      <div className="relative overflow-hidden min-h-[85vh] flex items-center">
+        {/* Fondo de Avión IA Moderno */}
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2000')] bg-cover bg-center"></div>
+        {/* Capa Oscura/Malla para el contraste */}
+        <div className="absolute inset-0 bg-gray-900/70 bg-gradient-to-b from-gray-900/40 via-gray-900/60 to-[#f8fafc]"></div>
+        
+        {/* Luces Ambientales AI */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/30 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/30 rounded-full blur-[120px] pointer-events-none"></div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 z-10 w-full animate-fade-in">
           <div className="text-center">
-            <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto mb-8 flex items-center justify-center shadow-2xl">
-              <span className="text-2xl font-bold text-white">✈️</span>
+            {/* Ícono Neón / Holográfico */}
+            <div className="w-24 h-24 bg-white/5 backdrop-blur-xl border border-white/20 rounded-full mx-auto mb-8 flex items-center justify-center shadow-[0_0_40px_rgba(59,130,246,0.5)]">
+              <span className="text-4xl text-cyan-400">
+                <i className="fa-solid fa-plane-departure"></i>
+              </span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
-              Travel-AI
+            
+            {/* Título Principal */}
+            <h1 className="text-6xl md:text-8xl font-extrabold text-white mb-6 tracking-tight drop-shadow-2xl">
+              Travel<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">-AI</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 mb-10 max-w-4xl mx-auto leading-relaxed">
-              Descubre tu próximo destino con inteligencia artificial. Encuentra
-              vuelos, hoteles y tours perfectos para tu viaje ideal.
+            <p className="text-xl md:text-2xl text-gray-200 mb-12 max-w-3xl mx-auto leading-relaxed font-light drop-shadow-md">
+              Descubre tu próximo destino con <span className="text-cyan-400 font-semibold drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]">inteligencia artificial</span>.
+              Encuentra opciones exclusivas y diseña el trayecto perfecto en milisegundos.
             </p>
 
-            {/* User Status Bar */}
-            <div className="bg-white/90 backdrop-blur-lg rounded-3xl p-8 shadow-xl border border-white/30">
+            {/* User Status Bar Glassmorphism */}
+            <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/20 max-w-4xl mx-auto transform transition-all duration-300 hover:bg-white/15">
               <div className="flex flex-col md:flex-row justify-between items-center gap-6">
                 {user ? (
-                  <div className="flex items-center space-x-6">
-                    <span className="text-lg md:text-xl font-semibold text-gray-900">
-                      Bienvenido, {user?.email?.split('@')[0]}
+                  <div className="flex items-center justify-between w-full flex-col md:flex-row gap-6">
+                    <span className="text-xl md:text-2xl font-light text-white">
+                      Bienvenido de vuelta, <strong className="text-cyan-400 font-bold">{user?.email?.split('@')[0]}</strong>
                     </span>
-                    <div className="flex space-x-4">
+                    <div className="flex flex-wrap justify-center gap-4">
                       {(user.role === 'vendedor' || user.role === 'admin') && (
                         <button
                           onClick={() => navigate("/dashboard")}
-                          className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                          className="bg-transparent border border-cyan-400/50 hover:bg-cyan-500/20 text-cyan-50 px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-[0_0_15px_rgba(34,211,238,0.2)]"
                         >
-                          Ir al Dashboard
+                          Panel de Control
                         </button>
                       )}
                       <button
                         onClick={() => navigate("/profile")}
-                        className="bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                        className="bg-white/5 hover:bg-white/15 border border-white/20 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 backdrop-blur-sm"
                       >
                         Mi Perfil
                       </button>
                       <button
                         onClick={logout}
-                        className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                        className="bg-red-500/80 hover:bg-red-500 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-[0_0_15px_rgba(239,68,68,0.4)]"
                       >
                         Cerrar Sesión
                       </button>
                     </div>
                   </div>
                 ) : (
-                  <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
                     <button
                       onClick={() => navigate("/login")}
-                      className="bg-white text-gray-900 px-8 py-4 rounded-xl font-semibold border-2 border-gray-200 hover:border-gray-300 transition-all duration-200 transform hover:scale-105 shadow-xl"
+                      className="bg-white/10 hover:bg-white/20 text-white px-10 py-4 rounded-xl font-semibold border border-white/20 transition-all duration-300 shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-md"
                     >
                       Iniciar Sesión
                     </button>
                     <button
                       onClick={() => navigate("/register")}
-                      className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-xl"
+                      className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white px-10 py-4 rounded-xl font-semibold transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.4)]"
                     >
-                      Registrarse
+                      Comenzar mi Viaje
                     </button>
                   </div>
                 )}
@@ -450,14 +461,20 @@ export default function Home() {
           </div>
         ) : (
           <>
-          <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-200 mb-10">
-            <h3 className="text-3xl font-bold text-gray-900 mb-8">
-              Encuentra tu Próximo Destino
-            </h3>
+          {/* Main Search Panel - Elevated & Modernized */}
+          <div className="bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] p-10 border border-gray-100 mb-10 transform -translate-y-16 relative z-20 mx-4 md:mx-0">
+            <div className="flex items-center space-x-4 mb-8 border-b pb-6 border-gray-100">
+              <span className="bg-gradient-to-br from-cyan-400 to-blue-500 text-white p-3 rounded-xl text-xl shadow-lg">
+                <i className="fa-solid fa-location-dot"></i>
+              </span>
+              <h3 className="text-3xl font-bold text-gray-900">
+                Planifica tu Próximo Destino
+              </h3>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-4">
             <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-semibold text-gray-600 mb-3 uppercase tracking-wider">
                 Origen
               </label>
               <input
@@ -469,7 +486,7 @@ export default function Home() {
               />
             </div>
             <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-semibold text-gray-600 mb-3 uppercase tracking-wider">
                 Destino
               </label>
               <input
@@ -481,8 +498,8 @@ export default function Home() {
               />
             </div>
             <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-3">
-                Búsqueda
+              <label className="block text-sm font-semibold text-gray-600 mb-3 uppercase tracking-wider">
+                Búsqueda Manual
               </label>
               <div className="flex gap-3">
               <button
@@ -509,7 +526,8 @@ export default function Home() {
               </div>
             </div>
             <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-bold text-purple-700 mb-3 uppercase tracking-wider flex items-center gap-2">
+                <i className="fa-solid fa-wand-magic-sparkles"></i>
                 Inteligencia AI
               </label>
               <button
@@ -517,21 +535,21 @@ export default function Home() {
                 disabled={
                   searching || origin.length < 3 || destination.length < 3
                 }
-                className={`w-full py-4 px-6 rounded-lg font-semibold transition-all duration-200 ${
+                className={`w-full py-4 px-6 rounded-lg font-bold transition-all duration-300 ${
                   searching || origin.length < 3 || destination.length < 3
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+                    ? "bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed"
+                    : "bg-gradient-to-br from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-[0_0_20px_rgba(147,51,234,0.4)] transform hover:-translate-y-1 border border-purple-400/50"
                 }`}
               >
                 {searching ? (
                   <span className="flex items-center justify-center space-x-2">
                     <i className="fa-solid fa-spinner fa-spin"></i>
-                    <span>Analizando...</span>
+                    <span>Analizando red...</span>
                   </span>
                 ) : (
                       <span className="flex items-center justify-center space-x-2">
-                    <i className="fa-solid fa-brain"></i>
-                    <span>Paquete AI</span>
+                    <i className="fa-solid fa-brain text-purple-200"></i>
+                    <span className="tracking-wide">Paquete Magic AI</span>
                   </span>
                 )}
               </button>
