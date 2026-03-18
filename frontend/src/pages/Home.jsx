@@ -250,55 +250,6 @@ export default function Home() {
               Encuentra opciones exclusivas y diseña el trayecto perfecto en milisegundos.
             </p>
 
-            {/* User Status Bar Glassmorphism */}
-            <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/20 max-w-4xl mx-auto transform transition-all duration-300 hover:bg-white/15">
-              <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-                {user ? (
-                  <div className="flex items-center justify-between w-full flex-col md:flex-row gap-6">
-                    <span className="text-xl md:text-2xl font-light text-white">
-                      Bienvenido de vuelta, <strong className="text-cyan-400 font-bold">{user?.email?.split('@')[0]}</strong>
-                    </span>
-                    <div className="flex flex-wrap justify-center gap-4">
-                      {(user.role === 'vendedor' || user.role === 'admin') && (
-                        <button
-                          onClick={() => navigate("/dashboard")}
-                          className="bg-transparent border border-cyan-400/50 hover:bg-cyan-500/20 text-cyan-50 px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-[0_0_15px_rgba(34,211,238,0.2)]"
-                        >
-                          Panel de Control
-                        </button>
-                      )}
-                      <button
-                        onClick={() => navigate("/profile")}
-                        className="bg-white/5 hover:bg-white/15 border border-white/20 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 backdrop-blur-sm"
-                      >
-                        Mi Perfil
-                      </button>
-                      <button
-                        onClick={logout}
-                        className="bg-red-500/80 hover:bg-red-500 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-[0_0_15px_rgba(239,68,68,0.4)]"
-                      >
-                        Cerrar Sesión
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
-                    <button
-                      onClick={() => navigate("/login")}
-                      className="bg-white/10 hover:bg-white/20 text-white px-10 py-4 rounded-xl font-semibold border border-white/20 transition-all duration-300 shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-md"
-                    >
-                      Iniciar Sesión
-                    </button>
-                    <button
-                      onClick={() => navigate("/register")}
-                      className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white px-10 py-4 rounded-xl font-semibold transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.4)]"
-                    >
-                      Comenzar mi Viaje
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
           </div>
         </div>
       </div>

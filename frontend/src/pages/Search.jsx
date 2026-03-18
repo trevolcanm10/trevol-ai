@@ -157,41 +157,6 @@ const Search = () => {
       </div>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* User Status Bar */}
-        <div className="bg-white/80 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/20 mb-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            {user ? (
-              <div className="flex items-center space-x-6">
-                <span className="text-lg font-semibold text-gray-900">
-                  👋 Bienvenido, {user.name}
-                </span>
-                {(user.role === 'vendedor' || user.role === 'admin') && (
-                  <button
-                    onClick={() => navigate("/dashboard")}
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
-                  >
-                    📊 Ir al Dashboard
-                  </button>
-                )}
-              </div>
-            ) : (
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button
-                  onClick={() => navigate("/login")}
-                  className="bg-white text-gray-900 px-6 py-3 rounded-lg font-semibold border-2 border-gray-200 hover:border-gray-300 transition-all duration-200 transform hover:scale-105 shadow-lg"
-                >
-                  🔐 Iniciar Sesión
-                </button>
-                <button
-                  onClick={() => navigate("/register")}
-                  className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
-                >
-                  📝 Registrarse
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
 
         {/* Admin Management Interface */}
         {(user && (user.role === 'vendedor' || user.role === 'admin')) ? (

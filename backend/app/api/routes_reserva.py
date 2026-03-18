@@ -2,6 +2,7 @@
 Rutas para la reserva
 """
 from app.dependencies import get_current_user#Importamos la dependencia
+from app.db import models#Importamos los modelos
 from app.db.models import User #Importamos el modelo de usuario
 from fastapi import APIRouter, Depends, HTTPException, status #Dependencias de FastAPI
 from sqlalchemy.orm import Session #Para trabajar con sesiones de la base de datos
@@ -46,6 +47,20 @@ def read_bookings(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     """
     bookings = crud_reserva.get_bookings(db, skip=skip, limit=limit)
     return bookings
+
+# =========================
+# Obtener reservas del usuario actual
+# GET /api/bookings/me
+# =========================
+@router.get("/me", response_model=list[BookingResponse])
+def read_my_bookings(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Función para obtener las reservas del usuario autenticado
+    """
+    return db.query(models.Booking).filter(models.Booking.user_id == current_user.id).all()
 
 # =========================
 # Obtener reserva por ID

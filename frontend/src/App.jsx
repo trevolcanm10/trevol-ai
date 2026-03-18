@@ -7,16 +7,18 @@ import Dashboard from "./pages/Dashboard"; // importando el componente Dashboard
 import Login from "./pages/Login"; // importando el componente Login
 import Register from "./pages/Register"; // importando el componente Register
 import Profile from "./pages/Profile"; // importando el componente Profile
+import NavigationBar from "./components/NavigationBar"; // importando el componente NavigationBar
 import Footer from "./components/Footer"; // importando el componente Footer
 
 function App(){
   return(
     <AuthProvider>
       <BrowserRouter>
+        <NavigationBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/package" element={<Package />} />
+          <Route path="/mis-viajes" element={<Package />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
