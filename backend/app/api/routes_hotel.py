@@ -11,7 +11,7 @@ from app.schemas.hoteles import HotelCreate, HotelResponse, HotelUpdate
 # Importamos el schema de hotel
 from app.dependencies import require_role#Importamos la dependencia
 
-router = APIRouter(prefix="/hotels", tags=["Hotels"])#Creamos el router
+router = APIRouter(tags=["Hotels"])#Creamos el router
 
 @router.post("/", response_model=HotelResponse)
 def create_hotel(

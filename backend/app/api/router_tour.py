@@ -9,7 +9,7 @@ from app.db.models import Tour
 from app.schemas.tour import TourCreate, TourResponse, TourUpdate
 from app.dependencies import require_role
 
-router = APIRouter(prefix="/tours", tags=["Tours"])
+router = APIRouter(tags=["Tours"])
 
 @router.post("/", response_model=TourResponse)
 def create_tour(
