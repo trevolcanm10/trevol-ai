@@ -45,4 +45,4 @@ def recent_bookings(db: Session = Depends(get_db)):
     """
     Función para obtener las reservas recientes
     """
-    return dashboard_service.get_recent_bookings(db)
+    return dashboard_service.get_recent_bookings(db, limit=30)

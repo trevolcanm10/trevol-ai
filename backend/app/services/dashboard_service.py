@@ -68,12 +68,13 @@ def get_monthly_revenue(db: Session):
         db.query(
             func.strftime("%Y-%m", models.Booking.booking_date).label("month"),
             func.sum(models.Booking.total_price).label("revenue"),
+            func.count(models.Booking.id).label("bookings_count"),
         )
         .filter(models.Booking.status == models.BookingStatus.CONFIRMED)
         .group_by(func.strftime("%Y-%m", models.Booking.booking_date))
         .all()
     )
-    return [{"month": month, "revenue": revenue} for month, revenue in results]
+    return [{"month": month, "revenue": revenue, "bookingsCount": count} for month, revenue, count in results]
 
 # ===================
 # Reservas recientes

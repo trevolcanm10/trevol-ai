@@ -14,6 +14,10 @@ import {
   PieChart,
   Pie,
   Cell,
+  LineChart,
+  Line,
+  AreaChart,
+  Area,
 } from "recharts";
 
 const Dashboard = () => {
@@ -25,6 +29,8 @@ const Dashboard = () => {
     recentBookings: [],
   });
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
@@ -92,6 +98,11 @@ const Dashboard = () => {
       </div>
     );
   }
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentBookings = stats.recentBookings.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(stats.recentBookings.length / itemsPerPage);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -176,12 +187,14 @@ const Dashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-purple-100 text-sm font-medium uppercase tracking-wide">
-                  Destinos Populares
+                  Destino Top #1
                 </p>
-                <p className="text-4xl font-bold mt-2">
-                  {stats.topDestinations.length}
+                <p className="text-2xl font-bold mt-2 truncate max-w-[200px]" title={stats.topDestinations[0]?.destination || "N/A"}>
+                  {stats.topDestinations[0]?.destination || "N/A"}
                 </p>
-                <p className="text-purple-200 text-sm mt-1">Destinos favoritos</p>
+                <p className="text-purple-200 text-sm mt-1">
+                  {stats.topDestinations[0]?.total_sales || 0} ventas registradas
+                </p>
               </div>
               <div className="bg-white/20 p-4 rounded-xl">
                 <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -260,6 +273,65 @@ const Dashboard = () => {
           </div>
         </div>
 
+        {/* Secondary Charts Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+          {/* Tendencia de Reservas - Line Chart */}
+          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold text-gray-900">
+                Tendencia de Reservas
+              </h3>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
+                <span className="text-sm text-gray-600">Evolución mensual</span>
+              </div>
+            </div>
+            <div className="h-96">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={stats.monthlyRevenue}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="bookingsCount" name="Reservas" stroke="#3b82f6" strokeWidth={3} activeDot={{ r: 8 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Crecimiento de Ingresos - Area Chart */}
+          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold text-gray-900">
+                Crecimiento de Ingresos
+              </h3>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+                <span className="text-sm text-gray-600">Volumen acumulado</span>
+              </div>
+            </div>
+            <div className="h-96">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={stats.monthlyRevenue}>
+                  <defs>
+                    <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Area type="monotone" dataKey="revenue" name="Ingresos (Área)" stroke="#8b5cf6" fillOpacity={1} fill="url(#colorRevenue)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+
         {/* Recent Activity */}
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
           <div className="px-8 py-6 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
@@ -271,7 +343,7 @@ const Dashboard = () => {
           <div className="p-8">
             {stats.recentBookings.length > 0 ? (
               <div className="space-y-6">
-                {stats.recentBookings.map((booking, index) => (
+                {currentBookings.map((booking, index) => (
                   <div
                     key={booking.id}
                     className="flex items-center justify-between p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-gray-200 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
@@ -313,6 +385,47 @@ const Dashboard = () => {
                     </div>
                   </div>
                 ))}
+
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-between pt-6 mt-6 border-t border-gray-100">
+                    <p className="text-sm text-gray-600">
+                      Mostrando <span className="font-semibold">{indexOfFirstItem + 1}</span> a{" "}
+                      <span className="font-semibold">{Math.min(indexOfLastItem, stats.recentBookings.length)}</span> de{" "}
+                      <span className="font-semibold">{stats.recentBookings.length}</span> reservas
+                    </p>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                        className="px-4 py-2 rounded-lg bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                      >
+                        Anterior
+                      </button>
+                      <div className="flex items-center space-x-1">
+                        {[...Array(totalPages)].map((_, i) => (
+                          <button
+                            key={i + 1}
+                            onClick={() => setCurrentPage(i + 1)}
+                            className={`w-10 h-10 rounded-lg font-medium transition-all duration-200 ${
+                              currentPage === i + 1
+                                ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md transform scale-105"
+                                : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-blue-300"
+                            }`}
+                          >
+                            {i + 1}
+                          </button>
+                        ))}
+                      </div>
+                      <button
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                        className="px-4 py-2 rounded-lg bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                      >
+                        Siguiente
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="text-center py-12">
