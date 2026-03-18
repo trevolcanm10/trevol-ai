@@ -5,6 +5,8 @@ export default function TourManager() {
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   const [formData, setFormData] = useState({
     name: '',
@@ -86,6 +88,14 @@ export default function TourManager() {
     }
   };
 
+  // Paginación
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentTours = tours.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(tours.length / itemsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 mt-6 border border-gray-100">
       <h2 className="text-2xl font-bold mb-6 text-gray-900 border-b pb-4">Gestión de Tours</h2>
@@ -129,7 +139,7 @@ export default function TourManager() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {tours.map(tour => (
+              {currentTours.map(tour => (
                 <tr key={tour.id} className="hover:bg-gray-50 transition-colors">
                   <td className="p-4 font-bold text-gray-900">{tour.name}</td>
                   <td className="p-4 text-gray-600">{tour.location}</td>
@@ -152,6 +162,51 @@ export default function TourManager() {
               )}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* Controles de paginación */}
+      {!loading && tours.length > itemsPerPage && (
+        <div className="flex justify-center items-center space-x-2 mt-6">
+          <button
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              currentPage === 1
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 shadow-sm'
+            }`}
+          >
+            Anterior
+          </button>
+          
+          <div className="flex space-x-1">
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i + 1}
+                onClick={() => paginate(i + 1)}
+                className={`w-10 h-10 rounded-lg font-medium transition-colors ${
+                  currentPage === i + 1
+                    ? 'bg-purple-600 text-white shadow-md'
+                    : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 shadow-sm'
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              currentPage === totalPages
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 shadow-sm'
+            }`}
+          >
+            Siguiente
+          </button>
         </div>
       )}
     </div>

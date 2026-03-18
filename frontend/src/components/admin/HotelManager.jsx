@@ -5,6 +5,8 @@ export default function HotelManager() {
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   const [formData, setFormData] = useState({
     name: '',
@@ -86,6 +88,14 @@ export default function HotelManager() {
     }
   };
 
+  // Paginación
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentHotels = hotels.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(hotels.length / itemsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 mt-6 border border-gray-100">
       <h2 className="text-2xl font-bold mb-6 text-gray-900 border-b pb-4">Gestión de Hoteles</h2>
@@ -129,7 +139,7 @@ export default function HotelManager() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {hotels.map(hotel => (
+              {currentHotels.map(hotel => (
                 <tr key={hotel.id} className="hover:bg-gray-50 transition-colors">
                   <td className="p-4 font-bold text-gray-900">{hotel.name}</td>
                   <td className="p-4 text-gray-600">{hotel.location}</td>
@@ -152,6 +162,51 @@ export default function HotelManager() {
               )}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* Controles de paginación */}
+      {!loading && hotels.length > itemsPerPage && (
+        <div className="flex justify-center items-center space-x-2 mt-6">
+          <button
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              currentPage === 1
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 shadow-sm'
+            }`}
+          >
+            Anterior
+          </button>
+          
+          <div className="flex space-x-1">
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i + 1}
+                onClick={() => paginate(i + 1)}
+                className={`w-10 h-10 rounded-lg font-medium transition-colors ${
+                  currentPage === i + 1
+                    ? 'bg-green-600 text-white shadow-md'
+                    : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 shadow-sm'
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              currentPage === totalPages
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 shadow-sm'
+            }`}
+          >
+            Siguiente
+          </button>
         </div>
       )}
     </div>
