@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard"; // importando el componente Dashboard
 import Login from "./pages/Login"; // importando el componente Login
 import Register from "./pages/Register"; // importando el componente Register
 import Profile from "./pages/Profile"; // importando el componente Profile
+import Footer from "./components/Footer"; // importando el componente Footer
 
 function App(){
   return(
@@ -21,6 +22,7 @@ function App(){
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </AuthProvider>
   );
