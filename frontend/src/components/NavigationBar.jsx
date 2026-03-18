@@ -55,15 +55,17 @@ const NavigationBar = () => {
                       )}
                     </Link>
                   )}
-                  <Link 
-                    to="/mis-viajes" 
-                    className={`relative py-2 text-sm font-semibold transition-all duration-300 hover:text-blue-600 ${location.pathname === '/mis-viajes' ? 'text-blue-600' : 'text-gray-600'}`}
-                  >
-                    Mis Viajes
-                    {location.pathname === '/mis-viajes' && (
-                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></span>
-                    )}
-                  </Link>
+                  {user.role === 'user' && (
+                    <Link 
+                      to="/mis-viajes" 
+                      className={`relative py-2 text-sm font-semibold transition-all duration-300 hover:text-blue-600 ${location.pathname === '/mis-viajes' ? 'text-blue-600' : 'text-gray-600'}`}
+                    >
+                      Mis Viajes
+                      {location.pathname === '/mis-viajes' && (
+                        <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></span>
+                      )}
+                    </Link>
+                  )}
                 </>
               )}
             </div>
@@ -74,7 +76,9 @@ const NavigationBar = () => {
             {user ? (
               <div className="flex items-center space-x-6">
                 <div className="hidden lg:flex flex-col items-end">
-                  <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Viajero</span>
+                  <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+                    {user.role === 'admin' ? 'Administrador' : user.role === 'vendedor' ? 'Agente' : 'Viajero'}
+                  </span>
                   <span className="text-sm font-bold text-gray-800">
                     {user.name || user.email?.split('@')[0]}
                   </span>
@@ -119,13 +123,22 @@ const NavigationBar = () => {
             <span className="text-xl">🏠</span>
             <span className="text-[10px] font-bold uppercase tracking-tighter">Inicio</span>
           </Link>
-          {user && (
+          {user && user.role === 'user' && (
             <Link 
               to="/mis-viajes" 
               className={`flex flex-col items-center space-y-1 transition-all duration-300 ${location.pathname === '/mis-viajes' ? 'text-blue-600' : 'text-gray-400'}`}
             >
               <span className="text-xl">🧳</span>
               <span className="text-[10px] font-bold uppercase tracking-tighter">Viajes</span>
+            </Link>
+          )}
+          {user && (user.role === 'admin' || user.role === 'vendedor') && (
+            <Link 
+              to="/dashboard" 
+              className={`flex flex-col items-center space-y-1 transition-all duration-300 ${location.pathname === '/dashboard' ? 'text-blue-600' : 'text-gray-400'}`}
+            >
+              <span className="text-xl">📊</span>
+              <span className="text-[10px] font-bold uppercase tracking-tighter">Panel</span>
             </Link>
           )}
         </div>
