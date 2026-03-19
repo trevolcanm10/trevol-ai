@@ -366,6 +366,114 @@ const Dashboard = () => {
           </div>
         </div>
 
+        {/* Recent Activity */}
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden mb-10">
+          <div className="px-8 py-6 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <h3 className="text-2xl font-bold text-gray-900">
+              Reservas Recientes
+            </h3>
+            <p className="text-gray-600 mt-1">Actividad de los últimos 30 días</p>
+          </div>
+          <div className="p-8">
+            {stats.recentBookings.length > 0 ? (
+              <div className="space-y-6">
+                {currentBookings.map((booking, index) => (
+                  <div
+                    key={booking.id}
+                    className="flex items-center justify-between p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-gray-200 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+                  >
+                    <div className="flex items-center space-x-6">
+                      <div className="w-16 h-16 bg-lams-orange rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                        {booking.destination.charAt(0)}
+                      </div>
+                      <div>
+                        <h4 className="text-xl font-bold text-gray-900 mb-2">
+                          {booking.destination}
+                        </h4>
+                        <div className="flex items-center space-x-4 text-gray-600">
+                          <span className="flex items-center space-x-2">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>Reserva #{booking.id}</span>
+                          </span>
+                          <span className="flex items-center space-x-2">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>{new Date(booking.booking_date).toLocaleDateString()}</span>
+                          </span>
+                        </div>
+                        <p className="text-gray-700 mt-2">
+                          Cliente: <span className="font-semibold">{booking.user_name}</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-3xl font-bold text-green-600 mb-2">
+                        S/. {booking.total_price}
+                      </div>
+                      <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                        ✅ Confirmado
+                      </span>
+                    </div>
+                  </div>
+                ))}
+
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-between pt-6 mt-6 border-t border-gray-100">
+                    <p className="text-sm text-gray-600">
+                      Mostrando <span className="font-semibold">{indexOfFirstItem + 1}</span> a{" "}
+                      <span className="font-semibold">{Math.min(indexOfLastItem, stats.recentBookings.length)}</span> de{" "}
+                      <span className="font-semibold">{stats.recentBookings.length}</span> reservas
+                    </p>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                        className="px-4 py-2 rounded-lg bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                      >
+                        Anterior
+                      </button>
+                      <div className="flex items-center space-x-1">
+                        {[...Array(totalPages)].map((_, i) => (
+                          <button
+                            key={i + 1}
+                            onClick={() => setCurrentPage(i + 1)}
+                            className={`w-10 h-10 rounded-lg font-medium transition-all duration-200 ${
+                              currentPage === i + 1
+                                ? "bg-lams-orange text-white shadow-md transform scale-105"
+                                : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-blue-300"
+                            }`}
+                          >
+                            {i + 1}
+                          </button>
+                        ))}
+                      </div>
+                      <button
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                        className="px-4 py-2 rounded-lg bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                      >
+                        Siguiente
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <div className="w-24 h-24 bg-gradient-to-r from-gray-300 to-gray-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <svg className="w-12 h-12 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">No hay reservas recientes</h3>
+                <p className="text-gray-600">Las reservas aparecerán aquí cuando se realicen.</p>
+              </div>
+            )}
+          </div>
+        </div>
           </>
         ) : (
           <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
