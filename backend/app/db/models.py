@@ -103,6 +103,7 @@ class Tour(Base):
     id = Column(Integer, primary_key=True, index=True) #Primary key
     name = Column(String, nullable=False) #Nombre del tour
     location = Column(String, nullable=False) #Ciudad del tour
+    category = Column(String, default="tour") #Categoría: tour, seguro, tramite, traslado, etc.
     price = Column(Float, nullable=False) #Precio del tour
     available_slots = Column(Integer, nullable=False) #Cantidad de asientos disponibles
 

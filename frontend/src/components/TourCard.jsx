@@ -41,7 +41,7 @@ export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
         <div className="absolute top-4 left-4">
           <div className="flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
-            <span className="text-xs font-semibold text-gray-900">{tour.type}</span>
+            <span className="text-xs font-semibold text-gray-900 uppercase">{tour.category || "Tour"}</span>
           </div>
         </div>
         <div className="absolute bottom-4 left-4 text-white">
@@ -54,37 +54,58 @@ export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
       <div className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-lams-orange/10 rounded-full flex items-center justify-center">
-              <i className="fa-solid fa-map-marked-alt text-lams-orange text-xl"></i>
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+              tour.category === 'seguro' ? 'bg-blue-100 text-blue-600' :
+              tour.category === 'tramite' ? 'bg-purple-100 text-purple-600' :
+              tour.category === 'traslado' ? 'bg-amber-100 text-amber-600' :
+              tour.category === 'migratorio' ? 'bg-cyan-100 text-cyan-600' :
+              tour.category === 'grupo_escolar' ? 'bg-indigo-100 text-indigo-600' :
+              'bg-lams-orange/10 text-lams-orange'
+            }`}>
+              <i className={`fa-solid text-xl ${
+                tour.category === 'seguro' ? 'fa-shield-halved' :
+                tour.category === 'tramite' ? 'fa-file-invoice' :
+                tour.category === 'traslado' ? 'fa-car-side' :
+                tour.category === 'migratorio' ? 'fa-passport' :
+                tour.category === 'grupo_escolar' ? 'fa-users-rectangle' :
+                'fa-map-marked-alt'
+              }`}></i>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Tour</p>
+              <p className="text-sm font-bold text-gray-700 uppercase">
+                {tour.category === 'seguro' ? 'Seguro' :
+                 tour.category === 'tramite' ? 'Trámite' :
+                 tour.category === 'traslado' ? 'Traslado' :
+                 tour.category === 'migratorio' ? 'Migratorio' :
+                 tour.category === 'grupo_escolar' ? 'Grupo' :
+                 'Tour'}
+              </p>
               <p className="text-xs text-gray-400">Ubicación: {tour.location}</p>
             </div>
           </div>
           <div className="text-right">
-            <p className="text-sm text-gray-500">Tipo de tour</p>
-            <p className="text-sm font-medium capitalize">{tour.type}</p>
+            <p className="text-sm text-gray-500">Servicio</p>
+            <p className="text-sm font-medium capitalize">{tour.category || 'Personalizado'}</p>
           </div>
         </div>
 
         {/* Price and Availability */}
         <div className="bg-gray-50 rounded-lg p-4 mb-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-gray-600">Precio del tour</span>
+            <span className="text-sm text-gray-600">Precio desde</span>
             <span className="text-2xl font-bold text-lams-orange">S/. {tour.price}</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">Disponibilidad</span>
-            <span className="text-sm font-semibold text-gray-700">{tour.available_slots} slots</span>
+            <span className="text-sm font-semibold text-gray-700">{tour.available_slots} cupos</span>
           </div>
         </div>
 
         {/* Action Buttons */}
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-gray-600">Tipo de experiencia</p>
-            <p className="text-lg font-semibold capitalize">{tour.type}</p>
+            <p className="text-sm text-gray-600">Tipo de servicio</p>
+            <p className="text-lg font-semibold capitalize">{tour.category || 'Especial'}</p>
           </div>
           <div className="flex flex-col space-y-2">
             {isSelected ? (
@@ -93,7 +114,7 @@ export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
                 className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md"
               >
                 <i className="fa-solid fa-times"></i>
-                <span>Quitar Tour</span>
+                <span>Quitar</span>
               </button>
             ) : (
               <button
@@ -101,18 +122,18 @@ export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
                 className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-lams-navy hover:bg-lams-navy/90 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md"
               >
                 <i className="fa-solid fa-plus"></i>
-                <span>Añadir al viaje</span>
+                <span>Añadir</span>
               </button>
             )}
             
             <a 
-              href={`https://wa.me/51999999999?text=Hola Lams Viajes! Me interesa el tour ${tour.name} (${tour.type}) en ${tour.location}. S/. ${tour.price}.`}
+              href={`https://wa.me/51967010925?text=${encodeURIComponent(`Hola Lams Viajes! Me interesa el servicio de ${tour.name} (${tour.category || 'Tour'}). Por favor bríndame más información.`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full px-4 py-2 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-lg text-center font-bold flex items-center justify-center space-x-2 transition-all transform hover:scale-105"
             >
               <i className="fa-brands fa-whatsapp text-lg"></i>
-              <span>Consultar WhatsApp</span>
+              <span>Consultar</span>
             </a>
           </div>
         </div>

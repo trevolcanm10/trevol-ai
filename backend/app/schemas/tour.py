@@ -9,6 +9,7 @@ class TourBase(BaseModel):
     """
     name: str
     location: str
+    category: str | None = "tour"
     price: float = Field(gt=0)
     available_slots: int = Field(ge=0)
 
@@ -24,6 +25,7 @@ class TourUpdate(BaseModel):
     """
     name: str | None = None
     location: str | None = None
+    category: str | None = None
     price: float | None = Field(default=None, gt=0)
     available_slots: int | None = Field(default=None, ge=0)
     

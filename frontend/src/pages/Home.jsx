@@ -685,6 +685,46 @@ export default function Home() {
           </div>
         )}
 
+        {/* Servicios Especializados (Basados en la oferta real de Lams) */}
+        <div className="mt-20 mb-20">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-extrabold text-gray-900 mb-4 bg-clip-text text-transparent bg-gradient-to-r from-lams-orange to-lams-navy inline-block">
+              Nuestros Servicios Especializados
+            </h2>
+            <div className="h-1.5 w-24 bg-lams-orange mx-auto rounded-full mb-6"></div>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+              Soluciones integrales para que tu única preocupación sea disfrutar del viaje.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
+            {[
+              { title: "Seguros de Viaje", icon: "fa-shield-halved", desc: "Asistencia médica internacional y protección 24/7.", color: "blue", wa: "Seguro de Viaje" },
+              { title: "Trámites Pasaportes", icon: "fa-passport", desc: "Asesoría experta para la obtención y renovación de documentos.", color: "purple", wa: "Trámite de Pasaporte" },
+              { title: "Traslados Full-Day", icon: "fa-car-side", desc: "Movilidad segura y cómoda en tus destinos favoritos.", color: "amber", wa: "Traslado Full-Day" },
+              { title: "Paquetes Migratorios", icon: "fa-file-invoice", desc: "Gestión de visas y residencias con asesoría legal.", color: "cyan", wa: "Paquetes Migratorios" },
+            ].map((service, i) => (
+              <div key={i} className="group bg-white p-8 rounded-[2rem] shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 relative overflow-hidden">
+                <div className={`absolute top-0 right-0 w-24 h-24 bg-${service.color}-500/10 rounded-bl-[4rem] transition-transform duration-500 group-hover:scale-110`}></div>
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg bg-${service.color}-600 text-white transform transition-transform duration-500 group-hover:rotate-12`}>
+                  <i className={`fa-solid ${service.icon} text-2xl`}></i>
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 mb-3">{service.title}</h4>
+                <p className="text-gray-600 text-sm mb-6 leading-relaxed">{service.desc}</p>
+                <a
+                  href={`https://wa.me/51967010925?text=${encodeURIComponent(`Hola Lams Viajes! Requiero información sobre el servicio de ${service.wa}.`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center space-x-2 font-bold text-${service.color}-600 hover:text-${service.color}-700 transition-colors`}
+                >
+                  <span>Consultar</span>
+                  <i className="fa-solid fa-arrow-right-long text-xs transition-transform duration-300 group-hover:translate-x-2"></i>
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {packageResult && (
         <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-200">
             <h3 className="text-4xl font-bold text-gray-900 mb-8">
