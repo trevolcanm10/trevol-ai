@@ -243,11 +243,12 @@ export default function Home() {
             
             {/* Título Principal */}
             <h1 className="text-6xl md:text-8xl font-extrabold text-white mb-6 tracking-tight drop-shadow-2xl">
-              Travel<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">-AI</span>
+              LAMS <span className="text-transparent bg-clip-text bg-gradient-to-r from-lams-orange to-[#f19b5c]">VIAJES</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-200 mb-12 max-w-3xl mx-auto leading-relaxed font-light drop-shadow-md">
-              Descubre tu próximo destino con <span className="text-cyan-400 font-semibold drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]">inteligencia artificial</span>.
-              Encuentra opciones exclusivas y diseña el trayecto perfecto en milisegundos.
+              <span className="block text-lams-orange font-bold text-3xl mb-4 tracking-[0.3em] uppercase">Viaja • Sueña • Imagina</span>
+              Encuentra el destino de tus sueños con la mejor atención personalizada.
+              Diseñamos el trayecto perfecto para ti en segundos.
             </p>
 
           </div>
@@ -357,7 +358,7 @@ export default function Home() {
                 className={`px-10 py-5 rounded-xl font-bold text-white text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl ${
                   !selectedFlight
                     ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                    : "bg-lams-orange hover:bg-lams-orange/90"
                 }`}
               >
                 {selectedFlight
@@ -415,7 +416,7 @@ export default function Home() {
           {/* Main Search Panel - Elevated & Modernized */}
           <div className="bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] p-10 border border-gray-100 mb-10 transform -translate-y-16 relative z-20 mx-4 md:mx-0">
             <div className="flex items-center space-x-4 mb-8 border-b pb-6 border-gray-100">
-              <span className="bg-gradient-to-br from-cyan-400 to-blue-500 text-white p-3 rounded-xl text-xl shadow-lg">
+              <span className="bg-lams-orange text-white p-3 rounded-xl text-xl shadow-lg">
                 <i className="fa-solid fa-location-dot"></i>
               </span>
               <h3 className="text-3xl font-bold text-gray-900">
@@ -459,7 +460,7 @@ export default function Home() {
                 className={`flex-1 py-4 px-6 rounded-lg font-semibold transition-all duration-200 ${
                   searching
                     ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+                    : "bg-lams-navy hover:bg-lams-navy/90 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
                 }`}
               >
                 {searching ? (
@@ -489,7 +490,7 @@ export default function Home() {
                 className={`w-full py-4 px-6 rounded-lg font-bold transition-all duration-300 ${
                   searching || origin.length < 3 || destination.length < 3
                     ? "bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed"
-                    : "bg-gradient-to-br from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-[0_0_20px_rgba(147,51,234,0.4)] transform hover:-translate-y-1 border border-purple-400/50"
+                    : "bg-lams-orange hover:bg-lams-orange/90 text-white shadow-[0_0_20px_rgba(239,125,36,0.4)] transform hover:-translate-y-1"
                 }`}
               >
                 {searching ? (

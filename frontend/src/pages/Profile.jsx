@@ -134,12 +134,11 @@ const Profile = () => {
 
   if (loading && !user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-white/20">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
           <div className="flex flex-col items-center space-y-4">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full animate-spin border-4 border-white/20"></div>
-            <div className="text-lg font-semibold text-gray-900">Cargando perfil...</div>
-            <div className="text-sm text-gray-600">Obteniendo datos del usuario</div>
+            <div className="w-16 h-16 border-4 border-lams-orange border-t-transparent rounded-full animate-spin"></div>
+            <div className="text-lg font-semibold text-lams-navy">Cargando perfil...</div>
           </div>
         </div>
       </div>
@@ -149,13 +148,13 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg">
+      <header className="bg-lams-navy shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-8">
             <div>
-              <h1 className="text-4xl font-bold text-white mb-2">Mi Perfil</h1>
-              <p className="text-blue-100 text-lg">
-                Gestiona tu información personal y preferencias
+              <h1 className="text-4xl font-extrabold text-white mb-2">Mi Perfil <span className="text-lams-orange">LAMS</span></h1>
+              <p className="text-blue-100 text-lg italic">
+                Viaja • Sueña • Imagina | Gestiona tu información personal
               </p>
             </div>
             <div className="flex items-center space-x-4">
@@ -227,8 +226,8 @@ const Profile = () => {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
               <div className="text-center">
-                <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto mb-6 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
-                  {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                <div className="w-24 h-24 bg-lams-orange rounded-full mx-auto mb-6 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
+                  {user?.name?.charAt(0)?.toUpperCase() || "L"}
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">
                   {user?.name || "Usuario"}
@@ -248,7 +247,7 @@ const Profile = () => {
                   {(user?.role === 'vendedor' || user?.role === 'admin') && (
                     <button
                       onClick={() => navigate("/dashboard")}
-                      className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                      className="w-full bg-lams-navy hover:bg-lams-navy/90 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
                     >
                       Ver Dashboard
                     </button>
@@ -282,7 +281,7 @@ const Profile = () => {
                   className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg ${
                     editing 
                       ? "bg-gray-500 hover:bg-gray-600 text-white" 
-                      : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white"
+                      : "bg-lams-orange hover:bg-lams-orange/90 text-white"
                   }`}
                 >
                   {editing ? "Cancelar" : "Editar Perfil"}
@@ -423,7 +422,7 @@ const Profile = () => {
                       className={`px-8 py-4 rounded-lg font-bold text-white text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl ${
                         loading
                           ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                          : "bg-lams-navy hover:bg-lams-navy/90"
                       }`}
                     >
                       {loading ? (

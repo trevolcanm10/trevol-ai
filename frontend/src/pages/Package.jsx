@@ -34,7 +34,7 @@ const Package = () => {
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-600"></div>
+                <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-lams-orange"></div>
             </div>
         );
     }
@@ -43,11 +43,11 @@ const Package = () => {
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-5xl mx-auto">
                 <header className="mb-12 text-center">
-                    <h1 className="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
-                        Mis <span className="text-blue-600 tracking-wide">Viajes</span>
+                    <h1 className="text-4xl font-extrabold text-lams-navy mb-4 tracking-tight">
+                        Mis <span className="text-lams-orange tracking-wide">Aventuras</span>
                     </h1>
                     <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                        Aquí tienes un resumen de todas tus aventuras reservadas con Travel-AI.
+                        Aquí tienes un resumen de todas tus experiencias reservadas con Lams Viajes.
                     </p>
                 </header>
 
@@ -73,7 +73,7 @@ const Package = () => {
                         </p>
                         <button
                             onClick={() => navigate('/')}
-                            className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-10 py-4 rounded-2xl font-bold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-1"
+                            className="bg-lams-orange text-white px-10 py-4 rounded-2xl font-bold hover:bg-lams-orange/90 transition-all duration-300 shadow-lg transform hover:-translate-y-1"
                         >
                             Explorar Destinos
                         </button>
@@ -97,7 +97,7 @@ const Package = () => {
                                         </div>
                                         <div className="text-right">
                                             <p className="text-sm text-gray-400 uppercase font-black tracking-widest mb-1">Total</p>
-                                            <p className="text-3xl font-black text-blue-600">S/. {booking.total_price.toFixed(2)}</p>
+                                            <p className="text-3xl font-black text-lams-orange">S/. {booking.total_price.toFixed(2)}</p>
                                         </div>
                                     </div>
 
@@ -105,7 +105,7 @@ const Package = () => {
                                         {/* Vuelo */}
                                         <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-100 relative overflow-hidden group">
                                             <div className="flex items-center space-x-3 mb-4">
-                                                <span className="p-2 bg-blue-100 text-blue-600 rounded-lg">✈️</span>
+                                                <span className="p-2 bg-lams-orange/10 text-lams-orange rounded-lg">✈️</span>
                                                 <h4 className="font-bold text-gray-800">Vuelo</h4>
                                             </div>
                                             {booking.flight ? (

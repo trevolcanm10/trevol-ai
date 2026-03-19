@@ -18,7 +18,7 @@ export default function HotelCard({ hotel, onSelect, onCancel, isSelected }) {
   const starsArray = Array.from({ length: hotel.stars }, (_, i) => i);
 
   return (
-    <div className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden ${isSelected ? 'ring-2 ring-green-500' : ''}`}>
+    <div className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden ${isSelected ? 'ring-2 ring-lams-orange' : ''}`}>
       {/* Hotel Image Header */}
       <div className="relative h-48 overflow-hidden">
         <img 
@@ -48,8 +48,8 @@ export default function HotelCard({ hotel, onSelect, onCancel, isSelected }) {
       <div className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-              <i className="fa-solid fa-hotel text-green-600 text-xl"></i>
+            <div className="w-12 h-12 bg-lams-orange/10 rounded-full flex items-center justify-center">
+              <i className="fa-solid fa-hotel text-lams-orange text-xl"></i>
             </div>
             <div>
               <p className="text-sm text-gray-500">Hotel</p>
@@ -66,7 +66,7 @@ export default function HotelCard({ hotel, onSelect, onCancel, isSelected }) {
         <div className="bg-gray-50 rounded-lg p-4 mb-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-gray-600">Precio por noche</span>
-            <span className="text-2xl font-bold text-green-600">S/. {hotel.price_per_night}</span>
+            <span className="text-2xl font-bold text-lams-orange">S/. {hotel.price_per_night}</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">Calificación</span>
@@ -86,23 +86,35 @@ export default function HotelCard({ hotel, onSelect, onCancel, isSelected }) {
             <p className="text-sm text-gray-600">Habitaciones disponibles</p>
             <p className="text-lg font-semibold">{hotel.available_rooms}</p>
           </div>
-          {isSelected ? (
-            <button
-              onClick={onCancel}
-              className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+          <div className="flex flex-col space-y-2">
+            {isSelected ? (
+              <button
+                onClick={onCancel}
+                className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md"
+              >
+                <i className="fa-solid fa-times"></i>
+                <span>Quitar Hotel</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => onSelect(hotel)}
+                className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-lams-navy hover:bg-lams-navy/90 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md"
+              >
+                <i className="fa-solid fa-plus"></i>
+                <span>Añadir al viaje</span>
+              </button>
+            )}
+            
+            <a 
+              href={`https://wa.me/51999999999?text=Hola Lams Viajes! Me interesa el hotel ${hotel.name} en ${hotel.location}. S/. ${hotel.price_per_night} por noche.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full px-4 py-2 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-lg text-center font-bold flex items-center justify-center space-x-2 transition-all transform hover:scale-105"
             >
-              <i className="fa-solid fa-times"></i>
-              <span>Quitar Hotel</span>
-            </button>
-          ) : (
-            <button
-              onClick={() => onSelect(hotel)}
-              className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              <i className="fa-solid fa-plus"></i>
-              <span>Añadir al viaje</span>
-            </button>
-          )}
+              <i className="fa-brands fa-whatsapp text-lg"></i>
+              <span>Consultar WhatsApp</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>

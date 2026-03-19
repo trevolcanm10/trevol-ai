@@ -33,7 +33,7 @@ export default function FlightCard({ flight, onSelect, isSelected }) {
   const destinationImage = getDestinationImage(flight.destination);
 
   return (
-    <div className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden ${isSelected ? 'ring-2 ring-blue-500' : ''}`}>
+    <div className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden ${isSelected ? 'ring-2 ring-lams-orange' : ''}`}>
       {/* Destination Image Header */}
       <div className="relative h-48 overflow-hidden">
         <img 
@@ -55,8 +55,8 @@ export default function FlightCard({ flight, onSelect, isSelected }) {
       <div className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-              <i className="fa-solid fa-plane text-blue-600 text-xl"></i>
+            <div className="w-12 h-12 bg-lams-orange/10 rounded-full flex items-center justify-center">
+              <i className="fa-solid fa-plane text-lams-orange text-xl"></i>
             </div>
             <div>
               <p className="text-sm text-gray-500">Vuelo</p>
@@ -78,7 +78,7 @@ export default function FlightCard({ flight, onSelect, isSelected }) {
               <p className="text-xs text-gray-500">{flight.origin_country}</p>
             </div>
             <div className="flex-1 flex items-center justify-center">
-              <i className="fa-solid fa-arrow-right text-blue-400 text-2xl"></i>
+              <i className="fa-solid fa-arrow-right text-lams-orange/50 text-2xl"></i>
             </div>
             <div className="text-center">
               <p className="text-xs text-gray-500">Destino</p>
@@ -94,27 +94,39 @@ export default function FlightCard({ flight, onSelect, isSelected }) {
             <p className="text-2xl font-bold text-gray-900">S/. {flight.price}</p>
             <p className="text-sm text-gray-600">Asientos disponibles: {flight.available_seats}</p>
           </div>
+          <div className="flex flex-col space-y-2">
             <button
-            onClick={() => onSelect(flight)}
-            disabled={isSelected}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 ${
-              isSelected 
-                ? 'bg-blue-100 text-blue-800 cursor-not-allowed shadow-inner' 
-                : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl'
-            }`}
-          >
-            {isSelected ? (
-              <span className="flex items-center space-x-2">
-                <i className="fa-solid fa-check text-white"></i>
-                <span>Seleccionado</span>
-              </span>
-            ) : (
-              <span className="flex items-center space-x-2">
-                <i className="fa-solid fa-plus text-white"></i>
-                <span>Seleccionar Vuelo</span>
-              </span>
-            )}
-          </button>
+              onClick={() => onSelect(flight)}
+              disabled={isSelected}
+              className={`w-full px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 ${
+                isSelected 
+                  ? 'bg-lams-navy/10 text-lams-navy cursor-not-allowed shadow-inner' 
+                  : 'bg-lams-navy hover:bg-lams-navy/90 text-white shadow-lg hover:shadow-xl'
+              }`}
+            >
+              {isSelected ? (
+                <span className="flex items-center justify-center space-x-2">
+                  <i className="fa-solid fa-check text-lams-navy"></i>
+                  <span>Seleccionado</span>
+                </span>
+              ) : (
+                <span className="flex items-center justify-center space-x-2">
+                  <i className="fa-solid fa-plus text-white"></i>
+                  <span>Seleccionar Vuelo</span>
+                </span>
+              )}
+            </button>
+            
+            <a 
+              href={`https://wa.me/51999999999?text=Hola Lams Viajes! Me interesa el vuelo de ${flight.origin} a ${flight.destination} del día ${flight.date}. S/. ${flight.price}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full px-4 py-2 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-lg text-center font-bold flex items-center justify-center space-x-2 transition-all transform hover:scale-105"
+            >
+              <i className="fa-brands fa-whatsapp text-lg"></i>
+              <span>Consultar WhatsApp</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>

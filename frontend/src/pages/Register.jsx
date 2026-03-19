@@ -54,7 +54,7 @@ export default function Register() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 flex items-center justify-center p-4">
       {/* Background Travel Image Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-green-600/20 to-blue-600/20"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-lams-orange/20 to-lams-navy/20"></div>
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600')] bg-cover bg-center opacity-10"></div>
       
       <div className="relative w-full max-w-md">
@@ -67,13 +67,13 @@ export default function Register() {
         <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/20">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-600 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg">
+            <div className="w-16 h-16 bg-lams-orange rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
               </svg>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Travel-AI</h1>
-            <p className="text-gray-600">Crea tu cuenta para comenzar tu viaje</p>
+            <h1 className="text-3xl font-bold text-lams-navy mb-2">LAMS VIAJES</h1>
+            <p className="text-gray-600 font-medium italic">Viaja • Sueña • Imagina</p>
           </div>
 
           {/* Success Message */}
@@ -220,7 +220,7 @@ export default function Register() {
               className={`w-full py-3 px-4 rounded-lg font-semibold text-white transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                 loading
                   ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 shadow-lg hover:shadow-xl'
+                  : 'bg-lams-orange hover:bg-lams-orange/90 shadow-lg hover:shadow-xl'
               }`}
             >
               {loading ? (
@@ -247,7 +247,7 @@ export default function Register() {
             <p>¿Ya tienes cuenta?</p>
             <button
               onClick={() => navigate("/login")}
-              className="text-green-600 hover:text-green-800 font-medium transition-colors"
+              className="text-lams-orange hover:text-lams-orange/80 font-medium transition-colors"
             >
               Inicia sesión aquí
             </button>

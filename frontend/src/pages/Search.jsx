@@ -138,19 +138,21 @@ const Search = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-lams-navy/30 to-lams-orange/20"></div>
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=1600')] bg-cover bg-center opacity-10"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center shadow-xl">
-              <span className="text-2xl font-bold text-white">🔍</span>
+            <div className="w-16 h-16 bg-lams-orange rounded-full mx-auto mb-4 flex items-center justify-center shadow-xl">
+              <span className="text-2xl font-bold text-white">
+                <i className="fa-solid fa-magnifying-glass"></i>
+              </span>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Buscar Viajes
             </h1>
             <p className="text-lg text-gray-600 mb-8">
-              Encuentra tu próximo destino perfecto con filtros avanzados
+              Encuentra tu próximo destino perfecto con <span className="text-lams-orange font-bold uppercase">Lams Viajes</span>
             </p>
           </div>
         </div>
@@ -218,7 +220,7 @@ const Search = () => {
                   type="text"
                   value={filters.destination}
                   onChange={(e) => setFilters({...filters, destination: e.target.value})}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-lams-orange focus:border-transparent transition-all duration-200"
                   placeholder="Ej: Cusco, Lima, Arequipa"
                 />
               </div>
@@ -259,7 +261,7 @@ const Search = () => {
                 className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-200 ${
                   searching
                     ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+                    : "bg-lams-navy hover:bg-lams-navy/90 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
                 }`}
               >
                 {searching ? "🔍 Buscando..." : "🔍 Buscar Destinos"}
@@ -283,7 +285,7 @@ const Search = () => {
         {/* Resultados de Búsqueda */}
         {searching && (
           <div className="bg-white rounded-2xl shadow-xl p-12 border border-gray-200 mb-8 text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-6"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-lams-orange mx-auto mb-6"></div>
             <p className="text-gray-600 text-lg">Buscando destinos perfectos para ti...</p>
             <p className="text-sm text-gray-500 mt-2">Estamos analizando las mejores opciones</p>
           </div>
@@ -295,8 +297,10 @@ const Search = () => {
             <section>
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                    <span className="text-2xl">✈️</span>
+                  <div className="w-12 h-12 bg-lams-orange/10 rounded-full flex items-center justify-center">
+                    <span className="text-2xl text-lams-orange">
+                      <i className="fa-solid fa-plane"></i>
+                    </span>
                   </div>
                   <div>
                     <h2 className="text-3xl font-bold text-gray-900">Vuelos Disponibles</h2>
@@ -304,7 +308,7 @@ const Search = () => {
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-2xl font-bold text-blue-600">{filteredFlights.length}</span>
+                  <span className="text-2xl font-bold text-lams-orange">{filteredFlights.length}</span>
                   <p className="text-sm text-gray-500">vuelos encontrados</p>
                 </div>
               </div>

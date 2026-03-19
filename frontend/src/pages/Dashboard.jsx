@@ -107,13 +107,13 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg">
+      <header className="bg-lams-navy shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-8">
             <div>
-              <h1 className="text-4xl font-bold text-white mb-2">Panel de Control</h1>
+              <h1 className="text-4xl font-extrabold text-white mb-2">LAMS <span className="text-lams-orange">VIAJES</span></h1>
               <p className="text-blue-100 text-lg">
-                Bienvenido, {user?.name || "Usuario"}
+                Viaja • Sueña • Imagina | Bienvenido, {user?.name || "Usuario"}
               </p>
               <div className="flex items-center space-x-4 mt-2">
                 <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm text-white">
@@ -215,7 +215,7 @@ const Dashboard = () => {
                 Destinos Más Vendidos
               </h3>
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"></div>
+                <div className="w-3 h-3 bg-lams-orange rounded-full"></div>
                 <span className="text-sm text-gray-600">Análisis de preferencias</span>
               </div>
             </div>
@@ -254,7 +254,7 @@ const Dashboard = () => {
                 Ingresos Mensuales
               </h3>
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full"></div>
+                <div className="w-3 h-3 bg-lams-navy rounded-full"></div>
                 <span className="text-sm text-gray-600">Tendencia de ingresos</span>
               </div>
             </div>
@@ -349,7 +349,7 @@ const Dashboard = () => {
                     className="flex items-center justify-between p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-gray-200 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
                   >
                     <div className="flex items-center space-x-6">
-                      <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                      <div className="w-16 h-16 bg-lams-orange rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg">
                         {booking.destination.charAt(0)}
                       </div>
                       <div>
@@ -408,7 +408,7 @@ const Dashboard = () => {
                             onClick={() => setCurrentPage(i + 1)}
                             className={`w-10 h-10 rounded-lg font-medium transition-all duration-200 ${
                               currentPage === i + 1
-                                ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md transform scale-105"
+                                ? "bg-lams-orange text-white shadow-md transform scale-105"
                                 : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-blue-300"
                             }`}
                           >

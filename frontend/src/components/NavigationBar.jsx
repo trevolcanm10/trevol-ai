@@ -24,12 +24,17 @@ const NavigationBar = () => {
               to="/" 
               className="group flex items-center space-x-3 text-2xl font-bold text-gray-900 hover:text-blue-600 transition-all duration-300"
             >
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-blue-500/50 group-hover:scale-110 transition-all duration-300">
-                <span className="text-white text-lg font-black tracking-tighter">T</span>
+              <div className="w-10 h-10 bg-lams-orange rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-lams-orange/50 group-hover:scale-110 transition-all duration-300">
+                <i className="fa-solid fa-plane-departure text-white"></i>
               </div>
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 group-hover:from-blue-600 group-hover:to-purple-600 transition-all duration-300">
-                Travel-AI
-              </span>
+              <div className="flex flex-col leading-tight">
+                <span className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-lams-orange to-lams-navy">
+                  LAMS VIAJES
+                </span>
+                <span className="text-[8px] font-bold text-gray-400 tracking-[0.2em] uppercase">
+                  Viaja Sueña Imagina
+                </span>
+              </div>
             </Link>
             
             <div className="hidden md:ml-12 md:flex md:space-x-10">
@@ -39,7 +44,7 @@ const NavigationBar = () => {
               >
                 Inicio
                 {location.pathname === '/' && (
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></span>
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-lams-orange rounded-full"></span>
                 )}
               </Link>
               {user && (
@@ -51,7 +56,7 @@ const NavigationBar = () => {
                     >
                       Panel
                       {location.pathname === '/dashboard' && (
-                        <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></span>
+                        <span className="absolute bottom-0 left-0 w-full h-0.5 bg-lams-orange rounded-full"></span>
                       )}
                     </Link>
                   )}
@@ -101,9 +106,9 @@ const NavigationBar = () => {
                 >
                   Ingresar
                 </Link>
-                <Link
+                 <Link
                   to="/register"
-                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 shadow-[0_4px_15px_rgba(37,99,235,0.3)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)] hover:-translate-y-0.5 active:translate-y-0"
+                  className="bg-lams-orange hover:bg-lams-orange/90 text-white px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 shadow-[0_4px_15px_rgba(239,125,36,0.3)] hover:shadow-[0_6px_20px_rgba(239,125,36,0.4)] hover:-translate-y-0.5 active:translate-y-0"
                 >
                   Registrarme
                 </Link>

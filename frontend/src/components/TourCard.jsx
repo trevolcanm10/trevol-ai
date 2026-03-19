@@ -27,7 +27,7 @@ export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
   const tourImage = getTourImage(tour.name);
 
   return (
-    <div className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden ${isSelected ? 'ring-2 ring-purple-500' : ''}`}>
+    <div className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden ${isSelected ? 'ring-2 ring-lams-orange' : ''}`}>
       {/* Tour Image Header */}
       <div className="relative h-48 overflow-hidden">
         <img 
@@ -54,8 +54,8 @@ export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
       <div className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-              <i className="fa-solid fa-map-marked-alt text-purple-600 text-xl"></i>
+            <div className="w-12 h-12 bg-lams-orange/10 rounded-full flex items-center justify-center">
+              <i className="fa-solid fa-map-marked-alt text-lams-orange text-xl"></i>
             </div>
             <div>
               <p className="text-sm text-gray-500">Tour</p>
@@ -72,7 +72,7 @@ export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
         <div className="bg-gray-50 rounded-lg p-4 mb-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-gray-600">Precio del tour</span>
-            <span className="text-2xl font-bold text-purple-600">S/. {tour.price}</span>
+            <span className="text-2xl font-bold text-lams-orange">S/. {tour.price}</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">Disponibilidad</span>
@@ -86,23 +86,35 @@ export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
             <p className="text-sm text-gray-600">Tipo de experiencia</p>
             <p className="text-lg font-semibold capitalize">{tour.type}</p>
           </div>
-          {isSelected ? (
-            <button
-              onClick={onCancel}
-              className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+          <div className="flex flex-col space-y-2">
+            {isSelected ? (
+              <button
+                onClick={onCancel}
+                className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md"
+              >
+                <i className="fa-solid fa-times"></i>
+                <span>Quitar Tour</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => onSelect(tour)}
+                className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-lams-navy hover:bg-lams-navy/90 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md"
+              >
+                <i className="fa-solid fa-plus"></i>
+                <span>Añadir al viaje</span>
+              </button>
+            )}
+            
+            <a 
+              href={`https://wa.me/51999999999?text=Hola Lams Viajes! Me interesa el tour ${tour.name} (${tour.type}) en ${tour.location}. S/. ${tour.price}.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full px-4 py-2 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-lg text-center font-bold flex items-center justify-center space-x-2 transition-all transform hover:scale-105"
             >
-              <i className="fa-solid fa-times"></i>
-              <span>Quitar Tour</span>
-            </button>
-          ) : (
-            <button
-              onClick={() => onSelect(tour)}
-              className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              <i className="fa-solid fa-plus"></i>
-              <span>Añadir al viaje</span>
-            </button>
-          )}
+              <i className="fa-brands fa-whatsapp text-lg"></i>
+              <span>Consultar WhatsApp</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
