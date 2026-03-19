@@ -28,6 +28,7 @@ const Dashboard = () => {
     monthlyRevenue: [],
     recentBookings: [],
     customers: [],
+    revenueByCategory: [],
   });
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("stats"); // "stats" o "customers"
@@ -54,7 +55,7 @@ const Dashboard = () => {
       setLoading(true);
 
       // Fetch all dashboard data in parallel
-      const [revenueRes, bookingsRes, destinationsRes, monthlyRes, recentRes, customersRes] =
+      const [revenueRes, bookingsRes, destinationsRes, monthlyRes, recentRes, customersRes, categoryRes] =
         await Promise.all([
           api.get("/dashboard/revenue"),
           api.get("/dashboard/bookings"),
@@ -62,6 +63,7 @@ const Dashboard = () => {
           api.get("/dashboard/monthly-revenue"),
           api.get("/dashboard/recent-bookings"),
           api.get("/dashboard/customers"),
+          api.get("/dashboard/revenue-by-category"),
         ]);
 
       setStats({
@@ -71,6 +73,7 @@ const Dashboard = () => {
         monthlyRevenue: monthlyRes.data || [],
         recentBookings: recentRes.data || [],
         customers: customersRes.data || [],
+        revenueByCategory: categoryRes.data || [],
       });
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
@@ -304,6 +307,33 @@ const Dashboard = () => {
                 </BarChart>
               </ResponsiveContainer>
             </div>
+          </div>
+        </div>
+
+        {/* Revenue by Category - Bar Chart */}
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 mb-10">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-2xl font-bold text-gray-900">
+              Ventas por Categoría de Servicio
+            </h3>
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-lams-orange rounded-full"></div>
+              <span className="text-sm text-gray-600">Servicios Lams</span>
+            </div>
+          </div>
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={stats.revenueByCategory} layout="vertical" margin={{ left: 30, right: 30 }}>
+                <CartesianGrid strokeDasharray="3 3" horizontal={false} vertical={true} />
+                <XAxis type="number" hide />
+                <YAxis dataKey="category" type="category" width={100} tick={{ fontSize: 13, fontWeight: 'bold', fill: '#374151' }} />
+                <Tooltip 
+                  formatter={(value) => [`S/. ${value.toLocaleString()}`, 'Ingresos']}
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
+                />
+                <Bar dataKey="revenue" fill="#ef7d24" radius={[0, 10, 10, 0]} barSize={40} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
 

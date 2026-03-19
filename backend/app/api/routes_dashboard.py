@@ -52,3 +52,10 @@ def get_customers(db: Session = Depends(get_db)):
     Función para obtener la lista de clientes para el agente
     """
     return dashboard_service.get_customers(db)
+
+@router.get("/revenue-by-category")
+def revenue_by_category(db: Session = Depends(get_db)):
+    """
+    Función para obtener los ingresos por categoría de servicio
+    """
+    return dashboard_service.get_revenue_by_category(db)

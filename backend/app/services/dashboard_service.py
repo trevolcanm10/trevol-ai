@@ -135,3 +135,41 @@ def get_customers(db: Session):
         }
         for name, email, phone, created_at in results
     ]
+
+# ========================
+# Ingresos por categoría de servicio
+# ========================
+def get_revenue_by_category(db: Session):
+    """
+    Agrupa los ingresos por la categoría del servicio (Tour).
+    """
+    results = (
+        db.query(
+            models.Tour.category,
+            func.sum(models.Booking.total_price).label("revenue"),
+            func.count(models.Booking.id).label("count")
+        )
+        .join(models.Booking, models.Booking.tour_id == models.Tour.id)
+        .filter(models.Booking.status == models.BookingStatus.CONFIRMED)
+        .group_by(models.Tour.category)
+        .all()
+    )
+    
+    # Mapeo legible para el frontend
+    category_map = {
+        "tour": "Tours",
+        "seguro": "Seguros",
+        "tramite": "Trámites",
+        "traslado": "Traslados",
+        "migratorio": "Migratorios",
+        "grupo_escolar": "Grupos"
+    }
+
+    return [
+        {
+            "category": category_map.get(category, "Otros"),
+            "revenue": revenue,
+            "count": count
+        }
+        for category, revenue, count in results
+    ]

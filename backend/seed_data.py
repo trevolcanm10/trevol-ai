@@ -91,34 +91,50 @@ def seed_database():
     session.commit()
     print("- Servicios categorizados creados.")
 
-    # 6. Crear Reservas Simuladas para Análisis
+    # 6. Crear Reservas Simuladas para Análisis (Últimos 30 días)
     all_users = session.query(User).filter(User.role == "user").all()
     all_flights = session.query(Flight).all()
+    all_hotels = session.query(Hotel).all()
     all_tours = session.query(Tour).all()
 
+    print("- Generando historial de ventas distribuido...")
     bookings = []
-    for i in range(30):
+    # Generar 40 reservas para tener una buena muestra
+    for i in range(40):
         user_client = random.choice(all_users)
         flight = random.choice(all_flights)
-        tour_service = random.choice(all_tours)
         
-        booking_date = datetime.now() - timedelta(days=random.randint(0, 30))
-        total = flight.price + tour_service.price
+        # 70% de probabilidad de tener hotel
+        hotel = random.choice(all_hotels) if random.random() > 0.3 else None
+        
+        # 80% de probabilidad de tener un servicio (tour, seguro o trámite)
+        tour_service = random.choice(all_tours) if random.random() > 0.2 else None
+        
+        # Fecha distribuida en los últimos 30 días
+        booking_date = datetime.now() - timedelta(days=random.randint(0, 30), hours=random.randint(0, 23))
+        
+        # Calcular total
+        total = flight.price
+        if hotel:
+            total += (hotel.price_per_night * random.randint(1, 5)) # Estancia de 1 a 5 noches
+        if tour_service:
+            total += tour_service.price
         
         bookings.append(Booking(
             user_id=user_client.id,
             flight_id=flight.id,
-            tour_id=tour_service.id,
+            hotel_id=hotel.id if hotel else None,
+            tour_id=tour_service.id if tour_service else None,
             booking_date=booking_date,
-            total_price=total,
+            total_price=round(total, 2),
             status=BookingStatus.CONFIRMED
         ))
     
     session.add_all(bookings)
     session.commit()
-    print("- Historial de ventas simulado.")
+    print(f"- {len(bookings)} Reservas creadas con éxito.")
 
-    print("\n¡Configuración lógica completa!")
+    print("\n¡Configuración lógica completa y verificada!")
 
 if __name__ == "__main__":
     seed_database()
