@@ -110,3 +110,28 @@ def get_recent_bookings(db: Session, limit: int = 5):
         }
         for booking_id, booking_date, total_price, destination, user_name in results
     ]
+# ===================
+# Obtener clientes
+# ===================
+def get_customers(db: Session):
+    """
+    Función para obtener todos los usuarios con rol 'cliente' o sin rol específico
+    """
+    results = db.query(
+        models.User.name,
+        models.User.email,
+        models.User.phone,
+        models.User.created_at
+    ).filter(
+        (models.User.role != 'admin')
+    ).order_by(models.User.created_at.desc()).all()
+    
+    return [
+        {
+            "name": name,
+            "email": email,
+            "phone": phone,
+            "created_at": created_at
+        }
+        for name, email, phone, created_at in results
+    ]

@@ -46,3 +46,9 @@ def recent_bookings(db: Session = Depends(get_db)):
     Función para obtener las reservas recientes
     """
     return dashboard_service.get_recent_bookings(db, limit=30)
+@router.get("/customers")
+def get_customers(db: Session = Depends(get_db)):
+    """
+    Función para obtener la lista de clientes para el agente
+    """
+    return dashboard_service.get_customers(db)
