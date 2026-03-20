@@ -19,8 +19,6 @@ const Package = () => {
         const fetchBookings = async () => {
             try {
                 const response = await getUserBookings();
-                console.log('User bookings response:', response);
-                console.log('Bookings data:', response.data);
                 setBookings(response.data);
             } catch (err) {
                 console.error('Error fetching bookings:', err);
