@@ -58,6 +58,7 @@ class BookingResponse(BaseModel):
     booking_date: datetime#Fecha
     total_price: float#Precio
     status: BookingStatus#Estados
+    user_name: Optional[str] = None #Nombre del usuario
     flight: Optional[FlightResponse] = None
     hotel: Optional[HotelResponse] = None
     tour: Optional[TourResponse] = None
