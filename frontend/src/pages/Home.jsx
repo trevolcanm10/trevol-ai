@@ -19,6 +19,7 @@ export default function Home() {
   const [selectedFlight, setSelectedFlight] = useState(null); // Definimos el estado selectedFlight
   const [selectedHotel, setSelectedHotel] = useState(null); // Definimos el estado selectedHotel
   const [selectedTour, setSelectedTour] = useState(null); // Definimos el estado selectedTour
+  const [selectedService, setSelectedService] = useState(null); // Servicio adicional (seguro, traslado, etc.)
   const [showFlights, setShowFlights] = useState(false); // Definimos el estado showFlights
   const [showHotels, setShowHotels] = useState(false); // Definimos el estado showHotels
   const [showTours, setShowTours] = useState(false); // Definimos el estado showTours
@@ -99,11 +100,11 @@ export default function Home() {
 
     try {
       // Construir el objeto de reserva según el esquema de Pydantic
+      // El tour_id usar el tour turístico o el servicio adicional si está seleccionado
       const bookingData = {
         flight_id: selectedFlight.id,
-        // Solo incluir campos opcionales si están seleccionados
         hotel_id: selectedHotel?.id ?? null,
-        tour_id: selectedTour?.id ?? null,
+        tour_id: selectedTour?.id ?? selectedService?.id ?? null,
       };
       console.log("BOOKING DATA:", bookingData);
       await createBooking(bookingData);
@@ -113,6 +114,7 @@ export default function Home() {
       setSelectedFlight(null);
       setSelectedHotel(null);
       setSelectedTour(null);
+      setSelectedService(null);
     } catch (error) {
       console.error("ERROR BACKEND:", error.response?.data);
       alert("Error al crear la reserva");
@@ -123,12 +125,14 @@ export default function Home() {
     setSelectedFlight(null);
     setSelectedHotel(null);
     setSelectedTour(null);
+    setSelectedService(null);
   };
 
   const handleCancelFlight = () => {
     setSelectedFlight(null);
     setSelectedHotel(null);
     setSelectedTour(null);
+    setSelectedService(null);
   };
 
   const handleCancelHotel = () => {
@@ -139,10 +143,15 @@ export default function Home() {
     setSelectedTour(null);
   };
 
+  const handleCancelService = () => {
+    setSelectedService(null);
+  };
+
   const handleSelectFlight = (flight) => {
     setSelectedFlight(flight);
     setSelectedHotel(null);
     setSelectedTour(null);
+    setSelectedService(null);
     setShowHotels(true);
     setShowTours(true);
   };
@@ -258,116 +267,99 @@ export default function Home() {
       {/* Main Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Selection Summary Card */}
-        {(selectedFlight || selectedHotel || selectedTour) && (
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-10 rounded-3xl mb-10 shadow-xl border border-gray-200">
-            <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900">
-                Resumen de tu Viaje
-              </h2>
-              <button
-                onClick={handleCancelSelection}
-                className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-xl"
-              >
-                Cancelar Todo
-              </button>
-            </div>
+        {(selectedFlight || selectedHotel || selectedTour || selectedService) && (() => {
+          const getCategoryLabel = (item) => {
+            const labels = { seguro: '🛡️ Seguro de Viaje', tramite: '📋 Trámite', traslado: '🚗 Traslado', migratorio: '🌍 Migratorio', grupo_escolar: '👥 Grupo Escolar' };
+            return labels[item?.category] || '🗺️ Tour';
+          };
+          const totalEstimado = (selectedFlight?.price || 0) + (selectedHotel?.price_per_night || 0) + (selectedTour?.price || 0) + (selectedService?.price || 0);
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-              <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-xl">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="flex items-center space-x-4 mb-3">
-                      <p className="font-bold text-gray-900 text-xl">Vuelo</p>
-                    </div>
-                    {selectedFlight ? (
-                      <p className="text-sm text-gray-600">
-                        {selectedFlight.origin} ({selectedFlight.origin_country}
-                        ) → {selectedFlight.destination_city},{" "}
-                        {selectedFlight.destination_country}
-                      </p>
-                    ) : (
-                      <p className="text-sm text-gray-400">No seleccionado</p>
-                    )}
+          return (
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-10 rounded-3xl mb-10 shadow-xl border border-gray-200">
+              <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+                <div>
+                  <h2 className="text-3xl font-bold text-gray-900">Resumen de tu Viaje</h2>
+                  <p className="text-sm text-gray-500 mt-1">Precio estimado total: <span className="font-bold text-lams-orange text-lg">S/. {totalEstimado.toFixed(2)}</span></p>
+                </div>
+                <button onClick={handleCancelSelection} className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-xl mt-4 md:mt-0">
+                  Cancelar Todo
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                {/* Vuelo */}
+                <div className={`bg-white p-5 rounded-2xl border-2 shadow-lg transition-all ${selectedFlight ? 'border-blue-400' : 'border-dashed border-gray-200 opacity-50'}`}>
+                  <div className="flex items-center space-x-2 mb-2">
+                    <span className="text-xl">✈️</span>
+                    <p className="font-bold text-gray-900">Vuelo</p>
                   </div>
-                  {selectedFlight && (
-                    <button
-                      onClick={handleCancelFlight}
-                      className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
-                    >
-                      Cancelar
-                    </button>
-                  )}
+                  {selectedFlight ? (
+                    <>
+                      <p className="text-xs text-gray-600 mb-1">{selectedFlight.origin} → {selectedFlight.destination_city}</p>
+                      <p className="text-lams-orange font-bold text-sm">S/. {selectedFlight.price}</p>
+                      <button onClick={handleCancelFlight} className="mt-2 text-xs text-red-500 hover:text-red-700 font-semibold underline">Quitar</button>
+                    </>
+                  ) : <p className="text-xs text-gray-400 italic">No seleccionado</p>}
+                </div>
+
+                {/* Hotel */}
+                <div className={`bg-white p-5 rounded-2xl border-2 shadow-lg transition-all ${selectedHotel ? 'border-green-400' : 'border-dashed border-gray-200 opacity-50'}`}>
+                  <div className="flex items-center space-x-2 mb-2">
+                    <span className="text-xl">🏨</span>
+                    <p className="font-bold text-gray-900">Hotel</p>
+                  </div>
+                  {selectedHotel ? (
+                    <>
+                      <p className="text-xs text-gray-600 mb-1">{selectedHotel.name}</p>
+                      <p className="text-green-600 font-bold text-sm">S/. {selectedHotel.price_per_night}/noche</p>
+                      <button onClick={handleCancelHotel} className="mt-2 text-xs text-red-500 hover:text-red-700 font-semibold underline">Quitar</button>
+                    </>
+                  ) : <p className="text-xs text-gray-400 italic">No seleccionado</p>}
+                </div>
+
+                {/* Tour Turístico */}
+                <div className={`bg-white p-5 rounded-2xl border-2 shadow-lg transition-all ${selectedTour ? 'border-purple-400' : 'border-dashed border-gray-200 opacity-50'}`}>
+                  <div className="flex items-center space-x-2 mb-2">
+                    <span className="text-xl">🗺️</span>
+                    <p className="font-bold text-gray-900">Tour</p>
+                  </div>
+                  {selectedTour ? (
+                    <>
+                      <p className="text-xs text-gray-600 mb-1">{selectedTour.name}</p>
+                      <p className="text-purple-600 font-bold text-sm">S/. {selectedTour.price}</p>
+                      <button onClick={handleCancelTour} className="mt-2 text-xs text-red-500 hover:text-red-700 font-semibold underline">Quitar</button>
+                    </>
+                  ) : <p className="text-xs text-gray-400 italic">No seleccionado</p>}
+                </div>
+
+                {/* Servicio Adicional */}
+                <div className={`bg-white p-5 rounded-2xl border-2 shadow-lg transition-all ${selectedService ? 'border-cyan-400' : 'border-dashed border-gray-200 opacity-50'}`}>
+                  <div className="flex items-center space-x-2 mb-2">
+                    <span className="text-xl">💼</span>
+                    <p className="font-bold text-gray-900 text-sm">{selectedService ? getCategoryLabel(selectedService) : 'Servicio Adicional'}</p>
+                  </div>
+                  {selectedService ? (
+                    <>
+                      <p className="text-xs text-gray-600 mb-1">{selectedService.name}</p>
+                      <p className="text-cyan-600 font-bold text-sm">S/. {selectedService.price}</p>
+                      <button onClick={handleCancelService} className="mt-2 text-xs text-red-500 hover:text-red-700 font-semibold underline">Quitar</button>
+                    </>
+                  ) : <p className="text-xs text-gray-400 italic">No seleccionado</p>}
                 </div>
               </div>
 
-              <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-xl">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="flex items-center space-x-4 mb-3">
-                      <p className="font-bold text-gray-900 text-xl">Hotel</p>
-                    </div>
-                    {selectedHotel ? (
-                      <p className="text-sm text-gray-600">
-                        {selectedHotel.name}
-                      </p>
-                    ) : (
-                      <p className="text-sm text-gray-400">No seleccionado</p>
-                    )}
-                  </div>
-                  {selectedHotel && (
-                    <button
-                      onClick={handleCancelHotel}
-                      className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
-                    >
-                      Cancelar
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-xl">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="flex items-center space-x-4 mb-3">
-                      <p className="font-bold text-gray-900 text-xl">Tour</p>
-                    </div>
-                    {selectedTour ? (
-                      <p className="text-sm text-gray-600">
-                        {selectedTour.name}
-                      </p>
-                    ) : (
-                      <p className="text-sm text-gray-400">No seleccionado</p>
-                    )}
-                  </div>
-                  {selectedTour && (
-                    <button
-                      onClick={handleCancelTour}
-                      className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
-                    >
-                      Cancelar
-                    </button>
-                  )}
-                </div>
+              <div className="flex justify-end">
+                <button
+                  onClick={handleBooking}
+                  disabled={!selectedFlight}
+                  className={`px-10 py-5 rounded-xl font-bold text-white text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl ${!selectedFlight ? "bg-gray-400 cursor-not-allowed" : "bg-lams-orange hover:bg-lams-orange/90"}`}
+                >
+                  {selectedFlight ? "Confirmar Reserva" : "Selecciona un Vuelo"}
+                </button>
               </div>
             </div>
-
-            <div className="flex justify-end">
-              <button
-                onClick={handleBooking}
-                disabled={!selectedFlight}
-                className={`px-10 py-5 rounded-xl font-bold text-white text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl ${
-                  !selectedFlight
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-lams-orange hover:bg-lams-orange/90"
-                }`}
-              >
-                {selectedFlight
-                  ? "Confirmar Reserva"
-                  : "Selecciona un Vuelo"}
-              </button>
-            </div>
-          </div>
-        )}
+          );
+        })()}
 
         {/* Search / Management Section */}
         {user && (user.role === 'vendedor' || user.role === 'admin') ? (
@@ -709,7 +701,7 @@ export default function Home() {
                           <TourCard
                             key={t.id}
                             tour={t}
-                            onSelect={setSelectedTour}
+                            onSelect={setSelectedService}
                             onBook={() => handleBookTour(t)}
                             user={user}
                           />
