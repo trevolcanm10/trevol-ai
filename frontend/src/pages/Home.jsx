@@ -633,55 +633,93 @@ export default function Home() {
             </div>
 
             {/* Tours */}
-            <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-200">
-              <button
-                onClick={() => setShowTours(!showTours)}
-                disabled={!selectedFlight}
-                className={`w-full text-left font-bold text-xl p-6 rounded-xl transition-all duration-200 ${
-                  !selectedFlight
-                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                    : showTours
-                      ? "bg-purple-50 text-purple-800 border border-purple-200"
-                      : "bg-gray-50 text-gray-700 hover:bg-gray-100"
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="flex items-center space-x-4">
-                    <span>Tours Disponibles</span>
-                  </span>
-                  <span className="text-base font-medium text-gray-500">
-                    {results.tours.length} encontrados
-                  </span>
-                </div>
-              </button>
+            {(() => {
+              const toursCategoryFilter = (t) => {
+                if (selectedFlight) {
+                  return t.location.toLowerCase() === selectedFlight.destination_city?.toLowerCase();
+                } else {
+                  return t.location.toLowerCase().includes(destination.toLowerCase());
+                }
+              };
 
-              {showTours && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mt-8">
-                  {results.tours
-                    .filter((t) => {
-                      if (selectedFlight) {
-                        return (
-                          t.location.toLowerCase() ===
-                          selectedFlight.destination_city?.toLowerCase()
-                        );
-                      } else {
-                        return t.location
-                          .toLowerCase()
-                          .includes(destination.toLowerCase());
-                      }
-                    })
-                    .map((t) => (
-                      <TourCard
-                        key={t.id}
-                        tour={t}
-                        onSelect={setSelectedTour}
-                        onBook={() => handleBookTour(t)}
-                        user={user}
-                      />
-                    ))}
-                </div>
-              )}
-            </div>
+              const toursRegulares = results.tours.filter(t => toursCategoryFilter(t) && (!t.category || t.category === 'tour'));
+              // Los servicios adicionales son globales (location: "Global"/"Nacional"), se muestran siempre
+              const serviciosAdicionales = results.tours.filter(t => t.category && t.category !== 'tour');
+
+              return (
+                <>
+                  {/* Sección: Tours Turísticos */}
+                  <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-200">
+                    <button
+                      onClick={() => setShowTours(!showTours)}
+                      disabled={!selectedFlight}
+                      className={`w-full text-left font-bold text-xl p-6 rounded-xl transition-all duration-200 ${
+                        !selectedFlight
+                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                          : showTours
+                            ? "bg-purple-50 text-purple-800 border border-purple-200"
+                            : "bg-gray-50 text-gray-700 hover:bg-gray-100"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center space-x-3">
+                          <i className="fa-solid fa-map-marked-alt"></i>
+                          <span>Tours Turísticos</span>
+                        </span>
+                        <span className="text-base font-medium text-gray-500">
+                          {toursRegulares.length} encontrados
+                        </span>
+                      </div>
+                    </button>
+
+                    {showTours && (
+                      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mt-8">
+                        {toursRegulares.length > 0 ? toursRegulares.map((t) => (
+                          <TourCard
+                            key={t.id}
+                            tour={t}
+                            onSelect={setSelectedTour}
+                            onBook={() => handleBookTour(t)}
+                            user={user}
+                          />
+                        )) : (
+                          <p className="text-gray-400 col-span-3 text-center py-4">No hay tours turísticos disponibles para este destino.</p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Sección: Servicios Adicionales */}
+                  {serviciosAdicionales.length > 0 && (
+                    <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-3xl shadow-xl p-10 border border-blue-100">
+                      <div className="flex items-center justify-between mb-6 px-2">
+                        <div className="flex items-center space-x-3">
+                          <span className="bg-blue-600 text-white p-3 rounded-xl shadow">
+                            <i className="fa-solid fa-briefcase text-lg"></i>
+                          </span>
+                          <div>
+                            <h4 className="text-xl font-bold text-gray-900">Servicios Adicionales</h4>
+                            <p className="text-sm text-gray-500">Complementa tu viaje con estos servicios</p>
+                          </div>
+                        </div>
+                        <span className="text-base font-medium text-gray-500">{serviciosAdicionales.length} disponibles</span>
+                      </div>
+                      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+                        {serviciosAdicionales.map((t) => (
+                          <TourCard
+                            key={t.id}
+                            tour={t}
+                            onSelect={setSelectedTour}
+                            onBook={() => handleBookTour(t)}
+                            user={user}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </>
+              );
+            })()}
           </div>
         )}
 
