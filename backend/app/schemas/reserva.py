@@ -2,12 +2,13 @@
 Schemas para la reserva
 """
 from pydantic import BaseModel#Para crear schemas
-from typing import Optional#Para campos opcionales
+from typing import Optional, List#Para campos opcionales
 from datetime import datetime#Para trabajar con fechas
 from enum import Enum #Para trabajar con estados
 from app.schemas.vuelo import FlightResponse#Vuelo
 from app.schemas.hoteles import HotelResponse#Hotel
 from app.schemas.tour import TourResponse#Tour
+from app.schemas.service import ServiceResponse#Service
 
 # =========================
 # Enumeración para los estados de las reservas
@@ -30,7 +31,7 @@ class BookingBase(BaseModel):
     """
     flight_id: int  # Vuelo obligatorio
     hotel_id: Optional[int] = None #hotel opcional
-    tour_id: Optional[int] = None   #Tour opcional
+    tour_id: Optional[int] = None   #Tour turístico opcional
 
 # =========================
 #  Schema para CREAR reserva
@@ -40,7 +41,7 @@ class BookingCreate(BookingBase):
     """
     Schema para crear reservas
     """
-    pass
+    service_ids: List[int] = []  # Servicios adicionales (N:M)
 
 # =========================
 # Schema para RESPUESTA
@@ -55,6 +56,7 @@ class BookingResponse(BaseModel):
     flight_id: int#Vuelo
     hotel_id: Optional[int]#Hotel
     tour_id: Optional[int]#Tour
+    service_ids: List[int]#Servicios
     booking_date: datetime#Fecha
     total_price: float#Precio
     status: BookingStatus#Estados
@@ -62,6 +64,7 @@ class BookingResponse(BaseModel):
     flight: Optional[FlightResponse] = None
     hotel: Optional[HotelResponse] = None
     tour: Optional[TourResponse] = None
+    services: Optional[List[ServiceResponse]] = None
     
     class Config:
         """

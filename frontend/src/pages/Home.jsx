@@ -5,6 +5,7 @@ import { searchTravel, getPackage } from "../services/api"; // importando las fu
 import FlightCard from "../components/FlightCard"; // importando el componente FlightCard
 import HotelCard from "../components/HotelCard"; // importando el componente HotelCard
 import TourCard from "../components/TourCard"; // importando el componente TourCard
+import ServiceCard from "../components/ServiceCard"; // importando el componente ServiceCard
 import PackageCard from "../components/PackageCard"; // importando el componente PackageCard
 import { createBooking } from "../services/api";
 import FlightManager from "../components/admin/FlightManager";
@@ -19,7 +20,7 @@ export default function Home() {
   const [selectedFlight, setSelectedFlight] = useState(null); // Definimos el estado selectedFlight
   const [selectedHotel, setSelectedHotel] = useState(null); // Definimos el estado selectedHotel
   const [selectedTour, setSelectedTour] = useState(null); // Definimos el estado selectedTour
-  const [selectedService, setSelectedService] = useState(null); // Servicio adicional (seguro, traslado, etc.)
+  const [selectedServices, setSelectedServices] = useState([]); // Servicios adicionales (seguros, trámites, etc.)
   const [showFlights, setShowFlights] = useState(false); // Definimos el estado showFlights
   const [showHotels, setShowHotels] = useState(false); // Definimos el estado showHotels
   const [showTours, setShowTours] = useState(false); // Definimos el estado showTours
@@ -100,11 +101,11 @@ export default function Home() {
 
     try {
       // Construir el objeto de reserva según el esquema de Pydantic
-      // El tour_id usar el tour turístico o el servicio adicional si está seleccionado
       const bookingData = {
         flight_id: selectedFlight.id,
         hotel_id: selectedHotel?.id ?? null,
-        tour_id: selectedTour?.id ?? selectedService?.id ?? null,
+        tour_id: selectedTour?.id ?? null,
+        service_ids: selectedServices.map(s => s.id)
       };
       console.log("BOOKING DATA:", bookingData);
       await createBooking(bookingData);
@@ -114,7 +115,7 @@ export default function Home() {
       setSelectedFlight(null);
       setSelectedHotel(null);
       setSelectedTour(null);
-      setSelectedService(null);
+      setSelectedServices([]);
     } catch (error) {
       console.error("ERROR BACKEND:", error.response?.data);
       alert("Error al crear la reserva");
@@ -125,14 +126,14 @@ export default function Home() {
     setSelectedFlight(null);
     setSelectedHotel(null);
     setSelectedTour(null);
-    setSelectedService(null);
+    setSelectedServices([]);
   };
 
   const handleCancelFlight = () => {
     setSelectedFlight(null);
     setSelectedHotel(null);
     setSelectedTour(null);
-    setSelectedService(null);
+    setSelectedServices([]);
   };
 
   const handleCancelHotel = () => {
@@ -143,15 +144,15 @@ export default function Home() {
     setSelectedTour(null);
   };
 
-  const handleCancelService = () => {
-    setSelectedService(null);
+  const handleCancelService = (serviceId) => {
+    setSelectedServices(prev => prev.filter(s => s.id !== serviceId));
   };
 
   const handleSelectFlight = (flight) => {
     setSelectedFlight(flight);
     setSelectedHotel(null);
     setSelectedTour(null);
-    setSelectedService(null);
+    setSelectedServices([]);
     setShowHotels(true);
     setShowTours(true);
   };
@@ -267,12 +268,12 @@ export default function Home() {
       {/* Main Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Selection Summary Card */}
-        {(selectedFlight || selectedHotel || selectedTour || selectedService) && (() => {
+        {(selectedFlight || selectedHotel || selectedTour || selectedServices.length > 0) && (() => {
           const getCategoryLabel = (item) => {
             const labels = { seguro: '🛡️ Seguro de Viaje', tramite: '📋 Trámite', traslado: '🚗 Traslado', migratorio: '🌍 Migratorio', grupo_escolar: '👥 Grupo Escolar' };
             return labels[item?.category] || '🗺️ Tour';
           };
-          const totalEstimado = (selectedFlight?.price || 0) + (selectedHotel?.price_per_night || 0) + (selectedTour?.price || 0) + (selectedService?.price || 0);
+          const totalEstimado = (selectedFlight?.price || 0) + (selectedHotel?.price_per_night || 0) + (selectedTour?.price || 0) + selectedServices.reduce((sum, s) => sum + (s.price || 0), 0);
 
           return (
             <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-10 rounded-3xl mb-10 shadow-xl border border-gray-200">
@@ -332,19 +333,35 @@ export default function Home() {
                   ) : <p className="text-xs text-gray-400 italic">No seleccionado</p>}
                 </div>
 
-                {/* Servicio Adicional */}
-                <div className={`bg-white p-5 rounded-2xl border-2 shadow-lg transition-all ${selectedService ? 'border-cyan-400' : 'border-dashed border-gray-200 opacity-50'}`}>
+                {/* Servicios Adicionales */}
+                <div className="bg-white p-5 rounded-2xl border-2 shadow-lg transition-all">
                   <div className="flex items-center space-x-2 mb-2">
                     <span className="text-xl">💼</span>
-                    <p className="font-bold text-gray-900 text-sm">{selectedService ? getCategoryLabel(selectedService) : 'Servicio Adicional'}</p>
+                    <p className="font-bold text-gray-900">Servicios</p>
                   </div>
-                  {selectedService ? (
-                    <>
-                      <p className="text-xs text-gray-600 mb-1">{selectedService.name}</p>
-                      <p className="text-cyan-600 font-bold text-sm">S/. {selectedService.price}</p>
-                      <button onClick={handleCancelService} className="mt-2 text-xs text-red-500 hover:text-red-700 font-semibold underline">Quitar</button>
-                    </>
-                  ) : <p className="text-xs text-gray-400 italic">No seleccionado</p>}
+                  {selectedServices.length > 0 ? (
+                    <div className="space-y-2">
+                      {selectedServices.map((service) => (
+                        <div key={service.id} className="flex items-center justify-between bg-gray-50 p-2 rounded">
+                          <div>
+                            <p className="text-xs text-gray-600">{service.name}</p>
+                            <p className="text-xs text-gray-500">{getCategoryLabel(service)}</p>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <p className="text-sm font-bold text-cyan-600">S/. {service.price}</p>
+                            <button 
+                              onClick={() => handleCancelService(service.id)}
+                              className="text-xs text-red-500 hover:text-red-700 font-semibold underline"
+                            >
+                              Quitar
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-gray-400 italic">No seleccionado</p>
+                  )}
                 </div>
               </div>
 
@@ -698,12 +715,20 @@ export default function Home() {
                       </div>
                       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
                         {serviciosAdicionales.map((t) => (
-                          <TourCard
+                          <ServiceCard
                             key={t.id}
-                            tour={t}
-                            onSelect={setSelectedService}
-                            onBook={() => handleBookTour(t)}
-                            user={user}
+                            service={t}
+                            onSelect={(service) => {
+                              setSelectedServices(prev => {
+                                const isSelected = prev.some(s => s.id === service.id);
+                                if (isSelected) {
+                                  return prev.filter(s => s.id !== service.id);
+                                } else {
+                                  return [...prev, service];
+                                }
+                              });
+                            }}
+                            isSelected={selectedServices.some(s => s.id === t.id)}
                           />
                         ))}
                       </div>

@@ -6,7 +6,7 @@ import random
 from datetime import datetime, timedelta
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from app.db.models import Base, User, Flight, Hotel, Tour, Booking, BookingStatus
+from app.db.models import Base, User, Flight, Hotel, Tour, Booking, BookingStatus, Service
 from app.core.security import get_password_hash
 
 # Configuración de la base de datos
@@ -105,13 +105,30 @@ def seed_database():
         {"name": "Grupos Escolares Promoción", "cat": "grupo_escolar", "price": 190, "loc": "Nacional"},
     ]
     
+    # Servicios adicionales
+    services_data = [
+        {"name": "Seguro de Viaje Continental", "category": "seguro", "price": 45, "description": "Seguro para viajes internacionales", "location_required": False},
+        {"name": "Trámite de Pasaporte", "category": "tramite", "price": 65, "description": "Asesoría para obtención de pasaporte", "location_required": True},
+        {"name": "Asesoría de Visa Americana", "category": "tramite", "price": 120, "description": "Asesoría para visa a EE.UU.", "location_required": False},
+        {"name": "Residencia Migratoria PE", "category": "migratorio", "price": 240, "description": "Gestión de residencia en Perú", "location_required": True},
+        {"name": "Traslado Full-Day Paracas", "category": "traslado", "price": 115, "description": "Traslado full-day a Paracas", "location_required": True},
+        {"name": "Grupos Escolares Promoción", "category": "grupo_escolar", "price": 190, "description": "Paquetes para grupos escolares", "location_required": False},
+    ]
+    
+    # Crear Tours (solo tours turísticos)
     for s in lams_services:
-        session.add(Tour(
-            name=s["name"], location=s["loc"], category=s["cat"], 
-            price=s["price"], available_slots=random.randint(15, 80)
-        ))
+        if s["cat"] == "tour":
+            session.add(Tour(
+                name=s["name"], location=s["loc"], 
+                price=s["price"], available_slots=random.randint(15, 80)
+            ))
+    
+    # Crear Servicios (todos los demás)
+    for s in services_data:
+        session.add(Service(**s))
+    
     session.commit()
-    print("- Servicios y tours diversificados creados.")
+    print("- Tours y servicios creados.")
 
     # 6. Crear Reservas Simuladas (Historial de 40 ventas)
     all_users = session.query(User).filter(User.role == "user").all()

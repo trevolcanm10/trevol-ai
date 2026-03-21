@@ -7,7 +7,7 @@ from datetime import datetime
 from enum import Enum as PyEnum
 
 # Third-party libraries
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Enum
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Enum, Boolean
 from sqlalchemy.orm import relationship
 
 from app.db.database import Base
@@ -91,7 +91,7 @@ class Hotel(Base):
     # Relación 0:N → Un hotel puede tener muchas reservas
 
 # =========================
-# Tabla: Tours
+# Tabla: Tours (Solo tours turísticos)
 # Relación: 0:N con Bookings
 # =========================
 class Tour(Base):
@@ -103,12 +103,52 @@ class Tour(Base):
     id = Column(Integer, primary_key=True, index=True) #Primary key
     name = Column(String, nullable=False) #Nombre del tour
     location = Column(String, nullable=False) #Ciudad del tour
-    category = Column(String, default="tour") #Categoría: tour, seguro, tramite, traslado, etc.
     price = Column(Float, nullable=False) #Precio del tour
     available_slots = Column(Integer, nullable=False) #Cantidad de asientos disponibles
+    duration_hours = Column(Integer, nullable=True) #Duración del tour en horas
+    difficulty_level = Column(String, default="easy") #Nivel de dificultad
 
     bookings = relationship("Booking", back_populates="tour")#Relación con la tabla Bookings
     # Relación 0:N → Un tour puede tener muchas reservas
+
+# =========================
+# Tabla: Services (Servicios adicionales)
+# Relación: N:M con Bookings
+# =========================
+class Service(Base):
+    """
+    Clase que representa la tabla Services en la base de datos
+    """
+    __tablename__ = "services" # Nombre de la tabla en la BD
+
+    id = Column(Integer, primary_key=True, index=True) #Primary key
+    name = Column(String, nullable=False) #Nombre del servicio
+    category = Column(String, nullable=False) #Categoría: seguro, tramite, traslado, migratorio, grupo_escolar
+    price = Column(Float, nullable=False) #Precio del servicio
+    description = Column(String, nullable=True) #Descripción del servicio
+    is_subscription = Column(Boolean, default=False) #Si es servicio recurrente
+    location_required = Column(Boolean, default=False) #Si necesita ubicación
+
+    bookings = relationship("BookingService", back_populates="service")#Relación con la tabla BookingServices
+    # Relación N:M → Un servicio puede estar en muchas reservas
+
+# =========================
+# Tabla: BookingServices (Relación muchos a muchos)
+# =========================
+class BookingService(Base):
+    """
+    Clase que representa la tabla BookingServices en la base de datos
+    """
+    __tablename__ = "booking_services" # Nombre de la tabla en la BD
+
+    id = Column(Integer, primary_key=True, index=True) #Primary key
+    booking_id = Column(Integer, ForeignKey("bookings.id")) #FK a bookings
+    service_id = Column(Integer, ForeignKey("services.id")) #FK a services
+    quantity = Column(Integer, default=1) #Cantidad del servicio
+
+    # Relaciones
+    booking = relationship("Booking", back_populates="services")
+    service = relationship("Service", back_populates="bookings")
 
 # =====================================================
 # Tabla de preferencias del usuario (Aprendizaje)
@@ -151,7 +191,7 @@ class Booking(Base):
     )  # FK opcional → Puede incluir hotel o no
     tour_id = Column(
         Integer, ForeignKey("tours.id")
-    )  # FK opcional → Puede incluir tour o no
+    )  # FK opcional → Puede incluir tour turístico o no
     booking_date = Column(DateTime, default=datetime.now)
     # Fecha automática cuando se crea la reserva
     total_price = Column(Float, nullable=False) #Precio total de la reserva
@@ -160,5 +200,6 @@ class Booking(Base):
     flight = relationship("Flight", back_populates="bookings")#Relación con la tabla Flights
     hotel = relationship("Hotel", back_populates="bookings")#Relación con la tabla Hotels
     tour = relationship("Tour", back_populates="bookings")#Relación con la tabla Tours
+    services = relationship("BookingService", back_populates="booking")#Relación con la tabla BookingServices
     status = Column(Enum(BookingStatus), default=BookingStatus.PENDING, nullable=False)
     #Estado de la reserva

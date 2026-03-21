@@ -3,6 +3,7 @@ from fastapi import HTTPException, status  # Dependencias de FastAPI
 from app.db import models  # Importamos los modelos
 from app.schemas.reserva import BookingCreate  # Importamos el schema de la reserva
 from app.services import recommendation_service #Importamos el servicio de las recomendaciones
+from app.db.models import BookingService #Importamos el modelo de BookingService
 
 def create_booking_service(db: Session, booking_data: BookingCreate, user_id: int):
     """
@@ -51,7 +52,7 @@ def create_booking_service(db: Session, booking_data: BookingCreate, user_id: in
             )
         total_price += hotel.price_per_night
 
-    # Tour opcional
+    # Tour turístico opcional
     tour = None
     if booking_data.tour_id:
         tour = (
@@ -62,6 +63,18 @@ def create_booking_service(db: Session, booking_data: BookingCreate, user_id: in
                 status_code=status.HTTP_404_NOT_FOUND, detail="Tour not found"
             )
         total_price += tour.price
+
+    # Servicios adicionales
+    services_total = 0
+    for service_id in booking_data.service_ids:
+        service = db.query(models.Service).filter(models.Service.id == service_id).first()
+        if not service:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail=f"Service {service_id} not found"
+            )
+        services_total += service.price
+
+    total_price += services_total
 
     # Descontar asiento del vuelo
     flight.available_seats -= 1
@@ -78,6 +91,16 @@ def create_booking_service(db: Session, booking_data: BookingCreate, user_id: in
     db.add(new_booking)  # Agregamos la reserva
     db.commit()  # Guardamos los cambios
     db.refresh(new_booking)  # Actualizamos la reserva
+
+    # Crear relaciones con servicios
+    for service_id in booking_data.service_ids:
+        booking_service = BookingService(
+            booking_id=new_booking.id,
+            service_id=service_id
+        )
+        db.add(booking_service)
+    
+    db.commit()
 
     # ------------------------------------------------
     # ACTIVAR APRENDIZAJE AUTOMÁTICO
