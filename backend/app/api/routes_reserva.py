@@ -50,13 +50,27 @@ def read_bookings(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
         joinedload(models.Booking.flight),
         joinedload(models.Booking.hotel),
         joinedload(models.Booking.tour),
-        joinedload(models.Booking.user)
+        joinedload(models.Booking.user),
+        joinedload(models.Booking.services)
     ).offset(skip).limit(limit).all()
     
+    response = []
+    
     for booking in bookings:
-        booking.user_name = booking.user.name if booking.user else None
+        booking_dict = {
+            "id": booking.id,
+            "user_id": booking.user_id,
+            "flight_id": booking.flight_id,
+            "hotel_id": booking.hotel_id,
+            "tour_id": booking.tour_id,
+            "service_ids": [s.id for s in booking.services],
+            "booking_date": booking.booking_date,
+            "total_price": booking.total_price,
+            "status": booking.status
+        }
+        response.append(booking_dict)
         
-    return bookings
+    return response
 
 # =========================
 # Obtener reservas del usuario actual
@@ -74,13 +88,31 @@ def read_my_bookings(
         joinedload(models.Booking.flight),
         joinedload(models.Booking.hotel),
         joinedload(models.Booking.tour),
-        joinedload(models.Booking.user)
+        joinedload(models.Booking.user),
+        joinedload(models.Booking.services)
     ).filter(models.Booking.user_id == current_user.id).all()
-    
+
+    response = []
     for booking in bookings:
-        booking.user_name = booking.user.name if booking.user else None
-        
-    return bookings
+        booking_dict = {
+            "id": booking.id,
+            "user_id": booking.user_id,
+            "flight_id": booking.flight_id,
+            "hotel_id": booking.hotel_id,
+            "tour_id": booking.tour_id,
+            "service_ids": [s.id for s in booking.services],
+            "booking_date": booking.booking_date,
+            "total_price": booking.total_price,
+            "status": booking.status,
+            "user_name": booking.user.name if booking.user else None,
+            "flight": booking.flight,
+            "hotel": booking.hotel,
+            "tour": booking.tour,
+            "services": booking.services,
+        }
+        response.append(booking_dict)
+
+    return response
 
 # =========================
 # Obtener reserva por ID
@@ -98,14 +130,23 @@ def read_booking(booking_id: int, db: Session = Depends(get_db)):
         joinedload(models.Booking.flight),
         joinedload(models.Booking.hotel),
         joinedload(models.Booking.tour),
-        joinedload(models.Booking.user)
+        joinedload(models.Booking.user),
+        joinedload(models.Booking.services)
     ).filter(models.Booking.id == booking_id).first()
-    
     if booking is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Booking not found")
-    
-    booking.user_name = booking.user.name if booking.user else None
-    return booking
+    booking_dict ={
+        "id": booking.id,
+        "user_id": booking.user_id,
+        "flight_id": booking.flight_id,
+        "hotel_id": booking.hotel_id,
+        "tour_id": booking.tour_id,
+        "service_ids": [s.id for s in booking.services],
+        "booking_date": booking.booking_date,
+        "total_price": booking.total_price,
+        "status": booking.status
+    }
+    return booking_dict
 # =========================
 # Cancelar reserva
 # PUT /api/bookings/{booking_id}/cancel
@@ -118,4 +159,22 @@ def cancel_booking(booking_id: int, db: Session = Depends(get_db)):
     - db: Sesión de la base de datos
     - return: La reserva cancelada
     """
-    return reserva_service.cancel_booking_service(db, booking_id)
+    booking = reserva_service.cancel_booking_service(db, booking_id)
+
+    booking_dict = {
+        "id": booking.id,
+        "user_id": booking.user_id,
+        "flight_id": booking.flight_id,
+        "hotel_id": booking.hotel_id,
+        "tour_id": booking.tour_id,
+        "service_ids": [s.id for s in booking.services],
+        "booking_date": booking.booking_date,
+        "total_price": booking.total_price,
+        "status": booking.status,
+        "user_name": booking.user.name if booking.user else None,
+        "flight": booking.flight,
+        "hotel": booking.hotel,
+        "tour": booking.tour,
+        "services": booking.services,
+    }
+    return booking_dict
