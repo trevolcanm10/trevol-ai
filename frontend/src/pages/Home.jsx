@@ -651,9 +651,11 @@ export default function Home() {
                 }
               };
 
-              const toursRegulares = results.tours.filter(t => toursCategoryFilter(t) && (!t.category || t.category === 'tour'));
+              const toursRegulares = results.tours.filter((t) =>
+                toursCategoryFilter(t),
+              );
               // Los servicios adicionales son globales (location: "Global"/"Nacional"), se muestran siempre
-              const serviciosAdicionales = results.tours.filter(t => t.category && t.category !== 'tour');
+              const serviciosAdicionales = results.services || [];
 
               return (
                 <>
@@ -714,21 +716,21 @@ export default function Home() {
                         <span className="text-base font-medium text-gray-500">{serviciosAdicionales.length} disponibles</span>
                       </div>
                       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-                        {serviciosAdicionales.map((t) => (
+                        {serviciosAdicionales.map((service) => (
                           <ServiceCard
-                            key={t.id}
-                            service={t}
-                            onSelect={(service) => {
+                            key={service.id}
+                            service={service}
+                            onSelect={(serviceItem) => {
                               setSelectedServices(prev => {
-                                const isSelected = prev.some(s => s.id === service.id);
+                                const isSelected = prev.some(s => s.id === serviceItem.id);
                                 if (isSelected) {
-                                  return prev.filter(s => s.id !== service.id);
+                                  return prev.filter(s => s.id !== serviceItem.id);
                                 } else {
-                                  return [...prev, service];
+                                  return [...prev, serviceItem];
                                 }
                               });
                             }}
-                            isSelected={selectedServices.some(s => s.id === t.id)}
+                            isSelected={selectedServices.some(s => s.id === service.id)}
                           />
                         ))}
                       </div>
