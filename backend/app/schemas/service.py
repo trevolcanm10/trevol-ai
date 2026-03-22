@@ -10,7 +10,7 @@ class ServiceBase(BaseModel):
     """
     name: str
     category: str  # seguro, tramite, traslado, migratorio, grupo_escolar
-    price: float = Field(gt=0)
+    price: float = Field(...,gt=0)
     description: Optional[str] = None
     is_subscription: Optional[bool] = False
     location_required: Optional[bool] = False
