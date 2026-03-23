@@ -33,7 +33,7 @@ export default function FlightCard({ flight, onSelect, isSelected }) {
   const destinationImage = getDestinationImage(flight.destination);
 
   return (
-    <div className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden ${isSelected ? 'ring-2 ring-lams-orange' : ''}`}>
+    <div className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden min-h-[520px] flex flex-col justify-between ${isSelected ? 'ring-2 ring-lams-orange' : ''}`}>
       {/* Destination Image Header */}
       <div className="relative h-48 overflow-hidden">
         <img 
@@ -46,13 +46,13 @@ export default function FlightCard({ flight, onSelect, isSelected }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
         <div className="absolute bottom-4 left-4 text-white">
-          <h3 className="text-2xl font-bold">{flight.destination}</h3>
+          <h3 className="text-xl font-bold">{flight.destination}</h3>
           <p className="text-sm opacity-90">{flight.destination_country}</p>
         </div>
       </div>
 
       {/* Flight Details */}
-      <div className="p-6">
+      <div className="p-6 flex-1">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-lams-orange/10 rounded-full flex items-center justify-center">
@@ -104,17 +104,7 @@ export default function FlightCard({ flight, onSelect, isSelected }) {
                   : 'bg-lams-navy hover:bg-lams-navy/90 text-white shadow-lg hover:shadow-xl'
               }`}
             >
-              {isSelected ? (
-                <span className="flex items-center justify-center space-x-2">
-                  <i className="fa-solid fa-check text-lams-navy"></i>
-                  <span>Seleccionado</span>
-                </span>
-              ) : (
-                <span className="flex items-center justify-center space-x-2">
-                  <i className="fa-solid fa-plus text-white"></i>
-                  <span>Seleccionar Vuelo</span>
-                </span>
-              )}
+              {isSelected ? "Seleccionado" : "Añadir al viaje"}
             </button>
             
             <a 
