@@ -81,7 +81,7 @@ export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col space-y-2 w-full">
           <div className="flex flex-col space-y-2">
             {isSelected ? (
               <button

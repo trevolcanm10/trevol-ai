@@ -63,10 +63,6 @@ export default function FlightCard({ flight, onSelect, isSelected }) {
               <p className="text-xs text-gray-400">Origen: {flight.origin}</p>
             </div>
           </div>
-          <div className="text-right">
-            <p className="text-sm text-gray-500">Fecha</p>
-            <p className="text-sm font-medium">{flight.date}</p>
-          </div>
         </div>
 
         {/* Route Information */}
@@ -89,7 +85,7 @@ export default function FlightCard({ flight, onSelect, isSelected }) {
         </div>
 
         {/* Price and Action */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col space-y-2 w-full">
           <div>
             <p className="text-2xl font-bold text-gray-900">S/. {flight.price}</p>
             <p className="text-sm text-gray-600">Asientos disponibles: {flight.available_seats}</p>
@@ -108,7 +104,7 @@ export default function FlightCard({ flight, onSelect, isSelected }) {
             </button>
             
             <a 
-              href={`https://wa.me/51999999999?text=Hola Lams Viajes! Me interesa el vuelo de ${flight.origin} a ${flight.destination} del día ${flight.date}. S/. ${flight.price}`}
+              href={`https://wa.me/51999999999?text=Hola Lams Viajes! Me interesa el vuelo de ${flight.origin} a ${flight.destination} S/. ${flight.price}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full px-4 py-2 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-lg text-center font-bold flex items-center justify-center space-x-2 transition-all transform hover:scale-105"
