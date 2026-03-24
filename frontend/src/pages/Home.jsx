@@ -88,8 +88,14 @@ export default function Home() {
   };
 
   const handleBooking = async () => {
-    if (!selectedFlight) {
-      alert("Debes seleccionar un vuelo primero");
+    //Validar que haya al menos un item seleccionado
+    if(
+      !selectedFlight &&
+      !selectedHotel &&
+      !selectedTour &&
+      selectedServices.length === 0
+    ){
+      alert("Debes seleccionar al menos un servicio");
       return;
     }
 
@@ -102,7 +108,7 @@ export default function Home() {
     try {
       // Construir el objeto de reserva según el esquema de Pydantic
       const bookingData = {
-        flight_id: selectedFlight.id,
+        flight_id: selectedFlight.id ?? null,
         hotel_id: selectedHotel?.id ?? null,
         tour_id: selectedTour?.id ?? null,
         service_ids: selectedServices.map(s => s.id)
@@ -131,9 +137,6 @@ export default function Home() {
 
   const handleCancelFlight = () => {
     setSelectedFlight(null);
-    setSelectedHotel(null);
-    setSelectedTour(null);
-    setSelectedServices([]);
   };
 
   const handleCancelHotel = () => {
@@ -150,11 +153,6 @@ export default function Home() {
 
   const handleSelectFlight = (flight) => {
     setSelectedFlight(flight);
-    setSelectedHotel(null);
-    setSelectedTour(null);
-    setSelectedServices([]);
-    setShowHotels(true);
-    setShowTours(true);
   };
 
   const handleBookFlight = async (flight) => {
@@ -453,12 +451,17 @@ export default function Home() {
                 <div className="flex justify-end">
                   <button
                     onClick={handleBooking}
-                    disabled={!selectedFlight}
+                    disabled={
+                      !selectedFlight &&
+                      !selectedHotel &&
+                      !selectedTour &&
+                      selectedServices.length === 0
+                    }
                     className={`px-10 py-5 rounded-xl font-bold text-white text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl ${!selectedFlight ? "bg-gray-400 cursor-not-allowed" : "bg-lams-orange hover:bg-lams-orange/90"}`}
                   >
                     {selectedFlight
                       ? "Confirmar Reserva"
-                      : "Selecciona un Vuelo"}
+                      : "Selecciona al menos un servicio"}
                   </button>
                 </div>
               </div>
@@ -677,6 +680,7 @@ export default function Home() {
                             key={f.id}
                             flight={f}
                             onSelect={handleSelectFlight}
+                            onCancel={handleCancelFlight}
                             onBook={() => handleBookFlight(f)}
                             user={user}
                             isSelected={selectedFlight?.id === f.id}
@@ -690,11 +694,8 @@ export default function Home() {
                 <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-200">
                   <button
                     onClick={() => setShowHotels(!showHotels)}
-                    disabled={!selectedFlight}
                     className={`w-full text-left font-bold text-xl p-6 rounded-xl transition-all duration-200 ${
-                      !selectedFlight
-                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                        : showHotels
+                        showHotels
                           ? "bg-green-50 text-green-800 border border-green-200"
                           : "bg-gray-50 text-gray-700 hover:bg-gray-100"
                     }`}
@@ -766,11 +767,8 @@ export default function Home() {
                       <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-200">
                         <button
                           onClick={() => setShowTours(!showTours)}
-                          disabled={!selectedFlight}
                           className={`w-full text-left font-bold text-xl p-6 rounded-xl transition-all duration-200 ${
-                            !selectedFlight
-                              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                              : showTours
+                            showTours
                                 ? "bg-purple-50 text-purple-800 border border-purple-200"
                                 : "bg-gray-50 text-gray-700 hover:bg-gray-100"
                           }`}
