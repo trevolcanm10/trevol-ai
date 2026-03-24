@@ -145,16 +145,19 @@ def get_revenue_by_category(db: Session):
     """
     results = (
         db.query(
-            models.Tour.category,
-            func.sum(models.Booking.total_price).label("revenue"),
-            func.count(models.Booking.id).label("count")
+            models.Service.category,
+            func.sum(models.Service.price * models.BookingService.quantity).label(
+                "revenue"
+            ),
+            func.count(models.BookingService.id).label("count"),
         )
-        .join(models.Booking, models.Booking.tour_id == models.Tour.id)
+        .join(models.BookingService)
+        .join(models.BookingService.booking)
         .filter(models.Booking.status == models.BookingStatus.CONFIRMED)
-        .group_by(models.Tour.category)
+        .group_by(models.Service.category)
         .all()
     )
-    
+
     # Mapeo legible para el frontend
     category_map = {
         "tour": "Tours",

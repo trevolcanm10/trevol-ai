@@ -31,23 +31,6 @@ export default function Home() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
-  // Efecto para activación automática del paquete recomendado
-  useEffect(() => {
-    if (origin.length >= 3 && destination.length >= 3) {
-      // Limpiar timer anterior
-      if (debounceTimer) {
-        clearTimeout(debounceTimer);
-      }
-
-      // Establecer nuevo timer con debounce de 500ms
-      const timer = setTimeout(() => {
-        handlePackage();
-      }, 500);
-
-      setDebounceTimer(timer);
-    }
-  }, [origin, destination]);
-
   const handleSearch = async () => {
     // Definimos la función handleSearch
     setSearching(true);
@@ -88,8 +71,14 @@ export default function Home() {
   };
 
   const handleBooking = async () => {
-    if (!selectedFlight) {
-      alert("Debes seleccionar un vuelo primero");
+    //Validar que haya al menos un item seleccionado
+    if(
+      !selectedFlight &&
+      !selectedHotel &&
+      !selectedTour &&
+      selectedServices.length === 0
+    ){
+      alert("Debes seleccionar al menos un servicio");
       return;
     }
 
@@ -102,7 +91,7 @@ export default function Home() {
     try {
       // Construir el objeto de reserva según el esquema de Pydantic
       const bookingData = {
-        flight_id: selectedFlight.id,
+        flight_id: selectedFlight?.id ?? null,
         hotel_id: selectedHotel?.id ?? null,
         tour_id: selectedTour?.id ?? null,
         service_ids: selectedServices.map(s => s.id)
@@ -131,9 +120,6 @@ export default function Home() {
 
   const handleCancelFlight = () => {
     setSelectedFlight(null);
-    setSelectedHotel(null);
-    setSelectedTour(null);
-    setSelectedServices([]);
   };
 
   const handleCancelHotel = () => {
@@ -150,11 +136,6 @@ export default function Home() {
 
   const handleSelectFlight = (flight) => {
     setSelectedFlight(flight);
-    setSelectedHotel(null);
-    setSelectedTour(null);
-    setSelectedServices([]);
-    setShowHotels(true);
-    setShowTours(true);
   };
 
   const handleBookFlight = async (flight) => {
@@ -292,6 +273,12 @@ export default function Home() {
               (selectedHotel?.price_per_night || 0) +
               (selectedTour?.price || 0) +
               selectedServices.reduce((sum, s) => sum + (s.price || 0), 0);
+
+            const hasSelection =
+              selectedFlight ||
+              selectedHotel ||
+              selectedTour ||
+              selectedServices.length > 0;
 
             return (
               <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-10 rounded-3xl mb-10 shadow-xl border border-gray-200">
@@ -453,12 +440,16 @@ export default function Home() {
                 <div className="flex justify-end">
                   <button
                     onClick={handleBooking}
-                    disabled={!selectedFlight}
-                    className={`px-10 py-5 rounded-xl font-bold text-white text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl ${!selectedFlight ? "bg-gray-400 cursor-not-allowed" : "bg-lams-orange hover:bg-lams-orange/90"}`}
+                    disabled={!hasSelection}
+                    className={`px-10 py-5 rounded-xl font-bold text-white text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl ${
+                      !hasSelection
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-lams-orange hover:bg-lams-orange/90"
+                    }`}
                   >
-                    {selectedFlight
+                    {hasSelection
                       ? "Confirmar Reserva"
-                      : "Selecciona un Vuelo"}
+                      : "Selecciona al menos un servicio"}
                   </button>
                 </div>
               </div>
@@ -677,6 +668,7 @@ export default function Home() {
                             key={f.id}
                             flight={f}
                             onSelect={handleSelectFlight}
+                            onCancel={handleCancelFlight}
                             onBook={() => handleBookFlight(f)}
                             user={user}
                             isSelected={selectedFlight?.id === f.id}
@@ -690,11 +682,8 @@ export default function Home() {
                 <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-200">
                   <button
                     onClick={() => setShowHotels(!showHotels)}
-                    disabled={!selectedFlight}
                     className={`w-full text-left font-bold text-xl p-6 rounded-xl transition-all duration-200 ${
-                      !selectedFlight
-                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                        : showHotels
+                        showHotels
                           ? "bg-green-50 text-green-800 border border-green-200"
                           : "bg-gray-50 text-gray-700 hover:bg-gray-100"
                     }`}
@@ -766,11 +755,8 @@ export default function Home() {
                       <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-200">
                         <button
                           onClick={() => setShowTours(!showTours)}
-                          disabled={!selectedFlight}
                           className={`w-full text-left font-bold text-xl p-6 rounded-xl transition-all duration-200 ${
-                            !selectedFlight
-                              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                              : showTours
+                            showTours
                                 ? "bg-purple-50 text-purple-800 border border-purple-200"
                                 : "bg-gray-50 text-gray-700 hover:bg-gray-100"
                           }`}
@@ -890,21 +876,21 @@ export default function Home() {
                     title: "Trámites Pasaportes",
                     icon: "fa-passport",
                     desc: "Asesoría experta para la obtención y renovación de documentos.",
-                    color: "purple",
+                    color: "green",
                     wa: "Trámite de Pasaporte",
                   },
                   {
                     title: "Traslados Full-Day",
                     icon: "fa-car-side",
                     desc: "Movilidad segura y cómoda en tus destinos favoritos.",
-                    color: "amber",
+                    color: "green",
                     wa: "Traslado Full-Day",
                   },
                   {
                     title: "Paquetes Migratorios",
                     icon: "fa-file-invoice",
                     desc: "Gestión de visas y residencias con asesoría legal.",
-                    color: "cyan",
+                    color: "blue",
                     wa: "Paquetes Migratorios",
                   },
                 ].map((service, i) => (

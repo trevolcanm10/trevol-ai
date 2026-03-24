@@ -14,7 +14,75 @@ api.interceptors.request.use((config) => {
 
   return config;
 });
+// Interceptor para renovar el token automáticamente
+api.interceptors.response.use(
+  (response) => response,
 
+  async (error) => {
+
+    const originalRequest = error.config;
+
+    // Si el token expiró (401)
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry
+    ) {
+
+      originalRequest._retry = true;
+
+      try {
+
+        const user = JSON.parse(
+          localStorage.getItem("user")
+        );
+
+        if (!user?.refresh_token) {
+          throw new Error("No refresh token");
+        }
+
+        // Pedir nuevo access token
+        const response = await axios.post(
+          `${API_BASE}/auth/refresh`,
+          {
+            refresh_token: user.refresh_token
+          }
+        );
+
+        const newAccessToken =
+          response.data.access_token;
+
+        // Guardar nuevo token
+        user.access_token = newAccessToken;
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify(user)
+        );
+
+        // Reintentar request original
+        originalRequest.headers.Authorization =
+          `Bearer ${newAccessToken}`;
+
+        return api(originalRequest);
+
+      } catch (refreshError) {
+
+        console.log(
+          "Refresh token inválido"
+        );
+
+        localStorage.removeItem("user");
+
+        window.location.href = "/login";
+
+      }
+
+    }
+
+    return Promise.reject(error);
+
+  }
+);
 // funciones de tu API
 export const getFlights = (params) =>
   api.get("/search", { params });

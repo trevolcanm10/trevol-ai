@@ -1,11 +1,13 @@
 """
 Rutas para el cliente
 """
-from fastapi import APIRouter, Depends, HTTPException#Dependencias de FastAPI
+from fastapi import APIRouter, Depends, HTTPException, Body#Dependencias de FastAPI
 from sqlalchemy.orm import Session#Para trabajar con sesiones de la base de datos
 from app.db.database import get_db#Importamos la sesión de la base de datos
 from app.db.models import User #Importamos el modelo de usuario
-from app.core.security import get_password_hash, verify_password,create_access_token
+from app.core.security import get_password_hash, verify_password, create_access_token, create_refresh_token
+from jose import jwt, JWTError, ExpiredSignatureError
+from app.core.config import SECRET_KEY, ALGORITHM
 from fastapi.security import OAuth2PasswordRequestForm  # Dependencias de FastAPI
 from app.schemas.cliente import (
     ClienteRegistro,
@@ -51,8 +53,16 @@ def login_cliente(form_data: OAuth2PasswordRequestForm = Depends(), db: Session 
     if not db_user or not verify_password(form_data.password, db_user.password):
         raise HTTPException(status_code=401, detail="Credenciales incorrectas")
 
-    token = create_access_token({"sub": db_user.email, "role": db_user.role})
-    return {"access_token": token, "token_type": "bearer", "role": db_user.role, "name": db_user.name}
+    access_token = create_access_token({"sub": db_user.email, "role": db_user.role})
+    refresh_token = create_refresh_token({"sub": db_user.email, "role": db_user.role})
+    
+    return {
+        "access_token": access_token, 
+        "refresh_token": refresh_token,
+        "token_type": "bearer", 
+        "role": db_user.role, 
+        "name": db_user.name
+    }
 
 
 @router.get("/secure-endpoint")
@@ -110,3 +120,31 @@ def update_profile(
         "created_at": current_user.created_at,
         "updated_at": current_user.updated_at
     }
+
+
+@router.post("/refresh")
+def refresh_token(refresh_token: str = Body(..., embed=True), db: Session = Depends(get_db)):
+    """
+    Función para refrescar el token de acceso
+    - refresh_token: Token de refresco
+    - db: Sesión de la base de datos
+    """
+    try:
+        payload = jwt.decode(refresh_token, SECRET_KEY, algorithms=[ALGORITHM])
+        email = payload.get("sub")
+        role = payload.get("role")
+
+        if email is None or role is None:
+            raise HTTPException(status_code=401, detail="Invalid refresh token")
+
+        db_user = db.query(User).filter(User.email == email).first()
+        if not db_user:
+            raise HTTPException(status_code=401, detail="Invalid refresh token")
+
+        access_token = create_access_token({"sub": email, "role": role})
+        return {"access_token": access_token}
+
+    except ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Invalid refresh token")
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid refresh token")
