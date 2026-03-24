@@ -13,7 +13,7 @@ export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
       "Central Park Carousel":
         "https://scontent.flim29-1.fna.fbcdn.net/v/t39.30808-6/245928753_140777234948531_2239864642245366036_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=2a1932&_nc_eui2=AeH3qaD64LMwToDI0ZqPXqnoGMtuI6et4FkYy24jp63gWZOW3iGMMyX4MArGIhZpln3aoirxcVAm4COrU0ZWedkW&_nc_ohc=vu-vsHG6rfAQ7kNvwHhSsiy&_nc_oc=Adk5Gb8U6gL8-nlLcKcRNqD5vZvqNOqviCi8pmFLobKRGGMAQBDPCqq4Gxb_Lumlcg7tQmtnG2P_kF-eLAlW5_5G&_nc_zt=23&_nc_ht=scontent.flim29-1.fna&_nc_gid=zccipeJi16Ac1RBAQ8Fi0Q&_nc_ss=8&oh=00_AfxlzBlwM5Q-Mm2qImfUm6cjXsTepkvbI95WiLIoQla0tA&oe=69BE81E1",
       "Top of the Rock":
-        "https://images.unsplash.com/photo-1505765050503-5ef84c10c727?q=80&w=1000",
+        "https://images.unsplash.com/photo-1505765502042-adbe83901327?q=80&w=1000",
       "Columbus Circle":
         "https://images.unsplash.com/photo-1538428494232-9c0d8a3ab?q=80&w=1000",
       "Times Square":
@@ -27,23 +27,21 @@ export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
   const tourImage = getTourImage(tour.name);
 
   return (
-    <div className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden ${isSelected ? 'ring-2 ring-lams-orange' : ''}`}>
+    <div
+      className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden min-h-[520px] flex flex-col justify-between ${isSelected ? "ring-2 ring-lams-orange" : ""}`}
+    >
       {/* Tour Image Header */}
       <div className="relative h-48 overflow-hidden">
-        <img 
-          src={tourImage} 
+        <img
+          src={tourImage}
           alt={`${tour.name} - ${tour.location}`}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
           onError={(e) => {
-            e.target.src = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000';
+            e.target.src =
+              "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000";
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
-        <div className="absolute top-4 left-4">
-          <div className="flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
-            <span className="text-xs font-semibold text-gray-900 uppercase">{tour.category || "Tour"}</span>
-          </div>
-        </div>
         <div className="absolute bottom-4 left-4 text-white">
           <h3 className="text-xl font-bold">{tour.name}</h3>
           <p className="text-sm opacity-90">{tour.location}</p>
@@ -51,41 +49,18 @@ export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
       </div>
 
       {/* Tour Details */}
-      <div className="p-6">
+      <div className="p-6 flex-1">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
-            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-              tour.category === 'seguro' ? 'bg-blue-100 text-blue-600' :
-              tour.category === 'tramite' ? 'bg-purple-100 text-purple-600' :
-              tour.category === 'traslado' ? 'bg-amber-100 text-amber-600' :
-              tour.category === 'migratorio' ? 'bg-cyan-100 text-cyan-600' :
-              tour.category === 'grupo_escolar' ? 'bg-indigo-100 text-indigo-600' :
-              'bg-lams-orange/10 text-lams-orange'
-            }`}>
-              <i className={`fa-solid text-xl ${
-                tour.category === 'seguro' ? 'fa-shield-halved' :
-                tour.category === 'tramite' ? 'fa-file-invoice' :
-                tour.category === 'traslado' ? 'fa-car-side' :
-                tour.category === 'migratorio' ? 'fa-passport' :
-                tour.category === 'grupo_escolar' ? 'fa-users-rectangle' :
-                'fa-map-marked-alt'
-              }`}></i>
+            <div className="w-12 h-12 rounded-full flex items-center justify-center bg-lams-orange/10 text-lams-orange">
+              <i className="fa-solid fa-map-marked-alt text-xl"></i>
             </div>
             <div>
-              <p className="text-sm font-bold text-gray-700 uppercase">
-                {tour.category === 'seguro' ? 'Seguro' :
-                 tour.category === 'tramite' ? 'Trámite' :
-                 tour.category === 'traslado' ? 'Traslado' :
-                 tour.category === 'migratorio' ? 'Migratorio' :
-                 tour.category === 'grupo_escolar' ? 'Grupo' :
-                 'Tour'}
+              <p className="text-sm font-bold text-gray-700 uppercase">Tour</p>
+              <p className="text-xs text-gray-400">
+                Ubicación: {tour.location}
               </p>
-              <p className="text-xs text-gray-400">Ubicación: {tour.location}</p>
             </div>
-          </div>
-          <div className="text-right">
-            <p className="text-sm text-gray-500">Servicio</p>
-            <p className="text-sm font-medium capitalize">{tour.category || 'Personalizado'}</p>
           </div>
         </div>
 
@@ -93,47 +68,45 @@ export default function TourCard({ tour, onSelect, onCancel, isSelected }) {
         <div className="bg-gray-50 rounded-lg p-4 mb-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-gray-600">Precio desde</span>
-            <span className="text-2xl font-bold text-lams-orange">S/. {tour.price}</span>
+            <span className="text-2xl font-bold text-lams-orange">
+              S/. {tour.price}
+            </span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">Disponibilidad</span>
-            <span className="text-sm font-semibold text-gray-700">{tour.available_slots} cupos</span>
+            <span className="text-sm font-semibold text-gray-700">
+              {tour.available_slots} cupos
+            </span>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm text-gray-600">Tipo de servicio</p>
-            <p className="text-lg font-semibold capitalize">{tour.category || 'Especial'}</p>
-          </div>
+        <div className="flex flex-col space-y-2 w-full">
           <div className="flex flex-col space-y-2">
             {isSelected ? (
               <button
                 onClick={onCancel}
-                className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md"
+                className="w-full px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 bg-red-500 hover:bg-red-600 text-white"
               >
-                <i className="fa-solid fa-times"></i>
-                <span>Quitar</span>
+                Quitar
               </button>
             ) : (
               <button
                 onClick={() => onSelect(tour)}
-                className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-lams-navy hover:bg-lams-navy/90 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md"
+                className="w-full px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 bg-lams-navy hover:bg-lams-navy/90 text-white shadow-lg"
               >
-                <i className="fa-solid fa-plus"></i>
-                <span>Añadir</span>
+                Añadir al viaje
               </button>
             )}
-            
-            <a 
-              href={`https://wa.me/51967010925?text=${encodeURIComponent(`Hola Lams Viajes! Me interesa el servicio de ${tour.name} (${tour.category || 'Tour'}). Por favor bríndame más información.`)}`}
+
+            <a
+              href={`https://wa.me/51967010925?text=${encodeURIComponent(`Hola Lams Viajes! Me interesa el servicio de ${tour.name} (${tour.category || "Tour"}). Por favor bríndame más información.`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full px-4 py-2 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-lg text-center font-bold flex items-center justify-center space-x-2 transition-all transform hover:scale-105"
             >
               <i className="fa-brands fa-whatsapp text-lg"></i>
-              <span>Consultar</span>
+              <span>Consultar WhatsApp</span>
             </a>
           </div>
         </div>

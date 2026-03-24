@@ -1,10 +1,10 @@
 import React from "react";
 
-export default function FlightCard({ flight, onSelect, isSelected }) {
+export default function FlightCard({ flight, onSelect, onCancel, isSelected }) {
   if (!flight) return null;
 
-  // Generate travel destination image based on destination
-  const getDestinationImage = (destination) => {
+  // Generate flight destination image based on destination
+  const getFlightImage = (destination) => {
     const destinationImages = {
       'New York': 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=1000',
       'Riyadh': 'https://images.unsplash.com/photo-1596500355594-233f8fea62f3?q=80&w=1000',
@@ -30,29 +30,44 @@ export default function FlightCard({ flight, onSelect, isSelected }) {
     return destinationImages[destination] || `https://source.unsplash.com/featured/400x300/?airport,${destination.toLowerCase()}`;
   };
 
-  const destinationImage = getDestinationImage(flight.destination);
+  const flightImage = getFlightImage(flight.destination);
 
   return (
-    <div className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden ${isSelected ? 'ring-2 ring-lams-orange' : ''}`}>
-      {/* Destination Image Header */}
+    <div
+      className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden min-h-[520px] flex flex-col justify-between ${isSelected ? "ring-2 ring-lams-orange" : ""}`}
+    >
+      {/* Flight Image Header */}
       <div className="relative h-48 overflow-hidden">
-        <img 
-          src={destinationImage} 
+        <img
+          src={flightImage}
           alt={`${flight.destination} vista aérea`}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
           onError={(e) => {
-            e.target.src = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1000';
+            e.target.src =
+              "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1000";
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+        <div className="absolute top-4 left-4">
+          <div className="flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+            <svg
+              className="w-4 h-4 text-lams-orange"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" />
+            </svg>
+            <span className="text-sm font-semibold text-gray-900">Vuelo</span>
+          </div>
+        </div>
         <div className="absolute bottom-4 left-4 text-white">
-          <h3 className="text-2xl font-bold">{flight.destination}</h3>
+          <h3 className="text-xl font-bold">{flight.destination}</h3>
           <p className="text-sm opacity-90">{flight.destination_country}</p>
         </div>
       </div>
 
       {/* Flight Details */}
-      <div className="p-6">
+      <div className="p-6 flex-1">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-lams-orange/10 rounded-full flex items-center justify-center">
@@ -64,61 +79,67 @@ export default function FlightCard({ flight, onSelect, isSelected }) {
             </div>
           </div>
           <div className="text-right">
-            <p className="text-sm text-gray-500">Fecha</p>
-            <p className="text-sm font-medium">{flight.date}</p>
+            <p className="text-sm text-gray-500">Asientos disponibles</p>
+            <p className="text-sm font-medium">{flight.available_seats}</p>
           </div>
         </div>
 
         {/* Route Information */}
-        <div className="flex items-center justify-between mb-4 bg-gray-50 rounded-lg p-3">
-          <div className="flex items-center space-x-4">
+        <div className="flex items-center justify-center mb-4 bg-gray-50 rounded-lg p-3">
+          <div className="flex items-center space-x-8">
             <div className="text-center">
               <p className="text-xs text-gray-500">Salida</p>
               <p className="font-semibold">{flight.origin}</p>
               <p className="text-xs text-gray-500">{flight.origin_country}</p>
             </div>
-            <div className="flex-1 flex items-center justify-center">
+            <div className="flex items-center justify-center">
               <i className="fa-solid fa-arrow-right text-lams-orange/50 text-2xl"></i>
             </div>
             <div className="text-center">
               <p className="text-xs text-gray-500">Destino</p>
               <p className="font-semibold">{flight.destination}</p>
-              <p className="text-xs text-gray-500">{flight.destination_country}</p>
+              <p className="text-xs text-gray-500">
+                {flight.destination_country}
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Price and Action */}
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-2xl font-bold text-gray-900">S/. {flight.price}</p>
-            <p className="text-sm text-gray-600">Asientos disponibles: {flight.available_seats}</p>
+        {/* Price and Features */}
+        <div className="bg-gray-50 rounded-lg p-4 mb-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm text-gray-600">Precio total</span>
+            <span className="text-2xl font-bold text-lams-orange">
+              S/. {flight.price}
+            </span>
           </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-gray-600">Duración</span>
+            <span className="text-sm font-medium">{flight.duration}</span>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col space-y-2 w-full">
           <div className="flex flex-col space-y-2">
-            <button
-              onClick={() => onSelect(flight)}
-              disabled={isSelected}
-              className={`w-full px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 ${
-                isSelected 
-                  ? 'bg-lams-navy/10 text-lams-navy cursor-not-allowed shadow-inner' 
-                  : 'bg-lams-navy hover:bg-lams-navy/90 text-white shadow-lg hover:shadow-xl'
-              }`}
-            >
-              {isSelected ? (
-                <span className="flex items-center justify-center space-x-2">
-                  <i className="fa-solid fa-check text-lams-navy"></i>
-                  <span>Seleccionado</span>
-                </span>
-              ) : (
-                <span className="flex items-center justify-center space-x-2">
-                  <i className="fa-solid fa-plus text-white"></i>
-                  <span>Seleccionar Vuelo</span>
-                </span>
-              )}
-            </button>
-            
-            <a 
-              href={`https://wa.me/51999999999?text=Hola Lams Viajes! Me interesa el vuelo de ${flight.origin} a ${flight.destination} del día ${flight.date}. S/. ${flight.price}`}
+            {isSelected ? (
+              <button
+                onClick={onCancel}
+                className="w-full px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 bg-red-500 hover:bg-red-600 text-white"
+              >
+                Quitar
+              </button>
+            ) : (
+              <button
+                onClick={() => onSelect(flight)}
+                className="w-full px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 bg-lams-navy hover:bg-lams-navy/90 text-white shadow-lg"
+              >
+                Añadir al viaje
+              </button>
+            )}
+
+            <a
+              href={`https://wa.me/51999999999?text=Hola Lams Viajes! Me interesa el vuelo de ${flight.origin} a ${flight.destination} S/. ${flight.price}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full px-4 py-2 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-lg text-center font-bold flex items-center justify-center space-x-2 transition-all transform hover:scale-105"

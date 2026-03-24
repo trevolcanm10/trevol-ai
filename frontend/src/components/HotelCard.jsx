@@ -7,7 +7,7 @@ export default function HotelCard({ hotel, onSelect, onCancel, isSelected }) {
   const getHotelImage = (location) => {
     const locationImages = {
       'New York': 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=1000',
-      'Manhattan': 'https://images.unsplash.com/photo-1505765050503-5ef84c10c727?q=80&w=1000',
+      'Manhattan': 'https://images.unsplash.com/photo-1505765502042-adbe8390132d?q=80&w=1000',
       'Times Square': 'https://images.unsplash.com/photo-1538428494232-9c0d8a3ab?q=80&w=1000',
       'Central Park': 'https://images.unsplash.com/photo-1564507592339-915014929332?q=80&w=1000'
     };
@@ -18,7 +18,7 @@ export default function HotelCard({ hotel, onSelect, onCancel, isSelected }) {
   const starsArray = Array.from({ length: hotel.stars }, (_, i) => i);
 
   return (
-    <div className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden ${isSelected ? 'ring-2 ring-lams-orange' : ''}`}>
+    <div className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden min-h-[520px] flex flex-col justify-between ${isSelected ? 'ring-2 ring-lams-orange' : ''}`}>
       {/* Hotel Image Header */}
       <div className="relative h-48 overflow-hidden">
         <img 
@@ -45,7 +45,7 @@ export default function HotelCard({ hotel, onSelect, onCancel, isSelected }) {
       </div>
 
       {/* Hotel Details */}
-      <div className="p-6">
+      <div className="p-6 flex-1">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-lams-orange/10 rounded-full flex items-center justify-center">
@@ -90,18 +90,16 @@ export default function HotelCard({ hotel, onSelect, onCancel, isSelected }) {
             {isSelected ? (
               <button
                 onClick={onCancel}
-                className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md"
+                className="w-full px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 bg-red-500 hover:bg-red-600 text-white"
               >
-                <i className="fa-solid fa-times"></i>
-                <span>Quitar Hotel</span>
+                Quitar
               </button>
             ) : (
               <button
                 onClick={() => onSelect(hotel)}
-                className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-lams-navy hover:bg-lams-navy/90 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md"
+                className="w-full px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 bg-lams-navy hover:bg-lams-navy/90 text-white shadow-lg"
               >
-                <i className="fa-solid fa-plus"></i>
-                <span>Añadir al viaje</span>
+                Añadir al viaje
               </button>
             )}
             
