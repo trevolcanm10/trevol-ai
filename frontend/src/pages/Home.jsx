@@ -108,7 +108,7 @@ export default function Home() {
     try {
       // Construir el objeto de reserva según el esquema de Pydantic
       const bookingData = {
-        flight_id: selectedFlight.id ?? null,
+        flight_id: selectedFlight?.id ?? null,
         hotel_id: selectedHotel?.id ?? null,
         tour_id: selectedTour?.id ?? null,
         service_ids: selectedServices.map(s => s.id)
@@ -291,6 +291,12 @@ export default function Home() {
               (selectedTour?.price || 0) +
               selectedServices.reduce((sum, s) => sum + (s.price || 0), 0);
 
+            const hasSelection =
+              selectedFlight ||
+              selectedHotel ||
+              selectedTour ||
+              selectedServices.length > 0;
+
             return (
               <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-10 rounded-3xl mb-10 shadow-xl border border-gray-200">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-8">
@@ -451,15 +457,14 @@ export default function Home() {
                 <div className="flex justify-end">
                   <button
                     onClick={handleBooking}
-                    disabled={
-                      !selectedFlight &&
-                      !selectedHotel &&
-                      !selectedTour &&
-                      selectedServices.length === 0
-                    }
-                    className={`px-10 py-5 rounded-xl font-bold text-white text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl ${!selectedFlight ? "bg-gray-400 cursor-not-allowed" : "bg-lams-orange hover:bg-lams-orange/90"}`}
+                    disabled={!hasSelection}
+                    className={`px-10 py-5 rounded-xl font-bold text-white text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl ${
+                      !hasSelection
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-lams-orange hover:bg-lams-orange/90"
+                    }`}
                   >
-                    {selectedFlight
+                    {hasSelection
                       ? "Confirmar Reserva"
                       : "Selecciona al menos un servicio"}
                   </button>
