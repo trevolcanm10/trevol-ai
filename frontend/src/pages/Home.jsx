@@ -31,23 +31,6 @@ export default function Home() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
-  // Efecto para activación automática del paquete recomendado
-  useEffect(() => {
-    if (origin.length >= 3 && destination.length >= 3) {
-      // Limpiar timer anterior
-      if (debounceTimer) {
-        clearTimeout(debounceTimer);
-      }
-
-      // Establecer nuevo timer con debounce de 500ms
-      const timer = setTimeout(() => {
-        handlePackage();
-      }, 500);
-
-      setDebounceTimer(timer);
-    }
-  }, [origin, destination]);
-
   const handleSearch = async () => {
     // Definimos la función handleSearch
     setSearching(true);
