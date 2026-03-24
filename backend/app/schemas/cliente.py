@@ -27,6 +27,7 @@ class Token(BaseModel):
     Schema para el token
     """
     access_token: str
+    refresh_token: str
     token_type: str
     role: str
     name: str
