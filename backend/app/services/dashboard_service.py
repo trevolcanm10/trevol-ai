@@ -1,3 +1,6 @@
+"""
+Servicios para el dashboard
+"""
 from sqlalchemy.orm import Session  # Para trabajar con sesiones de la base de datos
 from sqlalchemy import func  # Para trabajar con funciones de la base de datos
 from app.db import models  # Importamos los modelos
@@ -11,7 +14,7 @@ def get_total_revenue(db: Session):
     - db: Sesión de la base de datos
     """
     total = (
-        db.query(func.sum(models.Booking.total_price))
+        db.query(func.sum(models.Booking.total_price))  # pylint: disable=not-callable
         .filter(models.Booking.status == models.BookingStatus.CONFIRMED)
         .scalar()
     )
@@ -26,7 +29,7 @@ def get_total_bookings(db: Session):
     - db: Sesión de la base de datos
     """
     count = (
-        db.query(func.count(models.Booking.id))
+        db.query(func.count(models.Booking.id))  # pylint: disable=not-callable
         .filter(models.Booking.status == models.BookingStatus.CONFIRMED)
         .scalar()
     )
@@ -43,12 +46,12 @@ def get_top_destinations(db: Session):
     results = (
         db.query(
             models.Flight.destination,
-            func.count(models.Booking.id).label("total_sales"),
+            func.count(models.Booking.id).label("total_sales"),  # pylint: disable=not-callable
         )
         .join(models.Booking, models.Booking.flight_id == models.Flight.id)
         .filter(models.Booking.status == models.BookingStatus.CONFIRMED)
         .group_by(models.Flight.destination)
-        .order_by(func.count(models.Booking.id).desc())
+        .order_by(func.count(models.Booking.id).desc())  # pylint: disable=not-callable
         .all()
     )
     return [
@@ -66,12 +69,13 @@ def get_monthly_revenue(db: Session):
     """
     results = (
         db.query(
-            func.strftime("%Y-%m", models.Booking.booking_date).label("month"),
-            func.sum(models.Booking.total_price).label("revenue"),
-            func.count(models.Booking.id).label("bookings_count"),
+            func.strftime("%Y-%m", models.Booking.booking_date).label("month"),  # pylint: disable=not-callable
+            func.sum(models.Booking.total_price).label("revenue"),  # pylint: disable=not-callable
+            func.count(models.Booking.id).label("bookings_count"),  # pylint: disable=not-callable
         )
         .filter(models.Booking.status == models.BookingStatus.CONFIRMED)
-        .group_by(func.strftime("%Y-%m", models.Booking.booking_date))
+        .group_by(func.strftime("%Y-%m", models.Booking.booking_date))  
+        # pylint: disable=not-callable
         .all()
     )
     return [{"month": month, "revenue": revenue, "bookingsCount": count} for month, revenue, count in results]
@@ -125,7 +129,6 @@ def get_customers(db: Session):
     ).filter(
         (models.User.role != 'admin')
     ).order_by(models.User.created_at.desc()).all()
-    
     return [
         {
             "name": name,
@@ -146,10 +149,10 @@ def get_revenue_by_category(db: Session):
     results = (
         db.query(
             models.Service.category,
-            func.sum(models.Service.price * models.BookingService.quantity).label(
+            func.sum(models.Service.price * models.BookingService.quantity).label(  # pylint: disable=not-callable
                 "revenue"
             ),
-            func.count(models.BookingService.id).label("count"),
+            func.count(models.BookingService.id).label("count"),  # pylint: disable=not-callable
         )
         .join(models.BookingService)
         .join(models.BookingService.booking)
