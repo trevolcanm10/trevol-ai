@@ -921,74 +921,105 @@ const Dashboard = () => {
             </h2>
 
             {/* CLIENTE */}
-            <div className="mb-6 border-b pb-4">
-              <p>
-                <strong>Cliente:</strong> {selectedBooking.user?.name}
-              </p>
-              <p>
-                <strong>Email:</strong> {selectedBooking.user?.email}
-              </p>
-              <p>
-                <strong>Teléfono:</strong> {selectedBooking.user?.phone}
-              </p>
+            <div className="mb-6 border-b pb-4 space-y-1">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">Cliente</span>
+                <span className="font-medium">
+                  {selectedBooking.user?.name}
+                </span>
+              </div>
+
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">Email</span>
+                <span>{selectedBooking.user?.email}</span>
+              </div>
+
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">Teléfono</span>
+                <span>{selectedBooking.user?.phone}</span>
+              </div>
             </div>
 
             {/* VIAJE */}
             <div className="mb-6 border-b pb-4">
-              <p>
-                <strong>Ruta:</strong> {selectedBooking.flight?.origin} →{" "}
-                {selectedBooking.flight?.destination}
-              </p>
-
               {/* PRECIO DEL VUELO */}
-              <p className="text-sm text-gray-700 mt-1">
-                <strong>Vuelo:</strong> S/.{" "}
-                {selectedBooking.flight?.price?.toFixed(2)}
-              </p>
+              <div className="mb-6 border-b pb-4 space-y-1">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Ruta</span>
+                  <span>
+                    {selectedBooking.flight?.origin} →{" "}
+                    {selectedBooking.flight?.destination}
+                  </span>
+                </div>
 
-              <p>
-                <strong>Fecha:</strong>{" "}
-                {new Date(selectedBooking.booking_date).toLocaleDateString()}
-              </p>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Precio vuelo</span>
+                  <span className="font-medium">
+                    S/. {selectedBooking.flight?.price?.toFixed(2)}
+                  </span>
+                </div>
+
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Fecha</span>
+                  <span>
+                    {new Date(
+                      selectedBooking.booking_date,
+                    ).toLocaleDateString()}
+                  </span>
+                </div>
+              </div>
 
               {/* HOTEL */}
-              {selectedBooking.hotel && (
-                <div className="mt-3">
-                  <p className="font-semibold text-gray-700">🏨 Hotel</p>
+              <div className="mb-6 border-b pb-4 space-y-1">
+                {selectedBooking.hotel && (
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Hotel</span>
+                      <span>{selectedBooking.hotel.name}</span>
+                    </div>
 
-                  <p className="text-sm">{selectedBooking.hotel.name}</p>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Ubicación</span>
+                      <span>{selectedBooking.hotel.location}</span>
+                    </div>
 
-                  <p className="text-sm text-gray-600">
-                    {selectedBooking.hotel.location}
-                  </p>
-
-                  <p className="text-sm text-gray-700">
-                    S/. {selectedBooking.hotel.price_per_night?.toFixed(2)}
-                  </p>
-                </div>
-              )}
-
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Precio hotel</span>
+                      <span className="font-medium">
+                        S/. {selectedBooking.hotel.price_per_night?.toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
               {/* TOUR */}
               {selectedBooking.tour && (
-                <div className="mt-3">
-                  <p className="font-semibold text-gray-700">🎟 Tour</p>
+                <div className="space-y-1 mt-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Tour</span>
+                    <span>{selectedBooking.tour.name}</span>
+                  </div>
 
-                  <p className="text-sm">{selectedBooking.tour.name}</p>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Ubicación</span>
+                    <span>{selectedBooking.tour.location}</span>
+                  </div>
 
-                  <p className="text-sm text-gray-600">
-                    {selectedBooking.tour.location}
-                  </p>
-
-                  <p className="text-sm text-gray-700">
-                    S/. {selectedBooking.tour.price?.toFixed(2)}
-                  </p>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Precio tour</span>
+                    <span className="font-medium">
+                      S/. {selectedBooking.tour.price?.toFixed(2)}
+                    </span>
+                  </div>
                 </div>
               )}
             </div>
 
             {/* SERVICIOS */}
             <div className="mb-6">
-              <h3 className="font-semibold mb-3">Servicios adicionales</h3>
+              <h3 className="text-gray-700 text-sm mb-3">
+                Servicios adicionales
+              </h3>
 
               {selectedBooking.services?.length > 0 ? (
                 <div className="space-y-2">
@@ -1002,7 +1033,7 @@ const Dashboard = () => {
                         key={idx}
                         className="flex justify-between border-b pb-2 text-sm"
                       >
-                        <span>
+                        <span className="text-gray-700">
                           {s.service?.name} × {quantity}
                         </span>
 
@@ -1014,7 +1045,7 @@ const Dashboard = () => {
                   })}
                 </div>
               ) : (
-                <p className="text-gray-500 text-sm">
+                <p className="text-gray-700 text-sm">
                   Sin servicios adicionales
                 </p>
               )}
