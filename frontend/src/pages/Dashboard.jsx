@@ -931,6 +931,20 @@ const Dashboard = () => {
               <strong>Destino:</strong> {selectedBooking.flight?.origin} →{" "}
               {selectedBooking.flight?.destination}
             </p>
+            {/* HOTEL */}
+            {selectedBooking.hotel && (
+              <p>
+                <strong>Hotel:</strong> {selectedBooking.hotel.name} -{" "}
+                {selectedBooking.hotel.location}
+              </p>
+            )}
+            {/* TOUR */}
+            {selectedBooking.tour && (
+              <p>
+                <strong>Tour:</strong> {selectedBooking.tour.name} -{" "}
+                {selectedBooking.tour.location}
+              </p>
+            )}
             <p>
               <strong>Fecha de Reserva:</strong>{" "}
               {new Date(selectedBooking.booking_date).toLocaleDateString()}
@@ -940,14 +954,24 @@ const Dashboard = () => {
             </p>
 
             <h3 className="mt-4 font-semibold">Servicios</h3>
-            <ul className="list-disc ml-5">
-              {(selectedBooking.services || []).map((s, idx) => (
-                <li key={idx}>
-                  {s.service?.name} ({s.service?.category}) x{s.quantity} - S/.{" "}
-                  {s.service?.price * s.quantity}
-                </li>
-              ))}
-            </ul>
+            {selectedBooking.services?.length > 0 ? (
+              <ul className="list-disc ml-5">
+                {selectedBooking.services.map((s, idx) => {
+                  const price = s.service?.price || 0;
+                  const quantity = s.quantity || 1;
+                  const total = price * quantity;
+
+                  return (
+                    <li key={idx}>
+                      {s.service?.name} ({s.service?.category}) x{quantity} -
+                      S/. {total}
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <p className="text-gray-500">Sin servicios adicionales</p>
+            )}
 
             <button
               onClick={() => setIsModalOpen(false)}
