@@ -121,10 +121,17 @@ const Dashboard = () => {
     indexOfLastItem,
   );
   const totalPages = Math.ceil(stats.recentBookings.length / itemsPerPage);
-  const handleOpenBookingModal = (bookingId) => {
-    const booking = stats.recentBookings.find((b) => b.id === bookingId);
-    setSelectedBooking(booking);
-    setIsModalOpen(true);
+  const handleOpenBookingModal = async (bookingId) => {
+    try {
+      const response = await api.get(`/bookings/${bookingId}`);
+
+      console.log("BOOKING COMPLETO:", response.data);
+
+      setSelectedBooking(response.data);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error("Error cargando reserva:", error);
+    }
   };
 
   const handleCloseBookingModal = () => {
@@ -912,16 +919,17 @@ const Dashboard = () => {
               Resumen de Reserva #{selectedBooking.id}
             </h2>
             <p>
-              <strong>Cliente:</strong> {selectedBooking.client_name}
+              <strong>Cliente:</strong> {selectedBooking.user?.name}
             </p>
             <p>
-              <strong>Email:</strong> {selectedBooking.client_email}
+              <strong>Email:</strong> {selectedBooking.user?.email}
             </p>
             <p>
-              <strong>Teléfono:</strong> {selectedBooking.client_phone}
+              <strong>Teléfono:</strong> {selectedBooking.user?.phone}
             </p>
             <p>
-              <strong>Destino:</strong> {selectedBooking.destination}
+              <strong>Destino:</strong> {selectedBooking.flight?.origin} →{" "}
+              {selectedBooking.flight?.destination}
             </p>
             <p>
               <strong>Fecha de Reserva:</strong>{" "}
@@ -935,8 +943,8 @@ const Dashboard = () => {
             <ul className="list-disc ml-5">
               {(selectedBooking.services || []).map((s, idx) => (
                 <li key={idx}>
-                  {s.service_name} ({s.category}) x{s.quantity} - S/.{" "}
-                  {s.subtotal}
+                  {s.service?.name} ({s.service?.category}) x{s.quantity} - S/.{" "}
+                  {s.service?.price * s.quantity}
                 </li>
               ))}
             </ul>
