@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field#Para crear schemas
 from typing import Optional, List#Para campos opcionales
 from datetime import datetime#Para trabajar con fechas
 from enum import Enum #Para trabajar con estados
+from app.schemas.cliente import ClienteResponse
 # =========================
 #  Importaciones secundarias
 # =========================
@@ -76,7 +77,7 @@ class BookingResponse(BaseModel):
     booking_date: datetime#Fecha
     total_price: float#Precio
     status: BookingStatus#Estados
-    user_name: Optional[str] = None #Nombre del usuario
+    user: Optional[ClienteResponse] = None
     flight: Optional[FlightResponse] = None
     hotel: Optional[HotelResponse] = None
     tour: Optional[TourResponse] = None
