@@ -914,68 +914,123 @@ const Dashboard = () => {
       </main>
       {isModalOpen && selectedBooking && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-2xl w-96 max-h-[80vh] overflow-y-auto">
-            <h2 className="text-xl font-bold mb-4">
-              Resumen de Reserva #{selectedBooking.id}
+          <div className="bg-white p-8 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto">
+            {/* TÍTULO */}
+            <h2 className="text-2xl font-bold mb-6 text-center">
+              🧾 Resumen de Reserva #{selectedBooking.id}
             </h2>
-            <p>
-              <strong>Cliente:</strong> {selectedBooking.user?.name}
-            </p>
-            <p>
-              <strong>Email:</strong> {selectedBooking.user?.email}
-            </p>
-            <p>
-              <strong>Teléfono:</strong> {selectedBooking.user?.phone}
-            </p>
-            <p>
-              <strong>Destino:</strong> {selectedBooking.flight?.origin} →{" "}
-              {selectedBooking.flight?.destination}
-            </p>
-            {/* HOTEL */}
-            {selectedBooking.hotel && (
+
+            {/* CLIENTE */}
+            <div className="mb-6 border-b pb-4">
               <p>
-                <strong>Hotel:</strong> {selectedBooking.hotel.name} -{" "}
-                {selectedBooking.hotel.location}
+                <strong>Cliente:</strong> {selectedBooking.user?.name}
               </p>
-            )}
-            {/* TOUR */}
-            {selectedBooking.tour && (
               <p>
-                <strong>Tour:</strong> {selectedBooking.tour.name} -{" "}
-                {selectedBooking.tour.location}
+                <strong>Email:</strong> {selectedBooking.user?.email}
               </p>
-            )}
-            <p>
-              <strong>Fecha de Reserva:</strong>{" "}
-              {new Date(selectedBooking.booking_date).toLocaleDateString()}
-            </p>
-            <p>
-              <strong>Total:</strong> S/. {selectedBooking.total_price}
-            </p>
+              <p>
+                <strong>Teléfono:</strong> {selectedBooking.user?.phone}
+              </p>
+            </div>
 
-            <h3 className="mt-4 font-semibold">Servicios</h3>
-            {selectedBooking.services?.length > 0 ? (
-              <ul className="list-disc ml-5">
-                {selectedBooking.services.map((s, idx) => {
-                  const price = s.service?.price || 0;
-                  const quantity = s.quantity || 1;
-                  const total = price * quantity;
+            {/* VIAJE */}
+            <div className="mb-6 border-b pb-4">
+              <p>
+                <strong>Ruta:</strong> {selectedBooking.flight?.origin} →{" "}
+                {selectedBooking.flight?.destination}
+              </p>
 
-                  return (
-                    <li key={idx}>
-                      {s.service?.name} ({s.service?.category}) x{quantity} -
-                      S/. {total}
-                    </li>
-                  );
-                })}
-              </ul>
-            ) : (
-              <p className="text-gray-500">Sin servicios adicionales</p>
-            )}
+              {/* PRECIO DEL VUELO */}
+              <p className="text-sm text-gray-700 mt-1">
+                <strong>Vuelo:</strong> S/.{" "}
+                {selectedBooking.flight?.price?.toFixed(2)}
+              </p>
 
+              <p>
+                <strong>Fecha:</strong>{" "}
+                {new Date(selectedBooking.booking_date).toLocaleDateString()}
+              </p>
+
+              {/* HOTEL */}
+              {selectedBooking.hotel && (
+                <div className="mt-3">
+                  <p className="font-semibold text-gray-700">🏨 Hotel</p>
+
+                  <p className="text-sm">{selectedBooking.hotel.name}</p>
+
+                  <p className="text-sm text-gray-600">
+                    {selectedBooking.hotel.location}
+                  </p>
+
+                  <p className="text-sm text-gray-700">
+                    S/. {selectedBooking.hotel.price_per_night?.toFixed(2)}
+                  </p>
+                </div>
+              )}
+
+              {/* TOUR */}
+              {selectedBooking.tour && (
+                <div className="mt-3">
+                  <p className="font-semibold text-gray-700">🎟 Tour</p>
+
+                  <p className="text-sm">{selectedBooking.tour.name}</p>
+
+                  <p className="text-sm text-gray-600">
+                    {selectedBooking.tour.location}
+                  </p>
+
+                  <p className="text-sm text-gray-700">
+                    S/. {selectedBooking.tour.price?.toFixed(2)}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* SERVICIOS */}
+            <div className="mb-6">
+              <h3 className="font-semibold mb-3">Servicios adicionales</h3>
+
+              {selectedBooking.services?.length > 0 ? (
+                <div className="space-y-2">
+                  {selectedBooking.services.map((s, idx) => {
+                    const price = s.service?.price || 0;
+                    const quantity = s.quantity || 1;
+                    const subtotal = price * quantity;
+
+                    return (
+                      <div
+                        key={idx}
+                        className="flex justify-between border-b pb-2 text-sm"
+                      >
+                        <span>
+                          {s.service?.name} × {quantity}
+                        </span>
+
+                        <span className="font-medium">
+                          S/. {subtotal.toFixed(2)}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p className="text-gray-500 text-sm">
+                  Sin servicios adicionales
+                </p>
+              )}
+            </div>
+
+            {/* TOTAL FINAL */}
+            <div className="border-t pt-4 text-right">
+              <p className="text-lg font-bold text-gray-900">
+                Total: S/. {selectedBooking.total_price?.toFixed(2)}
+              </p>
+            </div>
+
+            {/* BOTÓN */}
             <button
-              onClick={() => setIsModalOpen(false)}
-              className="mt-4 w-full bg-lams-navy text-white py-2 rounded-xl font-bold hover:bg-blue-800 transition-all"
+              onClick={handleCloseBookingModal}
+              className="mt-6 w-full bg-lams-navy text-white py-3 rounded-xl font-bold hover:bg-blue-800 transition-all"
             >
               Cerrar
             </button>
